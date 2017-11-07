@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="" content="">
+	
+<script language="javascript">
+	function NumCheck(e, field, enteros, decimales) {
+	// enteros y decimales son argumentos predefinidos.
+	  var enteros = enteros || ( enteros = 6 ); 	
+	  var decimales = decimales || ( decimales = 2);
+	  key = e.keyCode ? e.keyCode : e.which;
+	  cadena = field.value
+	  // backspace,  movimientos izquierda y derecha
+	  if (key == 8 || key == 37 || key == 39) return true
+	  // +-  Adminte uno de los dos caracteres al principio de la cadena.
+	  if(key == 43 || key == 45){
+	  	signo = String.fromCharCode(key);
+	  	if(cadena.charAt(0) == "+" || cadena.charAt(0) == "-"){
+	  		return false;	
+	  	}else{
+	  		return signo + (cadena);
+	  	}
+	  }
+	  // 0-9
+	  if (key > 47 && key < 58) {
+	  	  var n = cadena.indexOf(",");
+	  	  var long = cadena.length;
+	  	  if(n >= 0){
+	  	  	if(long - n == decimales + 1){
+	  	  		return false;
+	  	  	}else{
+	  	  		return true;	
+	  	  	}
+	  	  }else{
+	  	  	if(cadena.charAt(0) == "+" || cadena.charAt(0) == "-"){
+	  	  		enteros = enteros + 1
+	  	  	}	
+	  	  	if(long <= enteros){
+	  	  			return true;
+	  	  		}else{
+	  	  			return false;
+	  	  		}
+	  	  }
+	  }
+	  // Admite solo una coma
+	  if(key == 44){
+	  	if(cadena.length == 0) return false
+	  	if(cadena.indexOf(",")<0)return true
+	  }
+	  // other key
+	  return false
+	}
+</script>
+	
+</head>
+<body>
+
+<form>
+<font face="arial" size="2">Por favor, entra un número con hasta 2 decimales (con coma separador).</font><br>
+	<input type="text" onkeypress="return NumCheck(event, this);" style="text-align: right"/>
+</form>
+
+</body>
+</html>
