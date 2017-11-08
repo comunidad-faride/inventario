@@ -6,12 +6,10 @@ class CLS_USUARIO extends CLS_INVENTARIO{
     private $link;
     private $bd;
 //----------------------------------------------------------------------------------------------------
-    
 	function __construct(){
 		parent :: __construct();
 	/*	$this->bd = parent::conexion;*/
     }
-
 //----------------------------------------------------------------------------------------------------
     function getUsuario(){
     	return $this ->usuario;
@@ -30,7 +28,6 @@ class CLS_USUARIO extends CLS_INVENTARIO{
 			return FALSE;
 		}
     }
-
 //----------------------------------------------------------------------------------------------------
     function existe($login){
     	$fila = $this->numRegistros("usuarios","usuario='$login'");
@@ -109,77 +106,43 @@ class CLS_USUARIO extends CLS_INVENTARIO{
 //----------------------------------------------------------------------------------------------------
     function frmLogin(){
         $evento = "onkeypress=\"if(enterCheck(event)==13)xajax_validaUsuario(xajax.getFormValues('idFormulario'))\"";
-        $frm="<br/><br/><br/><br/><center>
-        <div id='frmLogin' >
-            <div id='frmEnvoltura'>
+        $frm="
+        <div id='frmLogin' class='frmLogin' >
+            <div id='frmEnvoltura' class='frmEnvoltura'>
     		<div id='frmDiv'>
-    			<form id='idFormulario'>
-    				<div><p class='login'>Usuari@:</p></div><div><input type='text' name='usuario' autofocus id='user' placeholder='Ingrese Login' /></div>
-    				<div><p class='login'>Clave:</p></div><div><input type='password' autofocus name='password'  placeholder='Ingrese Clave'  $evento/></div>
-    				<div class='submitDiv'><br/><input type='button' value='Iniciar sesi&oacute;n' 
-                    onclick=\"xajax_validaUsuario(xajax.getFormValues('idFormulario'))\"/></div><br/>
+    			<form id='idFormulario' class='iformula'>
+    				<h2>Iniciar Sesi&oacute;n</h2>
+    				<input type='text' name='usuario' autofocus id='user' placeholder=' &#9787; Ingrese Usuario' value='luis'/>
+    				<input type='password' autofocus name='password'  placeholder='&#128272; Ingrese Clave' value='123'  $evento/>
+    				<input type='button' value='Iniciar sesi&oacute;n' onclick=\"xajax_validaUsuario(xajax.getFormValues('idFormulario'))\"/>
     			</form>
     		</div>
         		</div>
         </div>
-        </center>";
+        ";
         return $frm;
     }
 //----------------------------------------------------------------------------------------------------
 	function frmCambioClave(){
 		$accion = "onclick=\"xajax_cambiaClave(xajax.getFormValues('frm'))\";";
-		
-		$htm = '<form id="frm"><br/><br/><br/><br/>
-	    	<div class="container bg-info">
-	    		<br><br>
-				<div class="col-md-12">
-					<div class="col-md-offset-3 col-md-6 text-center">
-						<label class="form-control" >CAMBIO DE CLAVE</label>
-					</div>
-				</div>
-				<div class="col-md-12">
-					<div class="col-md-offset-3 col-md-6 text-center  ">
-						<label class="form-control"><i>Usuario:</i> '.$_SESSION["USUARIO"].'</label>
-					</div>
-				</div>
-				<div class="col-md-12">
-					<div class="col-md-offset-3 col-md-3 text-right  ">
-					<label class="form-control">Clave actual</label>
-					</div>
-					<div class="col-md-3 "><p>'
-						.frm_password("clave", "", 20, 20, "autofocus  id='clave' placeholder='Clave actual' class='form-control' id='clave'").
-					'</p></div>
-				</div>
-				<div class="col-md-12">
-					<div class="col-md-offset-3 col-md-3 text-right">
-						<label class="form-control">Nueva clave:</label>
-					</div>
-					<div class="col-md-3 "><p>'
-						.frm_password("nuevaclave1", "", 20, 20, " class='form-control' placeholder='Otra clave'  id='nuevaclave1'").
-					'</p></div>
-				</div>
-				<div class="col-md-12">
-					<div class="col-md-offset-3 col-md-3 text-right">
-						<label class="form-control">Repita la clave:</label>
-					</div>
-					<div class="col-md-3">'
-						.frm_password("nuevaclave2", "", 20, 20, " class='form-control' placeholder='Repita la nueva clave'  id='nuevaclave2'").
-					'</div>
-				</div>
-				<div class="col-md-12">
-					<br><br>
-					<div class="col-md-offset-3 col-md-6 text-center">'
-						.frm_button("grabar", "Grabar", $accion).	
-					'</div>
-					<br><br>
-				</div>
-			</div>
-			</form>';
-	    		
-		
-		
-		
-		
+		$iUser=$_SESSION['USUARIO'];
+		$htm = "
+		<div id='frmLogin' class='frmLogin' >
+            <div id='frmEnvoltura' class='frmEnvoltura'>
+    		<form id='frm' class='iformula'>
+				<h2 >Cambio de Clave</h2>
+				<h3 ><i>Usuario: </i> $iUser</h3>
+				<label >Clave actual</label>
+				<input type='password' autofocus name='clave' id='clave'  placeholder='&#128272; Clave actual' />
+				
+				<label >Nueva clave:</label>
+				<input type='password' autofocus name='nuevaclave1' id='nuevaclave1'  placeholder='&#128272; nueva clave' />
+				<label >Repita la clave:</label>
+				<input type='password' autofocus name='nuevaclave2' id='nuevaclave2'  placeholder='&#128272; repita nueva clave' />
+    			<input type='button' value='Grabar' id='grabar' onclick=\"xajax_validaUsuario(xajax.getFormValues('frm'))\"/>
+			</form>
+	    	</div>
+        </div>	";
 		return $htm;
 	}
 

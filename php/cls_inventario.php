@@ -30,20 +30,9 @@ class CLS_INVENTARIO
           $this->lBaseDatos = $basedatos;
         }
      //-------------------------------------------------------------------------
-/*
- * 
- * @param string $entidad		//  Nombre de la tabla o entidad
- * @param string $atributo		//  Nombre del atributo o campo
- * @param string $condicion		//  Condición a considerar.  Relación a escribir en clausula where.
- * 
- * @return 
- */
-     function nuevo_id($entidad, $atributo, $condicion = ""){
-         if($condicion == ""){
-         	$sqlconsulta = "SELECT MAX(".$atributo.") + 1 as nuevo FROM ".$entidad.";";
-		 }else{
-         	$sqlconsulta = "SELECT MAX(".$atributo.") + 1 as nuevo FROM ".$entidad." WHERE $condicion;";
-		 }
+
+     function nuevo_id($entidad,$atributo){
+         $sqlconsulta = "SELECT MAX(".$atributo.") + 1 as nuevo FROM ".$entidad.";";
          $result = mysql_query($sqlconsulta);
          if (!$result) {
              $this->msg ='Fall&oacute; la consulta: ' . mysql_error();

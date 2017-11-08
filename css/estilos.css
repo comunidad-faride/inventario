@@ -1,10 +1,23 @@
-@import url(../css/jquery.dataTables.min.css);
-@import url(../css/buttons.dataTables.min.css);
-@import url(../css/responsive.dataTables.min.css);
-@import url(../css/bootstrap.min.css);
-@import url(../css/modal.css);
-@import url(../css/font-awesome.min.css);
-@import url(../css/awesomplete.css);
-@import url(../css/estilo.css);
-@import url(../css/menu.css);
-/*	CARACTERISTICAS DEL CAMPO QUE RECIBE EL FOCO.	*/
+@import "menu.css";
+body {
+  background-color: grey;
+}
+body #main {
+  max-width: 1000px;
+}
+body #main header {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+body #main header img {
+  width: 8%;
+}
+body #main header h1 {
+  color: #e34220;
+}
+body #main header h2 {
+  color: aliceblue;
+}
+
+/*# sourceMappingURL=estilos.css.map */

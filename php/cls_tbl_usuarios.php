@@ -14,9 +14,9 @@
 //-----------------------------------------------------------------------------------------------------------
 	function __construct(){
 		parent::__construct();
-		$this->sqlBase = "SELECT id_usuario, usuario, tipo_usuario, nombre_inquilino FROM tbl_usuarios";
-		//$_SESSION["TITULO"] = "LISTADO DE USUARIOS DEL SISTEMA";
-		$this->titulo = "LISTADO DE USUARIOS DEL SISTEMA";
+			$this->sqlBase = "SELECT id_usuario, usuario, tipo_usuario, nombre_inquilino FROM tbl_usuarios";
+			//$_SESSION["TITULO"] = "LISTADO DE USUARIOS DEL SISTEMA";
+			$this->titulo = "LISTADO DE USUARIOS DEL SISTEMA";
 	}
 //-----------------------------------------------------------------------------------------------------------
 	function insertNewRecord($f){

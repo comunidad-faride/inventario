@@ -574,9 +574,9 @@ function frm_tooltips($texto, $color = "", $ancho=""){
 *@param 	string 	$extra_tag 	String con propiedades adicionales del objeto.
 *@return TEXTBOX
 */
-function frm_numero($name, $val, $size, $max_length, $extra_tag='', $enteros=6, $decimales=0){
+function frm_numero($name, $val, $size, $max_length, $extra_tag=''){
 //	Para su uso se requiere de la funcion javascript NumCheck()
-	return "<input type='text' name='$name' size='$size' maxlength='$max_length' value='$val'  onkeypress='return NumCheck(event, this, $enteros, $decimales);' style='text-align: right'  $extra_tag>";
+	return "<input type='text' name='$name' size='$size' maxlength='$max_length' value='$val'  onkeypress='return NumCheck(event, this);' style='text-align: right'  $extra_tag>";
 }
 
   

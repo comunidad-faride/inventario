@@ -1,0 +1,258 @@
+   // out: ../css/estilo.css, compress: false, strictMath: true, autoprefixer:true
+   * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+   }
+   
+   @import "Variable.less";
+   //*
+   @import url(../css/jquery.dataTables.min.css);
+   @import url(../css/buttons.dataTables.min.css);
+   @import url(../css/responsive.dataTables.min.css);
+   @import url(../css/bootstrap.min.css);
+   @import url(../css/modal.css);
+   @import url(../css/font-awesome.min.css);
+   @import url(../css/awesomplete.css);
+   @import url(../css/estilo.css);
+   /**/
+   
+   @import "menu.css";
+   body {
+      background-color: grey;
+      .containery {
+         background: #121010;
+         margin: auto;
+         max-width: 1000px;
+         height: 100vh;
+         header {
+            display: flex;
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#061e21+0,152d72+50,102066+51,2d182b+100 */
+            background: #061e21;
+            background: linear-gradient(to bottom, #061e21 0%, #152d72 50%, #102066 51%, #2d182b 100%);
+            height: 100PX;
+            .logon {
+               flex-basis: 160px;
+               margin: auto;
+               padding: 5px;
+               height: 100PX;
+               #logito {
+                  height: 100%;
+                  //height: 8%;
+               }
+            }
+            .empresa {
+               display: flex;
+               flex-basis: 100px;
+               justify-content: space-between;
+               h1 {
+                  color: #e34220;
+                  align-self: center;
+                  font-size: 1.8em;
+               }
+               .c1 {
+                  color: aliceblue;
+                  align-self: flex-start;
+                  padding-top: 15px;
+                  font-size: 1.4em;
+               }
+               .c3 {
+                  color: aliceblue;
+                  align-self: flex-end;
+                  padding-right: 15px;
+                  padding-bottom: 15px;
+                  font-size: 1.4em;
+               }
+            }
+            .parrot {
+               margin: auto;
+               flex-basis: 800px;
+               h3 {
+                  font-size: 1.5em;
+                  color: aquamarine;
+                  text-align: center;
+               }
+            }
+         }
+         .menu {
+            display: flex;
+            justify-content: space-around;
+            #nav {
+               display: flex;
+               // width: 40%;
+            }
+         }
+         .contenedor {
+            height: 80vh;
+            //background: red;
+            display: flex;
+            align-items: center;
+            margin: auto;
+            .frmLogin {
+               display: flex;
+               //padding: 20px;
+               margin: auto;
+               width: 50%;
+               max-width: 500px;
+               //background: red;
+               .frmEnvoltura {
+                  width: 100%;
+                  //display: flex;
+                  background: #e34220;
+                  padding: 3px;
+                  border-radius: 10px;
+                  .iformula {
+                     border-radius: 10px;
+                     width: 100%;
+                     background: #f3f3f3;
+                     padding: 30px;
+                     h2 {
+                        text-align: center;
+                        margin-bottom: 20px;
+                        color: rgba(23, 13, 101, 0.8);
+                     }
+                     h3 {
+                        text-align: center;
+                        color: rgba(142, 11, 26, 0.8);
+                        // border-bottom: solid rgba(142, 11, 26, 0.8);
+                        text-decoration: underline;
+                     }
+                     label {
+                        text-align: bottom;
+                        //text-alig :bottom;
+                     }
+                     input {
+                        display: block;
+                        padding: 10px;
+                        width: 100%;
+                        margin: 20px 0;
+                        font-size: 20px;
+                        &[type="button"] {
+                           background: linear-gradient(#e34220, #cb1212);
+                           border: 0;
+                           color: aliceblue;
+                           opacity: 0.8;
+                           cursor: pointer;
+                           border-radius: 20px;
+                           margin-bottom: 0;
+                           &:hover {
+                              opacity: 1;
+                           }
+                           &:active {
+                              transform: scale(0.95);
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+         footer {
+            border: 1px solid #3e0000;
+            border-radius: 4pt;
+            text-align: right;
+            font-size: 0.8em;
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#061e21+0,152d72+50,102066+51,2d182b+100 */
+            background: #061e21;
+            /* Old browsers */
+            background: -moz-linear-gradient(top, #061e21 0%, #152d72 50%, #102066 51%, #2d182b 100%);
+            /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, #061e21 0%, #152d72 50%, #102066 51%, #2d182b 100%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, #061e21 0%, #152d72 50%, #102066 51%, #2d182b 100%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            /* IE6-9 */
+            /*position:absolute;*/
+            /*El div será ubicado con relación a la pantalla*/
+            left: 0px;
+            /*A la derecha deje un espacio de 0px*/
+            right: 0px;
+            /*A la izquierda deje un espacio de 0px*/
+            bottom: 0px;
+            /*Abajo deje un espacio de 0px*/
+            height: 3%;
+            /*alto del div*/
+            padding: 5px 6px 0 0;
+            width: 100%;
+            color: aquamarine;
+         }
+      }
+   }
+   
+   .alerta {
+      background-color: linear-gradient(#51bbd2, #32a9c3);
+   }
+   
+   button.dt-button,
+   div.dt-button,
+   a.dt-button {
+      background: linear-gradient(#51bbd2, #32a9c3) !important;
+      border-radius: 20px;
+      color: #f9fbfd;
+      /*border: 0;
+   opacity: 0.8;
+   cursor: pointer;
+   margin-bottom: 0;*/
+   }
+   
+   a.dt-button {
+      &:hover {
+         background: #299bb4 !important;
+      }
+   }
+   
+   #dataGrid tbody tr:hover {
+      background: rgba(40, 134, 105, 0.85);
+      color: white;
+      font-style: italic;
+      font-weight: bold;
+      cursor: pointer;
+   }
+   
+   .container {
+      background: #f3f3f3;
+      border: solid #e34220;
+      border-radius: 10px;
+      div {
+         div {
+            h3 {
+               color: rgba(23, 13, 101, 0.8);
+            }
+         }
+      }
+   }
+   
+   .cajita {
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 10px 10px 5px #888888;
+      border: 1px solid black;
+   }
+   
+   #cargando {
+      top: 0px;
+      left: 0px;
+      background: rgba(25, 0, 25, .2);
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      display: flex;
+      display: -webkit-flex;
+      z-index: 19;
+   }
+   
+   #imgCargando {
+      width: 100px;
+      height: 100px;
+      border-Radius: 50px;
+      background-image: url("./img/cargando.gif");
+      margin: auto;
+      opacity: 1.0;
+      filter: alpha(opacity=100);
+      z-index: 19;
+   }
+   
+   input:focus {
+      background: #e4efc6;
+      border-color: #0215fd;
+   }
