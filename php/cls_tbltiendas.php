@@ -204,7 +204,8 @@
 	}
 //-----------------------------------------------------------------------------------------------------------
 	function analiticoXTienda(){
-		
+	// Estas líneas son para mostrar si el git detecta
+	// Cuando se ha realizado un cambio de algún archivo del sistema.	
 	}
 //-----------------------------------------------------------------------------------------------------------
 
