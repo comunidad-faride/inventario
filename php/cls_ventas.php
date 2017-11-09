@@ -196,7 +196,7 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 				$txtPrecio = frm_text("precio[$i]", $txtPrecio,12,12,"$tag2 $accion  $formatear class='form-control' id='precio$i'", 6, 2);
 				
 				$txtIndice = frm_numero("item[$i]", $i, 2, 2, "class='form-control' id='item$i' readonly='true'", 2, 0);
-				$_SESSION["cmbProductos"] = frm_comboGenerico("idproducto[$item]","producto","idproducto","tblproductos","cls_inventario","","class='form-control' ");
+				$_SESSION["cmbProductos"] = frm_comboGenerico("idproducto[$i]","producto","idproducto","tblproductos","cls_inventario","","class='form-control' ");
 				$htm .=	'<tr id="fila"'.$i.'>
 					<td class="text-center" >'.$txtIndice.'</td>
 					<td>'

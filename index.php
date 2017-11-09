@@ -35,17 +35,16 @@
 		<script lang="javascript">
 			//xajax_showGrid('CLS_TBLUSUARIOS');
 			//xajax_asignarConXajax("contenedor", "innerHTML", "CLS_USUARIO", "frmLogin");//	FUNCIONA EXCELENTE  ...
-			//xajax_asignarConXajax("contenedor", "innerHTML", "CLS_USUARIO", "frmCambioClave"); // ¿Cómo lo cargamos?
+			//xajax_asignarConXajax("contenedor", "innerHTML", "CLS_USUARIO", "frmCambioClave", "fulano"); // ¿Cómo lo cargamos?
 			//xajax_showGrid('CLS_TBLPRODUCTOS');
 			//xajax_showGrid('CLS_TBLFORMASPAGO');
 			//xajax_showGrid('CLS_TBLTIENDAS');
 			//falla no existe cls_tbl-PAGOS  xajax_asignarConXajax("contenedor", "innerHTML", "CLS_TBL_PAGOS", "validarPagos");
-			// falla xajax_asignarConXajax("contenedor", "innerHTML", "CLS_ENTREGAS", "frmEntregas");
 			//xajax_showGrid('CLS_VENTAS');
 			//xajax_showGrid('CLS_ENTREGAS');
 			// FALLA xajax_asignarConXajax("contenedor", "innerHTML", "CLS_VENTAS", "frmVentas");
-			// EDITAR TAMAÑO DEL FORMULARIO xajax_asignarConXajax("contenedor", "innerHTML", "CLS_REPORTES", "frmReportesInventario");
-			xajax_asignarConXajax("contenedor", "innerHTML", "CLS_TBLTIENDAS", "resumenTienda", 4);
+			xajax_asignarConXajax("contenedor", "innerHTML", "CLS_REPORTES", "frmReportesInventario");
+			//xajax_asignarConXajax("contenedor", "innerHTML", "CLS_TBLTIENDAS", "resumenTienda", 4);
 		</script>
 		<div id='main' class="containery">
 			<header>
@@ -69,12 +68,12 @@
 					</h3>
 				</div>
 			</header>
-			<section class="menu">
+			<section class="menu" style="margin-bottom: -50px">
 				<nav id="menu">
 					<?php echo menu();?>
 				</nav>
 			</section>
-			<section class="contenedor" id="contenedor">
+			<section class="contenedor" id="contenedor" style="margin:auto" >
 			</section>
 			<footer>
 				&copy; Prof. J. Delgado - Prof. L.Santander (2017)

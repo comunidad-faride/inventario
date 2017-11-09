@@ -29,19 +29,18 @@ class CLS_REPORTES {
 		$calendario2 = frm_calendario2("fecha2","fecha2");
 		$medioCalendario = xfrm_medioCalendario("mes","anno");
 		$ejecutar = "onclick=\"xajax_reporteBancario(xajax.getFormValues('frm'))\"";
-		$html = "<div class='col-md-8 cajita col-md-offset-2'><div class='row'>
-					<div class='col-md-12  text-center'><h2>REPORTES DE INVENTARIOS</h2></div></div>";
+		$html = "<div class=row><div class='col-md-12  text-center'><h2>REPORTES DE INVENTARIOS</h2></div></div>";
 		$html .= "<div class='row'><div class='col-md-6 text-right'>";
 		$html .= "<b>Seleccione la(s) Tienda(s):</b> </div><div class='col-md-6'> $cmbTiendas2</div></div>";
 		$html .= "<div class='row'><div class='col-md-6 text-right' style='padding-top:10px'><b>Tipo de Inventario: </b></div><div class='col-md-6'> $cmbTipMov</div></div>";
-		$html .= "<h3>Indique el periodo a mostrar.</h3><hr/>";
-		$html .= "<div class='row'> 
-				<div class='col-md-4 text-right' id='rX0' style='font-weight:900'> ".frm_radio("opcion","1","1", "onclick='activaFechas(0)' ")." Por d&iacute;a </div>";
-		$html .= "<div class='col-md-3 text-right' id='rX1'>".frm_radio("opcion","2","", "onclick='activaFechas(1)' ")." Por Mes</div>";
-		$html .= "<div class='col-md-3 text-right' id='rX2'> ".frm_radio("opcion","3","", "onclick='activaFechas(2)' ")." Por per&iacute;odo</div>";
-		$html .= "</div><hr/>";
+		$html .= "<h3>Indique el periodo a mostrar.</h3>";
+		$html .= "<div class='row' style='margin-bottom:-20px;'> 
+				<div class='col-md-4 text-right' id='rX0' style='font-weight:900'> Por-> ".frm_radio("opcion","1","1", "onclick='activaFechas(0)' ")." D&iacute;a </div>";
+		$html .= "<div class='col-md-3 text-right' id='rX1'>".frm_radio("opcion","2","", "onclick='activaFechas(1)' ")." Mes</div>";
+		$html .= "<div class='col-md-3 text-right' id='rX2'> ".frm_radio("opcion","3","", "onclick='activaFechas(2)' ")." Per&iacute;odo</div>";
+		$html .= "</div>";
 		$html .= "<div class='row' id='xDia'>
-				 	<div class='col-md-6 text-right' style='padding-top:10px;'><b>Seleccione el Dia:</div><div class='col-md-3'></b> $calendario	</div>
+				 	<div class='col-md-6 text-right' style='padding-top:10px;'><b>Seleccione el Dia:</div><div class='col-md-4'></b> $calendario	</div>
 				 </div>";
 		$html .= "<div class='row' id='xMes'  style='display:none'>
 				 	<div class='col-md-12'>
@@ -59,7 +58,7 @@ class CLS_REPORTES {
 				 	</div>
 				 </div></br></br>";
 		$html .= "</div></div>";  
-		$htm = "<form id='frm' >".$html."</form>";
+		$htm = "<form id='frm' style='margin:auto; padding-left:100px; padding-right:100px' class='cajita text-center'>".$html."</form>";
 		return $htm;
 	}
 //-----------------------------------------------------------------------------------------------		

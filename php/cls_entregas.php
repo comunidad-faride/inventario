@@ -230,9 +230,11 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 		$cmbProductos = frm_comboGenerico("idproducto[$item]","producto","idproducto","tblproductos","cls_inventario","","class='form-control' ");
 		$accion = "onkeyup='totalizar()';";
 		$formatear =  "onblur='this.value = formatear(this.value, 2); nuevaFila(\"datosFactura\");'";
-		$precio = frm_numero("precio[$item]","",12,12," $accion $formatear class='form-control' id='precio$item'", 6, 2);
+		$tag2 = " onkeypress='return NumCheck(event, this, 6, 2);' style='text-align: right' ";
+		$precio = frm_numero("precio[$item]","",12,12," $accion $tag2 $formatear class='form-control' id='precio$item'", 6, 2);
 		$formatearsd =  "onblur='this.value = formatear(this.value, 0)'";	
-		$cantidad = frm_numero("cantidad[$item]","",6,6,"$accion $formatearsd class='form-control' id='cantidad$item' ", 6 , 0);
+		$tag1 = " onkeypress='return NumCheck(event, this, 6, 0);' style='text-align: right' ";
+		$cantidad = frm_numero("cantidad[$item]","",6,6,"$accion $tag1 $formatearsd class='form-control' id='cantidad$item' ", 6 , 0);
 		$idCantidad = "cantidad$item";
 		$xr = new xajaxResponse();
 		$xr->assign("fila$item"."col0","innerHTML", $txtIndice);

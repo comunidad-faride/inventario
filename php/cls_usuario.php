@@ -123,9 +123,9 @@ class CLS_USUARIO extends CLS_INVENTARIO{
         return $frm;
     }
 //----------------------------------------------------------------------------------------------------
-	function frmCambioClave(){
+	function frmCambioClave($nombreUsuario){
 		$accion = "onclick=\"xajax_cambiaClave(xajax.getFormValues('frm'))\";";
-		$iUser=$_SESSION['USUARIO'];
+		$iUser= $nombreUsuario; //$_SESSION['USUARIO'];
 		$htm = "
 		<div id='frmLogin' class='frmLogin' >
             <div id='frmEnvoltura' class='frmEnvoltura'>
@@ -133,8 +133,7 @@ class CLS_USUARIO extends CLS_INVENTARIO{
 				<h2 >Cambio de Clave</h2>
 				<h3 ><i>Usuario: </i> $iUser</h3>
 				<label >Clave actual</label>
-				<input type='password' autofocus name='clave' id='clave'  placeholder='&#128272; Clave actual' />
-				
+				<input type='password' autofocus name='clave' id='clave' placeholder='&#128272; Clave actual' />
 				<label >Nueva clave:</label>
 				<input type='password' autofocus name='nuevaclave1' id='nuevaclave1'  placeholder='&#128272; nueva clave' />
 				<label >Repita la clave:</label>

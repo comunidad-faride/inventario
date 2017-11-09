@@ -42,32 +42,41 @@
 	}	
 		
 function menu(){
-	$ac01 = "onclick=\"xajax_showGrid('CLS_TBL_INMUEBLES');\"";
-	$ac02 = "onclick=\"xajax_showGrid('CLS_TBL_TIPOS_INMUEBLES');\"";
-	$ac03 = "onclick=\"xajax_showGrid('CLS_TBL_PERIODOS');\"";
-	$ac04 = "onclick=\"xajax_showGrid('CLS_TBL_USUARIOS');\"";
+	$ac01 = "onclick=\"xajax_showGrid('CLS_ENTREGAS');\"";
+	$ac02 = "onclick=\"xajax_showGrid('CLS_TBLPRODUCTOS');\"";
+	$ac03 = "onclick=\"xajax_showGrid('CLS_VENTAS');\"";
+	$ac04 = "onclick=\"xajax_showGrid('CLS_TBLUSUARIOS');\"";
 	$ac05 = "onclick=\"xajax_showGrid('CLS_TBL_CUENTAS');\"";
 	$ac06 = "onclick=\"xajax_showGrid('CLS_TBL_PAGOS');\"";
-	$ac07 = "onclick=\"xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_TBL_PAGOS', 'validarPagos');\"";
+	$ac07 = "onclick=\"xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_REPORTES', 'frmReportesInventario');\"";
 	$ac08 = "onclick=\"xajax_showGrid('CLS_TBL_RECIBOS', 'contenedor', false, false, false);\"";
+	$ac09 = "";
+	$ac10 = "onclick=\xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_USUARIO', 'frmCambioClave', 'fulano');\"";
 	$htm ="<div id='cssmenu'>
 		<ul>
-		   	<li class='active has-sub'><a href='#' ><span>Inmuebles</span></a>
+		   	<li class='active has-sub'><a href='#' ><span>F&aacute;brica</span></a>
 		      	<ul>
-					<li class='last'><a href='#' $ac01><span>Inmuebles Registrados</span></a></li>
-					<li class='last'><a href='#' $ac02 ><span>Tipos de inmuebles</span></a></li>
+					<li class='last'><a href='#' $ac01><span>Env&iacute;os</span></a></li>
+					<!--<li class='last'><a href='#' ><span>Estad&iacute;stica</span></a></li>-->
+					<!--<li class='last'><a href='#' ><span>Reportes</span></a></li>-->
 		      	</ul>
 		   	</li>
-		   	<li><a href='#' $ac03><span>Alquileres</span></a></li>
-		 	<li class='active has-sub'><a href='#'><span>Bancos</span></a>
+		 	<li class='active has-sub'><a href='#'><span>Tiendas</span></a>
 			   	<ul>
-			         <li class='last'><a href='#' $ac05><span>Cuenta(s) de propietario(s)</span></a></li>
-			         <li class='last'><a href='#' $ac06><span>Hist&oacute;rico de Pagos</span></a></li>
+			         <li class='last'><a href='#' $ac03><span>Ventas</span></a></li>
+			         <!--<li class='last'><a href='#' ><span>Ajustes</span></a></li>
+		   			 <li><a href='#'  ><span>Validar pagos</span></a></li>-->
+		   			 <li><a href='#' $ac07 ><span>Reportes</span></a></li>
 			   	</ul>
 		   	</li>
-		    <li><a href='#' $ac08><span>Recibos</span></a></li>
-		   	<li><a href='#' $ac04><span>Usuarios</span></a></li>
-		   	<li><a href='#' $ac07 ><span>Validar pagos</span></a></li>
+		   	<li class='active has-sub'><a href='#'><span>Cat&aacute;logos</span></a>
+			   	<ul>
+			         <li class='last'><a href='#' $ac04><span>Usuarios</span></a></li>
+			         <li class='last'><a href='#' $ac08><span>PRODUCTOS</span></a></li>
+			        <!-- <li class='last'><a href='#' $ac09><span>Transacciones</span></a></li>-->
+			         <li class='last'><a href='#' $ac10><span>Cambio de clave</span></a></li>
+			   	</ul>
+		   	</li>
 		</ul>
 		</div>";
 		return $htm;

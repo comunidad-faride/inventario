@@ -110,6 +110,7 @@ body .containery .contenedor {
       -ms-flex-align: center;
           align-items: center;
   margin: auto;
+  
 }
 body .containery .contenedor .frmLogin {
   display: -webkit-flex;
@@ -261,7 +262,7 @@ input:focus {
 }
 
 #menu{
-	display: none;
+	/*display: none;*/
 }
 
 /*# sourceMappingURL=estilo.css.map */
