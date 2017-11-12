@@ -84,7 +84,13 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 	function frmEntregas(){
 		$BD = NEW CLS_INVENTARIO;
 		$sql = "SELECT * FROM tblTiendas ORDER BY nombreTienda LIMIT 0, 1";
-		$recs = $BD->consultagenerica($sql);		
+		$recs = $BD->consultagenerica($sql);
+		
+		if(count($recs) == 0){
+			return "Debe registrar Las Tiendas antes de realizar este proceso";
+		}
+		
+				
 		if(func_num_args() > 0){
 			$idFactura = func_get_arg(0);
 			$records = $this->tblfacturasRecords("idFactura = $idFactura");
