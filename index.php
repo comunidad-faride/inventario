@@ -33,18 +33,7 @@
 		<script src="./js/lockr.min.js"></script>	<!-- ARCHIVO PARA TRANSFERIR DATOS DE PHP A JAVASCRIPT	-->
 		<script src="./js/fncautoZ9.js"></script>	<!-- ARCHIVO CON INSTRUCCIONES JQUERY PARA AUTOCOMPLETAR	-->
 		<script lang="javascript">
-			//xajax_showGrid('CLS_TBLUSUARIOS');
-			//xajax_asignarConXajax("contenedor", "innerHTML", "CLS_USUARIO", "frmLogin");//	FUNCIONA EXCELENTE  ...
-			//xajax_asignarConXajax("contenedor", "innerHTML", "CLS_USUARIO", "frmCambioClave", "fulano"); // ¿Cómo lo cargamos?
-			//xajax_showGrid('CLS_TBLPRODUCTOS');
-			//xajax_showGrid('CLS_TBLFORMASPAGO');
-			//xajax_showGrid('CLS_TBLTIENDAS');
-			//falla no existe cls_tbl-PAGOS  xajax_asignarConXajax("contenedor", "innerHTML", "CLS_TBL_PAGOS", "validarPagos");
-			//xajax_showGrid('CLS_VENTAS');
-			//xajax_showGrid('CLS_ENTREGAS');
-			// FALLA xajax_asignarConXajax("contenedor", "innerHTML", "CLS_VENTAS", "frmVentas");
-			xajax_asignarConXajax("contenedor", "innerHTML", "CLS_REPORTES", "frmReportesInventario");
-			//xajax_asignarConXajax("contenedor", "innerHTML", "CLS_TBLTIENDAS", "resumenTienda", 4);
+			xajax_asignarConXajax("contenedor", "innerHTML", "CLS_USUARIO", "frmLogin");//	FUNCIONA EXCELENTE  ...
 		</script>
 		<div id='main' class="containery">
 			<header>
@@ -68,10 +57,10 @@
 					</h3>
 				</div>
 			</header>
-			<section class="menu" style="margin-bottom: -50px">
+			<section class="menu"  style="margin-bottom: -50px">
 				<nav id="menu">
 					<?php echo menu();?>
-				</nav>
+				</nav> 
 			</section>
 			<section class="contenedor" id="contenedor" style="margin:auto" >
 			</section>

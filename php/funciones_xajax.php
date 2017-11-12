@@ -49,9 +49,9 @@ function menu(){
 	$ac05 = "onclick=\"xajax_showGrid('CLS_TBL_CUENTAS');\"";
 	$ac06 = "onclick=\"xajax_showGrid('CLS_TBL_PAGOS');\"";
 	$ac07 = "onclick=\"xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_REPORTES', 'frmReportesInventario');\"";
-	$ac08 = "onclick=\"xajax_showGrid('CLS_TBL_RECIBOS', 'contenedor', false, false, false);\"";
+	$ac08 = "onclick=\"xajax_showGrid('CLS_TBLPRODUCTOS');\"";
 	$ac09 = "";
-	$ac10 = "onclick=\xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_USUARIO', 'frmCambioClave', 'fulano');\"";
+	$ac10 = "onclick=\"xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_USUARIO', 'frmCambioClave', 'fulano');\"";
 	$htm ="<div id='cssmenu'>
 		<ul>
 		   	<li class='active has-sub'><a href='#' ><span>F&aacute;brica</span></a>
@@ -72,7 +72,7 @@ function menu(){
 		   	<li class='active has-sub'><a href='#'><span>Cat&aacute;logos</span></a>
 			   	<ul>
 			         <li class='last'><a href='#' $ac04><span>Usuarios</span></a></li>
-			         <li class='last'><a href='#' $ac08><span>PRODUCTOS</span></a></li>
+			         <li class='last'><a href='#' $ac08><span>Productos</span></a></li>
 			        <!-- <li class='last'><a href='#' $ac09><span>Transacciones</span></a></li>-->
 			         <li class='last'><a href='#' $ac10><span>Cambio de clave</span></a></li>
 			   	</ul>

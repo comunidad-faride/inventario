@@ -79,7 +79,7 @@ function showGrid($CLASE, $divName = "contenedor",  $edit=true, $delete=true, $w
 	}
 	$tt .= "</tr>";
 	$htm = "<div class='container'><div class='row fondo_datos radio'><div class='col-md-12 '>";
-	$htm .= "<h3 class='text-center'>".$clsDatos->titulo."</h3>";
+	$htm .= "<h3 class='text-center' style='margin-top:-3px;'>".$clsDatos->titulo."</h3>";
 	$orden = $clsDatos->ordenTabla;
 	$atributosCol = $clsDatos->atributosColumnas(); 
 	$htm .= "<table $orden id='dataGrid' class='adminlist table table-striped table-bordered dt-responsive' cellspacing='0' width='100%'>";

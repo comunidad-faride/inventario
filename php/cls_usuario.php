@@ -58,22 +58,11 @@ class CLS_USUARIO extends CLS_INVENTARIO{
 			$strSQL = "UPDATE tblusuarios SET  clave = '$clave' WHERE  usuario = '".$_SESSION["USUARIO"]."'";
 			$r = $baseDatos->consultagenerica($strSQL);
 			if($r){
-				//$xr->alert("Se ha actualizado la clave correctamente.");
 				$salida = "Se ha actualizado la clave correctamente.";
-				//cument.getElementById('ventanaModal').style.visibility='visible';");
-     			//$xr->call("xajax_asignarEnXajax", "ventanaModal", "innerHTML", NULL, "alerta",$salida);
-				/*if($_SESSION["USUARIO"]=="ADMINISTRADOR"){
-					$xr->call("xajax_asignarEnXajax","contenedor", "innerHTML",  NULL, "menuAdministrador");									
-				}else{*/
-					//$xr->call("xajax_asignarEnXajax","contenedor", "innerHTML",  NULL, "menuPrincipalUsuario", 1);
-				/*}*/
 				$xr->script("document.getElementById('clave').value='';document.getElementById('nuevaclave1').value='';document.getElementById('nuevaclave2').value='';" );
-				//$xr->script("document.getElementById('nuevaclave1').value='';" );
-				//$xr->script("document.getElementById('nuevaclave2').value='';" );
 				$xr->call("aviso",$salida);
 			}else{
 				$mensaje = "No se ha actualizado la clave!.  Intente de nuevo.";
-				//$xr->alert("No se ha actualizado la clave!.  Intente de nuevo.");
 				$xr->call("aviso",$mensaje);
 			}
 		}else{
@@ -111,9 +100,9 @@ class CLS_USUARIO extends CLS_INVENTARIO{
             <div id='frmEnvoltura' class='frmEnvoltura'>
     		<div id='frmDiv'>
     			<form id='idFormulario' class='iformula'>
-    				<h2>Iniciar Sesi&oacute;n</h2>
-    				<input type='text' name='usuario' autofocus id='user' placeholder=' &#9787; Ingrese Usuario' value='luis'/>
-    				<input type='password' autofocus name='password'  placeholder='&#128272; Ingrese Clave' value='123'  $evento/>
+    				<h2 style='margin-top:-25px; margin-bottom:-10px;'>Iniciar Sesi&oacute;n</h2>
+    				<input type='text' name='usuario' autofocus id='user' placeholder=' &#9787; Ingrese Usuario' value=''/>
+    				<input type='password' autofocus name='password'  placeholder='&#128272; Ingrese Clave' value=''  $evento/>
     				<input type='button' value='Iniciar sesi&oacute;n' onclick=\"xajax_validaUsuario(xajax.getFormValues('idFormulario'))\"/>
     			</form>
     		</div>
@@ -123,25 +112,61 @@ class CLS_USUARIO extends CLS_INVENTARIO{
         return $frm;
     }
 //----------------------------------------------------------------------------------------------------
-	function frmCambioClave($nombreUsuario){
+	function frmCambioClave(){	//$nombreUsuario
 		$accion = "onclick=\"xajax_cambiaClave(xajax.getFormValues('frm'))\";";
-		$iUser= $nombreUsuario; //$_SESSION['USUARIO'];
-		$htm = "
-		<div id='frmLogin' class='frmLogin' >
-            <div id='frmEnvoltura' class='frmEnvoltura'>
-    		<form id='frm' class='iformula'>
+		$clase = "class='form-control'";
+		$htm = " 
+		<form id='frm' class='container col-md-4 col-md-offset-4'>
+	<div id='' class='row  ' >
+ 	   <div id='' class='col-md-12 text-center' style='margin-bottom:-20px;'>
 				<h2 >Cambio de Clave</h2>
-				<h3 ><i>Usuario: </i> $iUser</h3>
-				<label >Clave actual</label>
-				<input type='password' autofocus name='clave' id='clave' placeholder='&#128272; Clave actual' />
+		</div>
+		<div class='row'>
+			<div class='col-md-12 text-center'>
+				<h3 ><i>Usuario: </i>".$_SESSION['USUARIO']."</h3>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-md-4 col-md-offset-2'>
+				<label >Clave actual:</label>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-md-8 col-md-offset-2'>
+				<input type='password' autofocus name='clave' id='clave' placeholder='&#128272;  Clave actual' $clase />
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-md-4 col-md-offset-2'>
 				<label >Nueva clave:</label>
-				<input type='password' autofocus name='nuevaclave1' id='nuevaclave1'  placeholder='&#128272; nueva clave' />
+			</div>
+		</div>		
+		<div class='row'>
+			<div class='col-md-8 col-md-offset-2'>
+				<input type='password' autofocus name='nuevaclave1' id='nuevaclave1'  placeholder='&#128272; nueva clave'$clase />
+			</div>
+		</div>						
+		<div class='row'>
+			<div class='col-md-6 col-md-offset-2'>
 				<label >Repita la clave:</label>
-				<input type='password' autofocus name='nuevaclave2' id='nuevaclave2'  placeholder='&#128272; repita nueva clave' />
-    			<input type='button' value='Grabar' id='grabar' onclick=\"xajax_validaUsuario(xajax.getFormValues('frm'))\"/>
-			</form>
-	    	</div>
-        </div>	";
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-md-8 col-md-offset-2'>
+				<input type='password' autofocus name='nuevaclave2' id='nuevaclave2'  placeholder='&#128272; repita nueva clave' $clase/>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-md-12 text-center'>
+				<br/>	
+				<input class= 'btn btn-primary' type='button' value='Grabar' id='grabar' onclick=\"xajax_validaUsuario(xajax.getFormValues('frm'))\"/>
+				<br/><br/>
+			</div>
+		</div>
+										
+		</div>	
+		</form>	
+		";
 		return $htm;
 	}
 
@@ -161,7 +186,6 @@ class CLS_USUARIO extends CLS_INVENTARIO{
         if($frmEntrada["password"]==""){
             $salida = "Debe ingresar la clave para continuar.";
         }else{
-        
         $llogin=$frmEntrada["usuario"];
         $password=$frmEntrada["password"];
         $bd = new CLS_INVENTARIO();
@@ -172,72 +196,26 @@ class CLS_USUARIO extends CLS_INVENTARIO{
          $Kpassword = MD5($password);
          $numReg =  $bd->numRegistros("tblUsuarios","usuario='$llogin' and clave = '$Kpassword'");
          if($numReg == 1){
-            $salida = "Acceso aceptado...";
-            // $salida = menuPrincipal();//			OOOOOJJJJJOOOOO
-               $xr->assign("menu","style.display", "block");			//  ACTIVA EL MENU GENERAL
-               $_SESSION["USUARIO"] = $llogin;
-               //$xr->script("xajax_showGrid('CLS_TBLUSUARIOS');");		//	MUESTRA LA VENTANA INICIAL	
-               $xr->script('xajax_asignarConXajax("contenedor", "innerHTML", "CLS_USUARIO", "frmCambioClave")');
-               $bool = 1;
-               return $xr;
-            }else{       //  Clave de acceso inapropiada...
-               $salida = "Clave incorrecta";
-          }
+			$salida = "Acceso aceptado...";
+			// $salida = menuPrincipal();//			OOOOOJJJJJOOOOO
+			$xr->assign("menu","style.display", "block");			//  ACTIVA EL MENU GENERAL
+			$_SESSION["USUARIO"] = $llogin;
+			//$xr->script("xajax_showGrid('CLS_TBLUSUARIOS');");		//	MUESTRA LA VENTANA INICIAL	
+			$xr->script("xajax_showGrid('CLS_VENTAS');");
+			$bool = 1;
+			return $xr;
+         }else{       //  Clave de acceso inapropiada...
+        	$salida = "Clave incorrecta";
+         }
          }
         }
        }
     }
     //  aqui se hace algo con $salida.
     $xr = $xr->script("aviso('$salida')");
-     return $xr;
+    return $xr;
   }
 //----------------------------------------------------------------------------------------------------
-
 }
-/* Procesos validados con mysql:
 
- borrar
- existe
- frmlogin
- getUsuario
- incluir
- modificar
- validaUsuario		** OJO ** Por validar.
-
-*/
-
-/* Procesos validados con mysqli:
-
- borrar
- existe
- frmlogin
- getUsuario
- incluir
- modificar
- validaUsuario		** OJO ** Por validar.
-
-*/
-/*
-$miClase = new CLS_USUARIO();
-$P = "delgadoerrade";
-$c1 = "odagledesoj*1958";
-$r = $miClase->incluir($P, $c1);
-*/
-//	SELECT COUNT( * ) AS numero FROM usuarios WHERE usuario = 'Rosaira'AND 
-//	
-/*echo ("clave = '2eae20f25a6d70838357f5efbbcaa923' ");
-echo("<br/>");
-echo ("<br/>"."$c1 = ".md5($c1));*/
-
-/*$r = $miClase->modificar($P, $c1, "RPO1993");
-
-if($r){
-	echo("El registro se actualiz� correctamente.");
-}else{
-	echo("El registro NO se actualiz�.");
-}*/
-
-//echo($miClase->frmLogin());
-/*echo md5("odagledesoj*1958");*/
-//echo $miClase->frmCambioClave();
 ?>
