@@ -85,12 +85,13 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 		$BD = NEW CLS_INVENTARIO;
 		$sql = "SELECT * FROM tblTiendas ORDER BY nombreTienda LIMIT 0, 1";
 		$recs = $BD->consultagenerica($sql);
-		
 		if(count($recs) == 0){
-			return "Debe registrar Las Tiendas antes de realizar este proceso";
+			return "Debe registrar los datos de Las Tiendas antes de realizar este proceso";
 		}
-		
-				
+		$nProductos = $BD->numRegistros("tblproductos");	
+		if($nProductos == 0){
+			return "Debe ingresar los nombres de los Productos antes de realizar este proceso.";
+		}
 		if(func_num_args() > 0){
 			$idFactura = func_get_arg(0);
 			$records = $this->tblfacturasRecords("idFactura = $idFactura");
@@ -110,7 +111,6 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 			$cantidad[1] = '';
 			$precio[1] = '';
 			$totalxProducto1 = '';
-			$numFactura = '';
 			$idtblTienda = 0;
 			$fecha = d_US_ES(hoy());
 			$idtblTienda = $recs[0]["idtblTienda"];

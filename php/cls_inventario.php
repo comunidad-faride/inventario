@@ -31,8 +31,12 @@ class CLS_INVENTARIO
         }
      //-------------------------------------------------------------------------
 
-     function nuevo_id($entidad,$atributo){
-         $sqlconsulta = "SELECT MAX(".$atributo.") + 1 as nuevo FROM ".$entidad.";";
+     function nuevo_id($entidad,$atributo, $condicion=""){
+     	if($condicion == ""){
+         	$sqlconsulta = "SELECT MAX(".$atributo.") + 1 as nuevo FROM ".$entidad.";";
+		}else{
+         	$sqlconsulta = "SELECT MAX(".$atributo.") + 1 as nuevo FROM ".$entidad." WHERE $condicion;";
+		}
          $result = mysql_query($sqlconsulta);
          if (!$result) {
              $this->msg ='Fall&oacute; la consulta: ' . mysql_error();

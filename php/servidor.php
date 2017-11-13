@@ -131,7 +131,13 @@ function add($CLASE){
 	$objResponse = new xajaxResponse();
 	$accion = "xajax_save('$CLASE',xajax.getFormValues('frm'))";
 //  cargamos el formulario en la ventana modal.
-	$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." );");	
+	$pos = strpos($cuerpo, "form");
+	if($pos === FALSE){
+		$objResponse->script("aviso(\"$cuerpo\")");	
+	}else{
+		$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." );");	
+		
+	}
 	return $objResponse;
 }
 
@@ -144,7 +150,6 @@ function add($CLASE){
 */
 function edit($CLASE, $id){
 // Edit zone
-//	$tabla = new Table;
 	$lCLASE = new $CLASE();
 	$titulo = "Editar Registro"; 	// <-- Set the title for your form.
     $cuerpo = "<center>".$lCLASE->formEdit($id)."</center>"; 			
@@ -194,31 +199,9 @@ function save($CLASE, $f){
 		if($respOk){
 			$objResponse->script("xajax_showGrid('$CLASE')");
 			$mensaje = "Se ha agregado un nuevo registro";
-			//  Se imprime el recibo.
-			/*if($CLASE == "CLS_COMPROBANTES"){
-				$accion = "xajax_repor_comprobante(document.getElementById('numero').value);";
-				$objResponse->script($accion);
-			}
-			if($CLASE == "CLS_QUINCENAS"){
-				//	Imprimir el comprobante.		
-				$accion1 = "xajax_repor_comprobante(".$_SESSION["comprobante"].");";
-				//	Imprimir el recibo de la quincena		
-				$accion2 = "xajax_imp_recibo(".$_SESSION["id_quincena"].");";
-				$accion = $accion1.$accion2;
-				$objResponse->script($accion);
-			}*/
 			$objResponse->script("cerrarModal(formModal);");
 		}else{
 			$mensaje = "El registro no se pudo agregar.";
-			if($CLASE == "CLS_USER"){
-				$mensaje .= "<br/> ".$_SESSION["nuevoUsuario"];
-			}
-			if($CLASE == "CLS_COMPROBANTES"){
-				$mensaje .= "<br/>La factura ya fue registrada";
-			}
-			if($CLASE == "CLS_TBL_MOV_BANCARIOS"){
-				$mensaje .= "<br/>Este movimiento bancario ya fue registrado";
-			}
 		}
 	}else{
 		$mensaje = $message;
@@ -243,20 +226,6 @@ function update($CLASE, $f){
 			$objResponse->script("xajax_showGrid('$CLASE')");
 			$objResponse->script("cerrarModal(formModal);");
 			$mensaje = "Se ha actualizado un registro.";
-			//  Se imprime el recibo.
-			/*if($CLASE == "CLS_COMPROBANTES"){
-				$accion = "xajax_repor_comprobante(document.getElementById('numero').value);";
-				$objResponse->script($accion);
-			}
-			if($CLASE == "CLS_QUINCENAS"){
-		//	Imprimir el comprobante.		
-				$accion1 = "xajax_repor_comprobante(".$_SESSION["comprobante"].");";
-				$objResponse->script($accion1);
-				
-		//	Imprimir el recibo de la quincena		
-				$accion2 = "xajax_imp_recibo(".$_SESSION["id_quincena"].");";
-				$objResponse->script($accion2);
-			}			*/
 		}else{
 			$mensaje = "NO se pudo actualizar el registro";
 		}

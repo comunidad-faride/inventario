@@ -82,8 +82,15 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 	
 	function frmVentas(){
 		$BD = NEW CLS_INVENTARIO;
-		$sql = "SELECT * FROM tblTiendas ORDER BY nombreTienda LIMIT 0, 1";
-		$recs = $BD->consultagenerica($sql);		
+		$sql = "SELECT * FROM tbltiendas ORDER BY nombreTienda";
+		$recs = $BD->consultagenerica($sql);
+		if(count($recs) == 0){
+			return "Debe registrar los datos de Las Tiendas antes de realizar este proceso.";
+		}
+		$nProductos = $BD->numRegistros("tblproductos");	
+		if($nProductos == 0){
+			return "Debe ingresar los nombres de los Productos antes de realizar este proceso.";
+		}	
 		if(func_num_args() > 0){
 			$idFactura = func_get_arg(0);
 			$records = $this->tblfacturasRecords("idFactura = $idFactura");
@@ -103,11 +110,10 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 			$cantidad[1] = '';
 			$precio[1] = '';
 			$totalxProducto1 = '';
-			$numFactura = '';
-			$idtblTienda = 0;
 			$fecha = d_US_ES(hoy());
 			$idtblTienda = $recs[0]["idtblTienda"];
-			$numFactura = $BD->nuevo_id("tblFacturas", "numFactura", "idtblTienda = $idtblTienda AND opcion='E'");
+			$sql = "";
+			$numFactura = $BD->nuevo_id("tblFacturas", "numFactura", "idtblTienda = $idtblTienda AND opcion='V'");
 			$items = 1; // Se inicia en 1 en este caso. 
 			$xx = "y"; 
 			$idFactura = "";
@@ -171,9 +177,7 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 					$idproducto = $detalles[$j]["idproducto"];
 					$cantidad = -1 * $detalles[$j]["cantidad"];
 					$totalItems += $cantidad;
-					//$cantidad = numeroEspanol($cantidad);
 					$precio = $detalles[$j]["precioUnitario"];
-					//$precio = numeroEspanol($cantidad);	
 					$subtotal = ($precio * $cantidad);
 					$totalAcumulado += $subtotal;	
 				}
