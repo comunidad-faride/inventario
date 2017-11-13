@@ -220,12 +220,14 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 			</tfoot>	
 			</table>';
 			//   AQUI SE DEBE COLOCAR FORMAS DE PAGO...
-			$pagos = '<div class="row">
-					 		<div class="col-md-12 text-center">
-					 			
-					 		</div>
-					 </div>';
-			$htm .= '</frm><br/></div>';
+			$cmbFP = frm_comboGenerico("idFormaPago", "formaPago", "idFormaPago", "tblformaspago", "CLS_INVENTARIO", "", "class='form-control'", 1);
+			$txtAporte = frm_text("monto", "", "10", "10", "disabled $tag2 class='form-control' id='idMonto'");
+			$htm .= '<br/><div class="row">
+				<div class="col-md-3 text-right">Forma de Pago: </div>
+				<div class="col-md-3">'.$cmbFP.'</div>
+				<div class="col-md-3 text-right">Aporte Inicial:</div>
+				<div class="col-md-3">'.$txtAporte.'</div>
+				</div>';
 			return $htm;
 	}
 //---------------------------------------------------------------------------------------------------------	
