@@ -220,12 +220,8 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 				<th class="text-right bg-primary"></th>
 				<th id="idSumaBs"  class="text-right bg-primary" style="padding-left:5px;padding-right:5px;">'.$txtTotalAcumulado.'</th>
 			</tfoot>	
-			</table><!--</div>--> ';
-			$accion_grabar = "onclick=";
-			/*$htm .= '<div class="col-md-4 "><br/><br/>'.frm_button("grabar", "Registrar").'<br/><br/>'
-					.frm_button("siguiente", "Siguiente", "onclick='blanquear();'").'<br/><br/><br/><br/>'
-					.frm_button("imprimir", "IMPRIMIR", "onclick='alert(\" BINGO....\")'").
-			'</div></div>';	*/
+			</table>';
+
 			$htm .= '</frm><br/></div>';
 			return $htm;
 	}
@@ -252,12 +248,7 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 	}
 //-----------------------------------------------------------------------------------------------------------
 	function checkAllData($f,$new = 0){		// Considerar colocar los campos obligatorios en el formulario.
-/*		if(empty($f['idFactura'])) return "El campo 'idFactura' no puede ser nulo.";
-		if(empty($f['idtblTienda'])) return "El campo 'idtblTienda' no puede ser nulo.";
-		if(empty($f['fecha'])) return "El campo 'fecha' no puede ser nulo.";*/
 		if(empty($f['numFactura'])) return "El campo 'numFactura' no puede ser nulo.";
-		/*if(empty($f['opcion'])) return "El campo 'opcion' no puede ser nulo.";
-		if(empty($f['comentario'])) return "El campo 'comentario' no puede ser nulo.";*/
 	 	return 0;
 	}
 //-----------------------------------------------------------------------------------------------------------
