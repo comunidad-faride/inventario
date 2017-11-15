@@ -265,4 +265,7 @@ input:focus {
 	display: none;
 }
 
+.form-control {
+	padding: 6px 6px;
+}
 /*# sourceMappingURL=estilo.css.map */

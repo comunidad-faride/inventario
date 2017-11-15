@@ -390,10 +390,10 @@ function consultagenerica($strsql){
       }
    }
 //-----------------------------------------------------------------------
-   function tblfacturasInsert( $idtblTienda, $fecha, $numFactura, $opcion, $comentario) {
+   function tblfacturasInsert( $idtblTienda, $fecha, $numFactura, $opcion, $formaPago, $comentario) {
       $idFactura = $this->nuevo_id("tblfacturas", "idFactura");
-      $cols = get_commas(false, 'idFactura', 'idtblTienda', 'fecha', 'numFactura', 'opcion', 'comentario');
-      $vals = get_commas(true, '!!'.$idFactura, '!!'.$idtblTienda, $fecha, '!!'.$numFactura, $opcion, $comentario);
+      $cols = get_commas(false, 'idFactura', 'idtblTienda', 'fecha', 'numFactura', 'opcion', 'formaPago', 'comentario');
+      $vals = get_commas(true, '!!'.$idFactura, '!!'.$idtblTienda, $fecha, '!!'.$numFactura, $opcion, $formaPago, $comentario);
       $strSQL = get_insert('tblfacturas',$cols, $vals);
       $result = mysql_query($strSQL);
       if(!$result){
@@ -403,8 +403,11 @@ function consultagenerica($strsql){
    }
    }
 //-----------------------------------------------------------------------
-   function tblfacturasUpdate($idFactura, $idtblTienda, $fecha, $numFactura, $opcion, $comentario) {
-         $strSQL = "UPDATE tblfacturas SET  idtblTienda = $idtblTienda,  fecha = '$fecha',  numFactura = $numFactura,  opcion = '$opcion',  comentario = '$comentario' WHERE  idFactura = $idFactura";
+   function tblfacturasUpdate($idFactura, $idtblTienda, $fecha, $numFactura, $opcion, $formaPago, $comentario) {
+         $strSQL = "UPDATE tblfacturas SET  
+         	idtblTienda = $idtblTienda,  fecha = '$fecha',  
+         	numFactura = $numFactura,  opcion = '$opcion',  
+         	formaPago = $formaPago, comentario = '$comentario' WHERE  idFactura = $idFactura";
       $result = mysql_query($strSQL);
       if(!$result){
       return false;

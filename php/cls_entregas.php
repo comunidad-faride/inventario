@@ -23,7 +23,8 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 		$opcion = "E";
 		$comentario = ""; //utf8_encode($comentario);
 		$nuevaFactura = $this->nuevo_id("tblfacturas", "idFactura");
-		$r = $this->tblfacturasInsert($idtblTienda, $fecha, $numFactura, $opcion, $comentario);
+		$formaPago = 0;
+		$r = $this->tblfacturasInsert($idtblTienda, $fecha, $numFactura, $opcion, $formaPago, $comentario);
 		//  SEGUNDO: REGISTRAMOS EN LA TABLA tbldetalles SI $r = true.
 		//  Determinamos el valor del idfactura en tblFacturas
 		$n = count($item);
@@ -44,7 +45,8 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 		extract($f);
 		$fecha = d_ES_MYSQL($fecha);
 		$comentario = "";
-		$res = $this->tblfacturasUpdate($idFactura, $idtblTienda, $fecha, $numFactura, "E", $comentario);
+		$formaPago = 0;
+		$res = $this->tblfacturasUpdate($idFactura, $idtblTienda, $fecha, $numFactura, "E", $formaPago, $comentario);
 		// Se borra los registros de la tabla tbldetalles relacionados con la factura 
 		$sql = "DELETE FROM tbldetalles WHERE idFactura = $idFactura";
 		$res = $this->consultagenerica($sql);
