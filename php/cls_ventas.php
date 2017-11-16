@@ -130,35 +130,33 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 
 		$accionCMB = "onchange='xajax_cambiarNumFactura(this.value, \"V\")'";
 		$txtidFactura = frm_hidden("idFactura", $idFactura);
+		$txtCalendario = frm_calendario2("fecha","fecha", "$fecha", "id='fecha' class='f-c_xx'" );
+		$cmbTienda = frm_comboGenerico("idtblTienda", "nombreTienda", "idtblTienda", "tblTiendas", "cls_inventario", "", " id='idtblTienda' class='f-c_xx' $accionCMB", $idtblTienda);
+		$txtFactura = frm_numero("numFactura", $numFactura, 6, 6, " id = 'numFactura' class='f-c_xx'");
 		$htm = '<form name ="frm" id = "frm" style="margin-top:-25px">'.$txtidFactura.' <!--<div class="container bg-success" style = "border-radius:20px;">-->
 			<div class="row" >
 				<div class="col-md-12 text-center"> <h2>Ventas en Tiendas</h2> </div>
 			</div>
 			<div class="row">
-				<div class="col-md-1 text-right">
-					<label style="padding-top:10px; margin-left:10px;"><p>Fecha:</p></label>
+				<div class="col-md-12">
+					<div class="padre">
+						<div class="hijo-1">
+							<label>Fecha:</label>'.$txtCalendario.'
+						</div>
+						<div class="hijo-2">
+							<label>Tienda:</label>'.$cmbTienda.'
+						</div>
+						<div class="hijo-3">
+							<label>Factura:</label>'.$txtFactura.'
+						</div>
+					</div>
 				</div>
-				<div class="col-md-2" style="margin-left:10px">'
-					.frm_calendario2("fecha","fecha", "$fecha", "id='fecha' class='form-control'" ).
-				'</div>
-				<div class="col-md-1">
-					<label style="padding-top:10px; margin-right: -20px" class="text-rigth"><p>Tienda:</p></label>
-				</div>
-				<div class="col-md-4">'
-					.frm_comboGenerico("idtblTienda", "nombreTienda", "idtblTienda", "tblTiendas", "cls_inventario", "", " id='idtblTienda' class='form-control' $accionCMB", $idtblTienda).
-				'</div>
-				<div class="col-md-2">
-					<label style="margin-top:10px">Factura:</label>
-				</div>
-				<div class="col-md-1 text-right">'
-					.frm_numero("numFactura", $numFactura, 12, 6, " id = 'numFactura' class='form-control'").
-				'</div>
 			</div>
 			<div class="row">';
 				$accion = "onkeyup='totalizar()';";
 				$formatearsd =  "onblur='this.value = formatear(this.value, 0)'";	
 				$formatear =  "onblur='this.value = formatear(this.value, 2); nuevaFila(\"datosFactura\");'";
-				$htm .= '<div class= "col-md-12" style="margin-top:-15px;"><table style="background:white" align="center" class="table-hover table-bordered" id="datosFactura">
+				$htm .= '<div class= "col-md-12" style="margin-top:-0px;"><table style="background:white" align="center" class="table-hover table-bordered" id="datosFactura">
 			<thead>
 				<th class="text-center bg-primary" style="padding-left:5px;padding-right:5px;">Item</th>
 				<th class="text-center bg-primary">Producto</th>
@@ -199,7 +197,6 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 				$txtSubTotal = frm_text("subtotal[$j]", $txtSubtotal, 15,15, "class='form-control text-right' readonly='true'");
 				$txtTotalItems = frm_text("totalItems", $totalItems, 10,15, "class='form-control text-right' readonly='true'");
 				$txtTotalAcumulado = frm_text("totalAcumulado", $txtTotalAcumulado , 15,15, "class='form-control text-right' readonly='true'");
-				
 				$tag1 = " onkeypress='return NumCheck(event, this, 6, 0);' style='text-align: right' ";
 				$tag2 = " onkeypress='return NumCheck(event, this, 6, 2);' style='text-align: right' ";
 				$txtCantidad = frm_text("cantidad[$i]", $txtCantidad,6,6,"$tag1 $accion $formatearsd class='form-control' id='cantidad$i' ", 6 , 0);
@@ -230,7 +227,7 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 			$cmbFP = frm_comboGenerico("formaPago", "formaPago", "idFormaPago", "tblformaspago", "CLS_INVENTARIO", "", $alCambiar." class='form-control'", $formaPago);
 			$txtAporte = frm_text("monto", $monto, "10", "10", "disabled $tag2 class='form-control' id='idMonto'");
 			$htm .= '<br/><div class="row">
-				<div class="col-md-3 text-right">Forma de Pago: </div>
+					<div class="col-md-3 text-right">Forma de Pago: </div>
 				<div class="col-md-3">'.$cmbFP.'</div>
 				<div class="col-md-3 text-right">Aporte Inicial:</div>
 				<div class="col-md-3">'.$txtAporte.'</div>
