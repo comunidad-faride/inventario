@@ -392,8 +392,8 @@ function consultagenerica($strsql){
 //-----------------------------------------------------------------------
    function tblfacturasInsert( $idtblTienda, $fecha, $numFactura, $opcion, $formaPago, $comentario) {
       $idFactura = $this->nuevo_id("tblfacturas", "idFactura");
-      $cols = get_commas(false, 'idFactura', 'idtblTienda', 'fecha', 'numFactura', 'opcion', 'formaPago', 'comentario');
-      $vals = get_commas(true, '!!'.$idFactura, '!!'.$idtblTienda, $fecha, '!!'.$numFactura, $opcion, $formaPago, $comentario);
+      $cols = get_commas(false, 'idFactura', 'idtblTienda', 'fecha', 'numFactura', 'idOpciones', 'idFormaPago', 'comentario');
+      $vals = get_commas(true, '!!'.$idFactura, '!!'.$idtblTienda, $fecha, '!!'.$numFactura, '!!'.$opcion, $formaPago, $comentario);
       $strSQL = get_insert('tblfacturas',$cols, $vals);
       $result = mysql_query($strSQL);
       if(!$result){
@@ -406,7 +406,7 @@ function consultagenerica($strsql){
    function tblfacturasUpdate($idFactura, $idtblTienda, $fecha, $numFactura, $opcion, $formaPago, $comentario) {
          $strSQL = "UPDATE tblfacturas SET  
          	idtblTienda = $idtblTienda,  fecha = '$fecha',  
-         	numFactura = $numFactura,  opcion = '$opcion',  
+         	numFactura = $numFactura,  idOpciones = $opcion,  
          	formaPago = $formaPago, comentario = '$comentario' WHERE  idFactura = $idFactura";
       $result = mysql_query($strSQL);
       if(!$result){
@@ -653,10 +653,10 @@ function consultagenerica($strsql){
       }
    }
 //-----------------------------------------------------------------------
-   function tblpagosInsert( $idFactura, $idFormaPago, $fecha, $monto, $confirmado) {
+   function tblpagosInsert( $idFactura, $idFormaPago, $fecha, $referencia, $monto, $confirmado) {
       $idPago = $this->nuevo_id("tblpagos", "idPago");
-      $cols = get_commas(false, 'idPago', 'idFactura', 'idFormaPago', 'fecha', 'monto', 'confirmado');
-      $vals = get_commas(true, '!!'.$idPago, '!!'.$idFactura, '!!'.$idFormaPago, $fecha, '!!'.$monto, $confirmado);
+      $cols = get_commas(false, 'idPago', 'idFactura', 'idFormaPago', 'fecha', 'referencia','monto', 'confirmado');
+      $vals = get_commas(true, '!!'.$idPago, '!!'.$idFactura, '!!'.$idFormaPago, $fecha, $referencia, '!!'.$monto, $confirmado);
       $strSQL = get_insert('tblpagos',$cols, $vals);
       $result = mysql_query($strSQL);
       if(!$result){
@@ -666,8 +666,8 @@ function consultagenerica($strsql){
    }
    }
 //-----------------------------------------------------------------------
-   function tblpagosUpdate($idPago, $idFactura, $idFormaPago, $fecha, $monto, $confirmado) {
-         $strSQL = "UPDATE tblpagos SET  idFactura = $idFactura,  idFormaPago = $idFormaPago,  fecha = '$fecha',  monto = $monto,  confirmado = '$confirmado' WHERE  idPago = $idPago";
+   function tblpagosUpdate($idPago, $idFactura, $fecha, $referencia, $monto, $confirmado) {
+         $strSQL = "UPDATE tblpagos SET  idFactura = $idFactura,  idFormaPago = $idFormaPago,  fecha = '$fecha',  monto = $monto,  confirmado = '$confirmado', referencia='$referencia' WHERE  idPago = $idPago";
       $result = mysql_query($strSQL);
       if(!$result){
       return false;
@@ -682,8 +682,8 @@ function consultagenerica($strsql){
       if(!$result){
       return false;
       } else {
-      return true;
-   }
+      	return true;
+   	  }
    }
 //-----------------------------------------------------------------------
    function tblpagosRecords($condicion='1', $campoOrden = null, $orden='asc') {
@@ -979,5 +979,73 @@ function consultagenerica($strsql){
 }
       }
    }
+
+//-----------------------------------------------------------------------
+   function tblopcionesInsert( $opciones) {
+      $idopciones = $this->nuevo_id("tblopciones", "idOpciones");
+      $cols = get_commas(false, 'idOpciones', 'opcion');
+      $vals = get_commas(true, '!!'.$idopciones, $opciones);
+      $strSQL = get_insert('tblOpciones',$cols, $vals);
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return false;
+      } else {
+      return true;
+   }
+   }
+//-----------------------------------------------------------------------
+   function tblopcionesUpdate($idopciones, $opcion) {
+         $strSQL = "UPDATE tblOpciones SET  opcion = '$opcion' WHERE idOpciones = $idopciones";
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return false;
+      } else {
+      return true;
+   }
+   }
+//-----------------------------------------------------------------------
+   function tblopcionesDelete($condicion) {
+      $strSQL = "DELETE FROM tblOpciones WHERE $condicion";
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return false;
+      } else {
+      return true;
+   }
+   }
+//-----------------------------------------------------------------------
+   function tblopcionesRecords($condicion='1', $campoOrden = null, $orden='asc') {
+        $strSQL = "SELECT * FROM tblOpciones WHERE $condicion";
+        if($campoOrden!=null){
+            $strSQL = $strSQL. " ORDER BY $campoOrden $orden";
+        }
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return '';
+      } else {
+      $this->filas = $this->numRegistros('tblproductos',$condicion);
+      $this->campos = mysql_num_fields($result);
+ if($this->filas!=0){
+      $matriz = $this->atributos('tblproductos');
+      $iMatriz = count($matriz);  // Atributos de la entidad.
+      $i=0;
+      foreach($matriz as $v){ 
+          $atributo[$i++] = $v['nombre']; 
+      }
+      $j=0; // Indice de la matriz.
+      while($row = mysql_fetch_array($result)) { 
+         for($i=0;$i<$iMatriz;$i++){
+            $matrizAsoc[$j][$atributo[$i]] = $row[$atributo[$i]];
+         }
+      $j++;
+      }
+      return $matrizAsoc;
+}else{
+	return 0;
+}
+      }
+   }
+//-----------------------------------------------------------------------
+
 }
 ?>
