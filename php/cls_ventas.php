@@ -11,7 +11,7 @@ class CLS_VENTAS extends CLS_INVENTARIO{
 	function __construct(){
 		parent::__construct();
 			$this->sqlBase = "SELECT idFactura, nombreTienda AS tienda, DATE_FORMAT(fecha,  '%d/%c/%Y') as fecha, numFactura FROM tblfacturas 
-INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE opcion='V'";
+INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE idOpciones=1";
 			$this->titulo = "REGISTRO DE VENTAS EN TIENDAS";
 	}
 //-----------------------------------------------------------------------------------------------------------
@@ -20,7 +20,7 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 		//Convertir la fecha de formato ingles o español a formato MYSQL antes de pasarlo a la funcion.
 		//  PRIMERO REGISTRAMOS EN LA TABLA tblFacturas
 		$fecha = d_ES_MYSQL($fecha);
-		$opcion = "V";
+		$opcion = 1;// 1: Es ventas.
 		$comentario = ""; //utf8_encode($comentario);
 		$nuevaFactura = $this->nuevo_id("tblfacturas", "idFactura");
 		$r = $this->tblfacturasInsert($idtblTienda, $fecha, $numFactura, $opcion, $comentario);
@@ -43,7 +43,7 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 		extract($f);
 		$fecha = d_ES_MYSQL($fecha);
 		$comentario = "";
-		$res = $this->tblfacturasUpdate($idFactura, $idtblTienda, $fecha, $numFactura, "V", $comentario);
+		$res = $this->tblfacturasUpdate($idFactura, $idtblTienda, $fecha, $numFactura, 1, $comentario);
 		// Se borra los registros de la tabla tbldetalles relacionados con la factura 
 		$sql = "DELETE FROM tbldetalles WHERE idFactura = $idFactura";
 		$res = $this->consultagenerica($sql);
@@ -103,6 +103,13 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 			$detalles = $BD->tbldetallesRecords("idfactura = $idFactura ORDER BY idDetalles");
 			$items = count($detalles);
 			$xx = "x";
+			if($formaPago == 4){  //Si es credito.
+				$sql = "SELECT monto FROM tblpagos WHERE idFactura = $idFactura";
+				$rec = $this->consultagenerica($sql);
+				$monto = $rec[0]["monto"];	
+			}else{
+				$monto = "";
+			}
 		}else{
 			$pk = "";
 			$textoBoton = "Grabar";
@@ -113,46 +120,43 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 			$fecha = d_US_ES(hoy());
 			$idtblTienda = $recs[0]["idtblTienda"];
 			$sql = "";
-			$numFactura = $BD->nuevo_id("tblFacturas", "numFactura", "idtblTienda = $idtblTienda AND opcion='V'");
+			$numFactura = $BD->nuevo_id("tblFacturas", "numFactura", "idtblTienda = $idtblTienda AND idOpciones=1");
 			$items = 1; // Se inicia en 1 en este caso. 
 			$xx = "y"; 
 			$idFactura = "";
+			$formaPago = 1;
+			$monto = "";
 		}
 
-		$accionCMB = "onchange='xajax_cambiarNumFactura(this.value, \"V\")'";
+		$accionCMB = "onchange='xajax_cambiarNumFactura(this.value, 1)'";
 		$txtidFactura = frm_hidden("idFactura", $idFactura);
-		$htm = '<form name ="frm" id = "frm">'.$txtidFactura.' <!--<div class="container bg-success" style = "border-radius:20px;">-->
-			<div class="row">
+		$txtCalendario = frm_calendario2("fecha","fecha", "$fecha", "id='fecha' class='f-c_xx'" );
+		$cmbTienda = frm_comboGenerico("idtblTienda", "nombreTienda", "idtblTienda", "tblTiendas", "cls_inventario", "", " id='idtblTienda' class='f-c_xx' $accionCMB", $idtblTienda);
+		$txtFactura = frm_numero("numFactura", $numFactura, 6, 6, " id = 'numFactura' class='f-c_xx'");
+		$htm = '<form name ="frm" id = "frm" style="margin-top:-25px">'.$txtidFactura.' <!--<div class="container bg-success" style = "border-radius:20px;">-->
+			<div class="row" >
 				<div class="col-md-12 text-center"> <h2>Ventas en Tiendas</h2> </div>
 			</div>
 			<div class="row">
-			
-			<div class="col-md-12">
-				<div class="col-md-1 text-right">
-					<label style="padding-top:10px"><p>Fecha:</p></label>
+				<div class="col-md-12">
+					<div class="padre">
+						<div class="hijo-1">
+							<label>Fecha:</label>'.$txtCalendario.'
+						</div>
+						<div class="hijo-2">
+							<label>Tienda:</label>'.$cmbTienda.'
+						</div>
+						<div class="hijo-3">
+							<label>Factura:</label>'.$txtFactura.'
+						</div>
+					</div>
 				</div>
-				<div class="col-md-2" >'
-					.frm_calendario2("fecha","fecha", "$fecha", "id='fecha' class='form-control input-md'" ).
-				'</div>
-				<div class="col-md-2 text-right">
-					<label style="padding-top:10px; margin-right: -20px" class="text-rigth"><p>Tienda:</p></label>
-				</div>
-				<div class="col-md-3">'
-					.frm_comboGenerico("idtblTienda", "nombreTienda", "idtblTienda", "tblTiendas", "cls_inventario", "", " id='idtblTienda' class='form-control' $accionCMB", $idtblTienda).
-				'</div>
-				<div class="col-md-2 text-right ">
-					<label><p>No. Factura:</p></label>
-				</div>
-				<div class="col-md-2">'
-					.frm_numero("numFactura", $numFactura, 6, 6, " id = 'numFactura' class='form-control'").
-				'</div>
-			</div>
 			</div>
 			<div class="row">';
 				$accion = "onkeyup='totalizar()';";
 				$formatearsd =  "onblur='this.value = formatear(this.value, 0)'";	
 				$formatear =  "onblur='this.value = formatear(this.value, 2); nuevaFila(\"datosFactura\");'";
-				$htm .= '<div class= "col-md-12" style="margin-top:-15px;"><table style="background:white" align="center" class="table-hover table-bordered" id="datosFactura">
+				$htm .= '<div class= "col-md-12" style="margin-top:-0px;"><table style="background:white" align="center" class="table-hover table-bordered" id="datosFactura">
 			<thead>
 				<th class="text-center bg-primary" style="padding-left:5px;padding-right:5px;">Item</th>
 				<th class="text-center bg-primary">Producto</th>
@@ -193,7 +197,6 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 				$txtSubTotal = frm_text("subtotal[$j]", $txtSubtotal, 15,15, "class='form-control text-right' readonly='true'");
 				$txtTotalItems = frm_text("totalItems", $totalItems, 10,15, "class='form-control text-right' readonly='true'");
 				$txtTotalAcumulado = frm_text("totalAcumulado", $txtTotalAcumulado , 15,15, "class='form-control text-right' readonly='true'");
-				
 				$tag1 = " onkeypress='return NumCheck(event, this, 6, 0);' style='text-align: right' ";
 				$tag2 = " onkeypress='return NumCheck(event, this, 6, 2);' style='text-align: right' ";
 				$txtCantidad = frm_text("cantidad[$i]", $txtCantidad,6,6,"$tag1 $accion $formatearsd class='form-control' id='cantidad$i' ", 6 , 0);
@@ -220,18 +223,21 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 			</tfoot>	
 			</table>';
 			//   AQUI SE DEBE COLOCAR FORMAS DE PAGO...
-			$pagos = '<div class="row">
-					 		<div class="col-md-12 text-center">
-					 			
-					 		</div>
-					 </div>';
-			$htm .= '</frm><br/></div>';
+			$alCambiar = "onchange=\"activaAporte(this.value)\"";
+			$cmbFP = frm_comboGenerico("formaPago", "formaPago", "idFormaPago", "tblformaspago", "CLS_INVENTARIO", "", $alCambiar." class='form-control'", $formaPago);
+			$txtAporte = frm_text("monto", $monto, "10", "10", "disabled $tag2 class='form-control' id='idMonto'");
+			$htm .= '<br/><div class="row">
+					<div class="col-md-3 text-right">Forma de Pago: </div>
+				<div class="col-md-3">'.$cmbFP.'</div>
+				<div class="col-md-3 text-right">Aporte Inicial:</div>
+				<div class="col-md-3">'.$txtAporte.'</div>
+				</div>';
 			return $htm;
 	}
 //---------------------------------------------------------------------------------------------------------	
-	function cambiarNumFactura($idtblTienda, $condicion){	// Ventas
+	function cambiarNumFactura($idtblTienda, $idOpcion){	// Ventas
 		$BD = new CLS_INVENTARIO;
-		$condicion = "idtblTienda = $idtblTienda AND opcion = '$condicion'";
+		$condicion = "idtblTienda = $idtblTienda AND idOpciones = $idOpcion";
 		$numFactura = $BD->nuevo_id("tblFacturas", "numFactura", $condicion);	
 		$xr = new xajaxResponse();
 		$xr->assign("numFactura", "value", $numFactura);

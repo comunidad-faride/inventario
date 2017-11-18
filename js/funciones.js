@@ -266,4 +266,11 @@ function nuevaFila(idTabla){
 	xajax_camposTabla(numFila);
 }
 
-
+function activaAporte(valor){
+	if(valor == 4){
+		document.getElementById("idMonto").disabled=false;
+		document.getElementById("idMonto").focus();
+	}else{
+		document.getElementById("idMonto").disabled=true;
+	}
+}

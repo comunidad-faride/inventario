@@ -11,7 +11,7 @@ class CLS_ENTREGAS extends CLS_INVENTARIO{
 	function __construct(){
 		parent::__construct();
 			$this->sqlBase = "SELECT idFactura, nombreTienda AS tienda, DATE_FORMAT(fecha,  '%d/%c/%Y') as fecha, numFactura FROM tblfacturas 
-INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE opcion='E'";
+INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE idOpciones = 0";
 			$this->titulo = "REGISTRO DE ENVIOS A TIENDAS";
 	}
 //-----------------------------------------------------------------------------------------------------------
@@ -20,10 +20,11 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 		//Convertir la fecha de formato ingles o español a formato MYSQL antes de pasarlo a la funcion.
 		//  PRIMERO REGISTRAMOS EN LA TABLA tblFacturas
 		$fecha = d_ES_MYSQL($fecha);
-		$opcion = "E";
+		$opcion = 0; // 0 es Entregas
 		$comentario = ""; //utf8_encode($comentario);
 		$nuevaFactura = $this->nuevo_id("tblfacturas", "idFactura");
-		$r = $this->tblfacturasInsert($idtblTienda, $fecha, $numFactura, $opcion, $comentario);
+		$formaPago = 0;
+		$r = $this->tblfacturasInsert($idtblTienda, $fecha, $numFactura, $opcion, $formaPago, $comentario);
 		//  SEGUNDO: REGISTRAMOS EN LA TABLA tbldetalles SI $r = true.
 		//  Determinamos el valor del idfactura en tblFacturas
 		$n = count($item);
@@ -44,7 +45,8 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 		extract($f);
 		$fecha = d_ES_MYSQL($fecha);
 		$comentario = "";
-		$res = $this->tblfacturasUpdate($idFactura, $idtblTienda, $fecha, $numFactura, "E", $comentario);
+		$formaPago = 0;
+		$res = $this->tblfacturasUpdate($idFactura, $idtblTienda, $fecha, $numFactura, 0, $formaPago, $comentario);
 		// Se borra los registros de la tabla tbldetalles relacionados con la factura 
 		$sql = "DELETE FROM tbldetalles WHERE idFactura = $idFactura";
 		$res = $this->consultagenerica($sql);
@@ -56,7 +58,6 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 			$cantidad_ing = numeroIngles($cantidad[$i]);
 			$precio_ing = numeroIngles($precio[$i]);
 			if($cantidad_ing != 0 AND $precio_ing != 0){
-				$cantidad_ing = -1 * $cantidad_ing;	// Se hace negativo para indicar disminucion de inventario en tienda
 				$r = $this->tbldetallesInsert($idFactura, $idproducto[$i], $cantidad_ing, $precio_ing);
 			}	
 		}
@@ -114,13 +115,13 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 			$idtblTienda = 0;
 			$fecha = d_US_ES(hoy());
 			$idtblTienda = $recs[0]["idtblTienda"];
-			$numFactura = $BD->nuevo_id("tblFacturas", "numFactura", "idtblTienda = $idtblTienda AND opcion= 'E'");
+			$numFactura = $BD->nuevo_id("tblFacturas", "numFactura", "idtblTienda = $idtblTienda AND idOpciones= 0");
 			$items = 1; // Se inicia en 1 en este caso. 
 			$xx = "y"; 
 			$idFactura = "";
 		}
 
-		$accionCMB = "onchange='xajax_cambiarNumFactura(this.value, \"E\")'";
+		$accionCMB = "onchange='xajax_cambiarNumFactura(this.value, 0)'";
 		$txtidFactura = frm_hidden("idFactura", $idFactura);
 		$htm = '<form name ="frm" id = "frm">'.$txtidFactura.' <!--<div class="container bg-success" style = "border-radius:20px;">-->
 			<div class="row">

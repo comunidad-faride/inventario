@@ -265,4 +265,82 @@ input:focus {
 	display: none;
 }
 
+.form-control {
+	padding: 6px 6px;
+}
+
+
+.f-c_xx{
+	display: inline;
+	/*width: 100%;*/
+	height: 34px;
+	padding: 6px 6px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	-webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+	transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s}
+.f-c_xx:focus{
+	border-color: #66afe9;
+	outline: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}
+.f-c_xx::-moz-placeholder{
+	color: #999;
+	opacity: 1}
+.f-c_xx:-ms-input-placeholder{
+	color: #999}
+.f-c_xx::-webkit-input-placeholder{
+	color: #999}
+.f-c_xx::-ms-expand{
+	background-color: transparent;
+	border: 0}
+.f-c_xx[disabled],.f-c_xx[readonly],fieldset[disabled] .f-c_xx{
+	background-color: #eee;
+	opacity: 1}
+.f-c_xx[disabled],fieldset[disabled] .f-c_xx{
+	cursor: not-allowed}
+textarea.f-c_xx{
+	height: auto}
+
+
+
+	.padre {
+		font-size: 14px;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-justify-content: center;
+		justify-content: center;
+		width: 100%;
+		background-color: lightgrey;
+		height: 45px;
+		margin-bottom: 10px;
+	}
+	.hijo-1 {
+		/*font-size: 20px;
+		background-color: cornflowerblue;*/
+		width: 200px;
+		margin: 5px;
+		padding: 0px 5px ;
+	}
+	.hijo-2 {
+		/*font-size: 20px;
+		background-color: cornflowerblue;*/
+		width: 400px;
+		margin: 5px;
+	}
+	.hijo-3 {
+		/*font-size: 20px;
+		background-color: cornflowerblue;*/
+		width: 250px;
+		margin: 5px;
+	}
+	
 /*# sourceMappingURL=estilo.css.map */
