@@ -46,8 +46,8 @@ function menu(){
 	$ac02 = "onclick=\"xajax_showGrid('CLS_TBLPRODUCTOS');\"";
 	$ac03 = "onclick=\"xajax_showGrid('CLS_VENTAS');\"";
 	$ac04 = "onclick=\"xajax_showGrid('CLS_TBLUSUARIOS');\"";
-	$ac05 = "onclick=\"xajax_showGrid('CLS_TBL_CUENTAS');\"";
-	$ac06 = "onclick=\"xajax_showGrid('CLS_TBL_PAGOS');\"";
+	$ac05 = "onclick=\"xajax_showGrid('CLS_TBLOPCIONES');\"";
+	$ac06 = "onclick=\"xajax_showGrid('CLS_TBLPAGOS');\"";
 	$ac07 = "onclick=\"xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_REPORTES', 'frmReportesInventario');\"";
 	$ac08 = "onclick=\"xajax_showGrid('CLS_TBLPRODUCTOS');\"";
 	$ac09 = "onclick=\"xajax_showGrid('CLS_TBLTIENDAS');\"";
@@ -65,14 +65,14 @@ function menu(){
 		 	<li class='active has-sub'><a href='#'><span>Tiendas</span></a>
 			   	<ul>
 			         <li class='last'><a href='#' $ac03><span>Ventas</span></a></li>
-			         <!--<li class='last'><a href='#' ><span>Ajustes</span></a></li>
-		   			 <li><a href='#'  ><span>Validar pagos</span></a></li>-->
+		   			 <li><a href='#' $ac06 ><span>Validar pagos</span></a></li>
 		   			 <li><a href='#' $ac07 ><span>Reportes</span></a></li>
 			   	</ul>
 		   	</li>
 		   	<li class='active has-sub'><a href='#'><span>Cat&aacute;logos</span></a>
 			   	<ul>
 			        <li class='last'><a href='#' $ac11><span>Formas de pago</span></a></li>
+			         <li class='last'><a href='#' $ac05><span>Opciones </span></a></li>
 			        <li class='last'><a href='#' $ac08><span>Productos</span></a></li>
 			        <li class='last'><a href='#' $ac09><span>Tiendas</span></a></li>
 			        <li class='last'><a href='#' $ac04><span>Usuarios</span></a></li>

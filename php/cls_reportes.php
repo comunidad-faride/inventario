@@ -54,11 +54,11 @@ class CLS_REPORTES {
 				 </div>";		 
 		$html .= "<hr/><div class='row'>
 				 	<div class='col-md-12'>
-				 		<center>".frm_button("reporte", "Mostrar", $ejecutar )."</center>
+				 		<center>".frm_button("reporte", "Mostrar", "$ejecutar class='btn btn-primary btn-lg active' style='margin-bottom:20px;' ")."</center>
 				 	</div>
-				 </div></br></br>";
+				 </div></br>";
 		$html .= "</div></div>";  
-		$htm = "<form id='frm' style='margin:auto; padding-left:100px; padding-right:100px' class='cajita text-center'>".$html."</form>";
+		$htm = "<form id='frm' style='margin:auto; padding-left:80px; padding-right:80px' class='frmPagoCredito text-center'>".$html."</form>";
 		return $htm;
 	}
 //-----------------------------------------------------------------------------------------------		

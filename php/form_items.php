@@ -578,43 +578,6 @@ function frm_numero($name, $val, $size, $max_length, $extra_tag='', $enteros=6, 
 //	Para su uso se requiere de la funcion javascript NumCheck()
 	return "<input type='text' name='$name' size='$size' maxlength='$max_length' value='$val'  onkeypress='return NumCheck(event, this, $enteros, $decimales);' style='text-align: right'  $extra_tag>";
 }
-  
-//echo "<img src ='../phpThumb/phpThumb.php?src=../res_paso_real/thumbs/avp_camaras.png&w=100' />";
-//for($i=25;$i<=200;$i+=25){
-/*	echo date("i:s");
-	echo frm_thumb("../res_paso_real/fotos/", "entrada4.jpg", 75)."<br/><br/>";
-	echo frm_thumb("../res_paso_real/fotos/", "entrada4.jpg", 400);	
-	echo date("i:s");
-*/	
 
-/*	include_once("clscondominio.php");
-	$bd = new condominio();
-	$r = $bd->numRegistros("web","imagen<>''");
-	$sql = "select * from web";
-	$aDatos= $bd->consultagenerica($sql);
-	$imHtm = "<table  border='2' bordercolor='#a6caf0'><tr>";
-	$i = 0;
-	foreach($aDatos as $fila){
-		extract($fila);
-		$imHtm .= "<td>".frm_imagen($imagen, $imagenalt,75,"","onclick=")."</td>";
-		$i++;
-		if($i==3){
-			break;
-		}
-	}
-	$imHtm .= "</tr></table >";
-	echo $imHtm;
-*/
-//	echo frm_imagen("./fotos/entrada1.jpg","entrada",75)."<br/><br/>";
-//	echo frm_imagen("./fotos/entrada1.jpg","entrada",500)."<br/><br/>";	
-//}
-
-
-
-
-	
-/*	echo "<form name='f' id='f'>";
-	echo frm_captcha();
-	echo "</form>";*/
 
 ?>

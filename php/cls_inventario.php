@@ -653,10 +653,10 @@ function consultagenerica($strsql){
       }
    }
 //-----------------------------------------------------------------------
-   function tblpagosInsert( $idFactura, $idFormaPago, $fecha, $referencia, $monto, $confirmado) {
+   function tblpagosInsert( $idFactura, $fecha, $referencia, $monto, $confirmado) {
       $idPago = $this->nuevo_id("tblpagos", "idPago");
-      $cols = get_commas(false, 'idPago', 'idFactura', 'idFormaPago', 'fecha', 'referencia','monto', 'confirmado');
-      $vals = get_commas(true, '!!'.$idPago, '!!'.$idFactura, '!!'.$idFormaPago, $fecha, $referencia, '!!'.$monto, $confirmado);
+      $cols = get_commas(false, 'idPago', 'idFactura',  'fecha', 'referencia','monto', 'confirmado');
+      $vals = get_commas(true, '!!'.$idPago, '!!'.$idFactura, $fecha, $referencia, '!!'.$monto, $confirmado);
       $strSQL = get_insert('tblpagos',$cols, $vals);
       $result = mysql_query($strSQL);
       if(!$result){

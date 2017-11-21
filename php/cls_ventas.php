@@ -10,8 +10,11 @@ class CLS_VENTAS extends CLS_INVENTARIO{
 //-----------------------------------------------------------------------------------------------------------
 	function __construct(){
 		parent::__construct();
-			$this->sqlBase = "SELECT idFactura, nombreTienda AS tienda, DATE_FORMAT(fecha,  '%d/%c/%Y') as fecha, numFactura FROM tblfacturas 
-INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE idOpciones=1";
+			$this->sqlBase = "SELECT idFactura, nombreTienda AS tienda, DATE_FORMAT(fecha,  '%d/%c/%Y') as fecha, numFactura, formaPago 
+FROM tblfacturas 
+INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda 
+INNER JOIN tblformaspago ON tblformaspago.idFormaPago = tblfacturas.idFormaPago
+WHERE idOpciones=1";
 			$this->titulo = "REGISTRO DE VENTAS EN TIENDAS";
 	}
 //-----------------------------------------------------------------------------------------------------------
@@ -23,7 +26,7 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 		$opcion = 1;// 1: Es ventas.
 		$comentario = ""; //utf8_encode($comentario);
 		$nuevaFactura = $this->nuevo_id("tblfacturas", "idFactura");
-		$r = $this->tblfacturasInsert($idtblTienda, $fecha, $numFactura, $opcion, $comentario);
+		$r = $this->tblfacturasInsert($idtblTienda, $fecha, $numFactura, $opcion, $formaPago, $comentario);
 		//  SEGUNDO: REGISTRAMOS EN LA TABLA tbldetalles SI $r = true.
 		//  Determinamos el valor del idfactura en tblFacturas
 		$n = count($item);
@@ -103,10 +106,10 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 			$detalles = $BD->tbldetallesRecords("idfactura = $idFactura ORDER BY idDetalles");
 			$items = count($detalles);
 			$xx = "x";
-			if($formaPago == 4){  //Si es credito.
-				$sql = "SELECT monto FROM tblpagos WHERE idFactura = $idFactura";
+			if($idFormaPago == 4){  //Si es credito.
+				$sql = "SELECT max(monto) as monto FROM tblpagos WHERE idFactura = $idFactura";
 				$rec = $this->consultagenerica($sql);
-				$monto = $rec[0]["monto"];	
+				$monto = (float) $rec[0]["monto"];	
 			}else{
 				$monto = "";
 			}
@@ -124,7 +127,7 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 			$items = 1; // Se inicia en 1 en este caso. 
 			$xx = "y"; 
 			$idFactura = "";
-			$formaPago = 1;
+			$idFormaPago = 1;
 			$monto = "";
 		}
 
@@ -224,7 +227,7 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 			</table>';
 			//   AQUI SE DEBE COLOCAR FORMAS DE PAGO...
 			$alCambiar = "onchange=\"activaAporte(this.value)\"";
-			$cmbFP = frm_comboGenerico("formaPago", "formaPago", "idFormaPago", "tblformaspago", "CLS_INVENTARIO", "", $alCambiar." class='form-control'", $formaPago);
+			$cmbFP = frm_comboGenerico("formaPago", "formaPago", "idFormaPago", "tblformaspago", "CLS_INVENTARIO", "", $alCambiar." class='form-control'", $idFormaPago);
 			$txtAporte = frm_text("monto", $monto, "10", "10", "disabled $tag2 class='form-control' id='idMonto'");
 			$htm .= '<br/><div class="row">
 					<div class="col-md-3 text-right">Forma de Pago: </div>
@@ -291,23 +294,23 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 		$fields[] = 'fecha';	
 		$fields[] = 'tienda';	
 		$fields[] = 'numFactura';	
-		/*$fields[] = 'opcion';	*/
-		/*$fields[] = 'comentario';*/	
+		$fields[] = 'formaPago';	
 		return $fields;
 	}
 //-----------------------------------------------------------------------------------------------------------
 	function encabezados(){
 		$headers = array();
-	//	$headers[] = "idFactura";
 		$headers[] = "Fecha";
 		$headers[] = "Tienda";
 		$headers[] = "Factura";
+		$headers[] = "Pagos";
 		return $headers;
 	}
 //-----------------------------------------------------------------------------------------------------------
 	function atributosEncabezados(){
 		// HTML table: hearders attributes
 		$attribsHeader = array();
+		$attribsHeader[] = '17';
 		$attribsHeader[] = '17';
 		$attribsHeader[] = '17';
 		$attribsHeader[] = '17';
@@ -320,6 +323,7 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE 
 		$attribsCols[] = 'nowrap style="text-align:center"';
 		$attribsCols[] = 'nowrap style="text-align:left"';
 		$attribsCols[] = 'nowrap style="text-align:right"';
+		$attribsCols[] = 'nowrap style="text-align:center"';
 		return $attribsCols;
 	}
 

@@ -11,8 +11,6 @@
 	include_once("./php/form_items.php");			//  Funciones para el manejo de formularios.
 	include_once("./php/funciones_fecha.php");		//  Funciones de fecha.
 	include_once("./php/expregulares.php");			//  Función para el manejo de expresiones regulares
-	include_once("./php/cls_usuario.php");
-	include_once("./php/cls_ventas.php");
 //	require_once('./php/xajaxGrid.inc.php');		//  Funciones del CRUD.
 //	include_once("./php/funciones.php");
 //-----------------------------------------
@@ -22,6 +20,7 @@
 //-----------------------------------------
 //		CLASES PARA EL MANEJO DE CRUD.
 //-----------------------------------------
+	include_once("./php/cls_usuario.php");
 	include_once("./php/cls_tblusuarios.php");			//	Funciones de la case usuario.
 	include_once("./php/cls_tblproductos.php");
 	include_once("./php/cls_tblformaspago.php");
@@ -30,18 +29,13 @@
 	include_once("./php/cls_ventas.php");
 	include_once("./php/cls_entregas.php");
 	include_once("./php/cls_reportes.php");
+	include_once("./php/cls_tblopciones.php");
+	include_once("./php/cls_tblpagos.php");
 	
-/*	include_once("./php/cls_tbl_tipos_inmuebles.php");
-	include_once("./php/cls_tbl_inmuebles.php");
-	include_once("./php/cls_tbl_periodos.php");
-	include_once("./php/cls_tbl_pagos.php");
-	include_once("./php/cls_tbl_recibos.php");*/
-/*	include_once("./php/cls_quincenas.php");
-	include_once("./php/cls_user.php");
-	include_once("./php/cls_tbl_bancos.php");
-	include_once("./php/cls_tbl_tipo_movimientos.php");
-	include_once("./php/cls_tbl_mov_bancarios.php");
-*/
+
+//-----------------------------------------
+//		FUNCIONES EXTRAS DE XAJAX.
+//-----------------------------------------
 	include_once("./php/funciones_xajax.php");
 //-----------------------------------------
 //		REGISTRO DE FUNCIONES EN XAJAX.
@@ -90,17 +84,24 @@ function showGrid($CLASE, $divName = "contenedor",  $edit=true, $delete=true, $w
 	// Siempre la clave primaria PK será el elemento cero del registro
 	foreach($dtTabla as $registro){
 		$htm .= "<tr>";
+		$campoPK = $campos[0]; 
 		for($i = 1; $i < $n; $i++){
-			$nombreCampo = $campos[$i]; //
+			$nombreCampo = $campos[$i]; 
 			$j = $i-1;
 			if(is_numeric($registro[$nombreCampo]) AND strpos($registro[$nombreCampo], ".")){
 				$lRegistro = numeroEspanol($registro[$nombreCampo]);	
 			}else{
-				$lRegistro = $registro[$nombreCampo];
+				if($CLASE == "CLS_VENTAS" AND $nombreCampo == "formaPago" AND $registro[$nombreCampo] == "Credito"){
+					$idFactura = $registro['idFactura'];
+					$onclick = "onclick=\"xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_TBLPAGOS', 'resumenPago',$idFactura)\"";
+					$lRegistro = frm_imagen("./images/credito.png","Credito",30,30,$onclick."style='margin: -15px 0px;'");
+				}else{
+					$lRegistro = $registro[$nombreCampo];
+				}
+				
 			}
 			$htm .= "<td $atributosCol[$j]>$lRegistro</td>";
 		}
-		$campoPK = $campos[0]; 
 		if($edit){
 			$htm .= "<td class='text-center'><a href ='#' onclick=\"xajax_edit('$CLASE', $registro[$campoPK]);\" ><img src='./img/edit.png' align='middle' border='0' alt='Editar'/></a></td>";
 		}

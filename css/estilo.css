@@ -308,9 +308,8 @@ input:focus {
 .f-c_xx[disabled],fieldset[disabled] .f-c_xx{
 	cursor: not-allowed}
 textarea.f-c_xx{
-	height: auto}
-
-
+	height: auto
+	}
 
 	.padre {
 		font-size: 14px;
@@ -342,5 +341,22 @@ textarea.f-c_xx{
 		width: 250px;
 		margin: 5px;
 	}
-	
+	.frmPagoCredito{
+		margin:auto; 
+		width:80%;
+		/*background-color:white; */
+		color:black;
+		font-size:1.3em; 
+		padding:10px; 
+		border-radius:20px;
+		border: 5px solid #3e0000;
+		background-color: #eee;
+	}
+	.frmPagoCredito > h3{
+			color: #635f60;
+	}
+	.frmPagoCredito > h2{
+			color: #000fc1;
+			background-color: #79ccf9
+	}
 /*# sourceMappingURL=estilo.css.map */

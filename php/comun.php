@@ -10,7 +10,7 @@
 //	INICIO DE LA CLASE XAJAX.	
 	require ('./xajax/xajax_core/xajax.inc.php');
 	$xajax = new xajax();
-	$xajax->setFlag("debug", true);
+//	$xajax->setFlag("debug", true);
 	$xajax->setCharEncoding("ISO-8859-1");
 //	$xajax->configure("language","es");
 
@@ -30,6 +30,7 @@
 	$xajax->register(XAJAX_FUNCTION, array("cambiaClave", "CLS_USUARIO","cambiaClave"),"cls_tblusuario.php");
 	$xajax->register(XAJAX_FUNCTION, array("cambiarNumFactura", "CLS_VENTAS","cambiarNumFactura"),"cls_ventas.php");
 	$xajax->register(XAJAX_FUNCTION, array("camposTabla", "CLS_VENTAS","camposTabla"),"cls_ventas.php");
+	$xajax->register(XAJAX_FUNCTION, array("pagoCredito", "CLS_TBLPAGOS","pagoCredito"),"cls_tblpagos.php");
 	
 /*	
 	$xajax->register(XAJAX_FUNCTION,"autocompletar");
