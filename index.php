@@ -29,9 +29,9 @@
 		<script src='./js/scw.js'></script>		<!--	Funciones para mostrar calendario.	-->
 		<script src="./js/script.js"></script>
 		<script src="./js/funciones.js"></script>
-		<script src="./js/awesomplete.min.js" async></script>
-		<script src="./js/lockr.min.js"></script>	<!-- ARCHIVO PARA TRANSFERIR DATOS DE PHP A JAVASCRIPT	-->
-		<script src="./js/fncautoZ9.js"></script>	<!-- ARCHIVO CON INSTRUCCIONES JQUERY PARA AUTOCOMPLETAR	-->
+<!--		<script src="./js/awesomplete.min.js" async></script>-->
+		<!--<script src="./js/lockr.min.js"></script>-->	<!-- ARCHIVO PARA TRANSFERIR DATOS DE PHP A JAVASCRIPT	-->
+		<!--<script src="./js/fncautoZ9.js"></script>-->	<!-- ARCHIVO CON INSTRUCCIONES JQUERY PARA AUTOCOMPLETAR	-->
 		<script lang="javascript">
 			xajax_asignarConXajax("contenedor", "innerHTML", "CLS_USUARIO", "frmLogin");//	FUNCIONA EXCELENTE  ...
 			//xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_TBLPAGOS', 'resumenPago',10);//	FUNCIONA EXCELENTE  ...

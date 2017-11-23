@@ -4,7 +4,7 @@
 @import url(../css/bootstrap.min.css);
 @import url(../css/modal.css);
 @import url(../css/font-awesome.min.css);
-@import url(../css/awesomplete.css);
+/*@import url(../css/awesomplete.css);*/
 /*@import url(../css/estilo.css);*/
 @import "menu.css";
 * {
@@ -198,6 +198,19 @@ body .containery footer {
 }
 .alerta {
   background-color: linear-gradient(#51bbd2, #32a9c3);
+}
+
+.alerta1 {
+  background-color: #3183a6;
+  color: white;
+}
+.alerta1:hover {
+  background-color: #1a4557;
+  color: yellow;
+}
+
+.alerta1 > input , select {
+	color:black;
 }
 button.dt-button,
 div.dt-button,

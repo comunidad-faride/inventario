@@ -202,12 +202,13 @@ where idfactura = $idFactura) AS T";
 		$sql = "SELECT * FROM tblPagos where idfactura = $idFactura ORDER BY fecha";
 		$recorPagos = $this->consultagenerica($sql);
 		$diferencia = $montoFactura;
+		$nc = "style='font-weight:bold;text-align:center;' class='alerta'";
 		$header = "<thead>
 				<tr>
-					<th style='text-align:right'>FECHA</th>
-					<th style='text-align:right'>CONFIRMADO</th>
-					<th style='text-align:right'>MONTO</th>
-					<th style='text-align:right'>DIFERENCIA</th>
+					<th $nc>FECHA</th>
+					<th $nc>CONFIRMADO</th>
+					<th $nc>MONTO</th>
+					<th $nc>DIFERENCIA</th>
 				</tr>
 			</thead>";
 
@@ -264,11 +265,12 @@ where idfactura = $idFactura) AS T";
 		</div>';
 		$foot =" <tfoot>
 					<tr>
-						<td colspan='3' style='text-align:right' >MONTO PENDIENTE POR PAGAR:</td>
-						<td align='right'>".numeroEspanol($montoFactura)."</td>
+						<td colspan='3' $nc >MONTO PENDIENTE POR PAGAR:</td>
+						<td align='right' $nc>".numeroEspanol($montoFactura)."</td>
 					</tr>
 			</tfoot>";
-		$tabla = "<table class='table table-hover' align='center'>$header $foot $body</table>";
+			
+		$tabla = "<table id='dataGrid'  class='adminlist table table-striped table-bordered dt-responsive' align='center'>$header $foot $body</table>";
 		$htm .= '<div class="row">
 			<div class="col-md-12">'.
 				$tabla

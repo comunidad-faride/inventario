@@ -2,6 +2,7 @@
 	header('Content-Type: text/html; charset=iso-8859-1'); 
 	session_start();
 	date_default_timezone_set('America/Caracas');
+	ini_set("memory_limit","1024M");
 //------------------------------------------------------------------------------------------------
 	include_once("./php/cls_inventario.php");			//  Archivo con funciones de base de datos
 //------------------------------------------------------------------------------------------------
@@ -11,6 +12,7 @@
 	include_once("./php/form_items.php");			//  Funciones para el manejo de formularios.
 	include_once("./php/funciones_fecha.php");		//  Funciones de fecha.
 	include_once("./php/expregulares.php");			//  Función para el manejo de expresiones regulares
+	require_once("./dompdf/dompdf_config.inc.php"); //  Clase para la construccion de reportes.
 //	require_once('./php/xajaxGrid.inc.php');		//  Funciones del CRUD.
 //	include_once("./php/funciones.php");
 //-----------------------------------------
@@ -31,6 +33,7 @@
 	include_once("./php/cls_reportes.php");
 	include_once("./php/cls_tblopciones.php");
 	include_once("./php/cls_tblpagos.php");
+	//include_once("./php/cls_retventas.php");
 	
 
 //-----------------------------------------

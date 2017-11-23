@@ -98,12 +98,12 @@
 	return $htm;	
 	}
 //-----------------------------------------------------------------------------------------------------------
-	function checkAllData($f,$new = 0){		// Considerar colocar los campos obligatorios en el formulario.
+	function checkAllData($f, $new = 0){		// Considerar colocar los campos obligatorios en el formulario.
 		if(empty($f['usuario'])) return "El campo 'usuario' no puede ser nulo.";
-		$salida = validarPatron($f['usuario'], ALFNUMCE);
+		$salida = validarPatron($f['usuario'], ALFANUM);
 		if($salida != "") return utf8_encode("Usuario:  $salida");
 		if(empty($f['clave'])) return "El campo 'clave' no puede ser nulo.";
-		$salida = validarPatron($f['clave'], ALFNUMCE);
+		$salida = validarPatron($f['clave'], ALFANUM);
 		if($salida != "") return utf8_decode("La Clave: $salida");
 	 	return 0;
 	}

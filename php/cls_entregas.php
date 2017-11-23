@@ -23,7 +23,7 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 		$opcion = 0; // 0 es Entregas
 		$comentario = ""; //utf8_encode($comentario);
 		$nuevaFactura = $this->nuevo_id("tblfacturas", "idFactura");
-		$formaPago = 0;
+		$formaPago = 1;
 		$r = $this->tblfacturasInsert($idtblTienda, $fecha, $numFactura, $opcion, $formaPago, $comentario);
 		//  SEGUNDO: REGISTRAMOS EN LA TABLA tbldetalles SI $r = true.
 		//  Determinamos el valor del idfactura en tblFacturas

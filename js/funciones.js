@@ -274,3 +274,28 @@ function activaAporte(valor){
 		document.getElementById("idMonto").disabled=true;
 	}
 }
+
+
+function openWindow(name, url) {
+	var height = screen.availHeight-30;
+	var width = screen.availWidth-10;
+	
+	var left = 0;
+	var top = 0;
+	
+	settings = 'fullscreen=no,resizable=yes,location=no,toolbar=no,menubar=no';
+	settings = settings + ',status=no,directories=no,scrollbars=yes';
+	settings = settings + ',width=' + width +',height=' + height;
+	settings = settings + ',top=' + top +',left=' + left;
+	settings = settings + ',charset=iso-8859-1';
+	var win = window.open(url, "", settings);
+	
+	win.outerHeight = screen.availHeight;
+	win.outerWidth = screen.availWidth;
+	
+	win.resizeTo(screen.availWidth, screen.availHeight);
+	
+	if (!win.focus)
+	win.focus();
+	return win;
+}

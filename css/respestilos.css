@@ -1,0 +1,62 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body .contenido {
+  width: 80%;
+  margin: auto;
+  padding-top: 20px;
+}
+body .contenido table {
+  margin-top: 30px;
+  width: 100%;
+}
+body .contenido table tr th {
+  padding: 10px 0;
+  background: #e8e4e4;
+}
+body .contenido table tr td {
+  text-align: center;
+  padding: 8px 0;
+}
+body .contenido table tr .tddere {
+  text-align: right;
+  padding-right: 20px;
+}
+body .contenido .tbllogo .nlogito {
+  width: 150px;
+}
+body .contenido .tbllogo .nlogito img {
+  width: 100px;
+}
+body .contenido .tbllogo .nEmpresa {
+  position: relative;
+  float: left;
+  width: 100%;
+}
+body .contenido .tbllogo .nEmpresa .rtemp1,
+body .contenido .tbllogo .nEmpresa .rtemp2,
+body .contenido .tbllogo .nEmpresa .rtemp3 {
+  width: 30%;
+  float: left;
+  font-size: 1.5em;
+}
+body .contenido .tbllogo .nEmpresa .rtemp2 {
+  color: red;
+  font-size: 2em;
+  text-align: center;
+}
+body .contenido .tbllogo .nEmpresa .rtemp1 {
+  text-align: right;
+}
+body .contenido .tbllogo .xfech .nFecha {
+  width: 100%;
+  text-align: center;
+}
+.nEmpresa h1 {
+  color: black;
+}
+.nEmpresa h2 {
+  color: red;
+}

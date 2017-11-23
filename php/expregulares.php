@@ -36,7 +36,7 @@ function validarPatron ($valor, $i_patron, $digitos = 2) {
 	"/^(0[1-9]|[12][0-9]|3[01])[-\/.](0[1-9]|1[012])[-\/.](19|20)\d\d$/",
 	"/^[0-9]+([,]{1}[0-9]{1,2})?$/",
 	"/^[\+|-]?\d+(,\d{1,2})?$/",
-	"/^([a-zA-ZÁÉÍÓÚáéíóúñÑ1234567890]{8,})$/",
+	"/^([a-zA-ZÁÉÍÓÚáéíóúñÑ1234567890]{4,})$/",
 	"/^([@#%$&*()-.!?;<>\w\S]{8,})$/");
 	$arrMsg = array(
 	"Email inválido.",
@@ -47,7 +47,7 @@ function validarPatron ($valor, $i_patron, $digitos = 2) {
 	"Solo admite fechas en el formato dd/mm/aaaa",
 	"Solo admite números con hasta dos (2) decimales con coma (,) como separador decimal",
 	"Solo admite números reales (positivos o negativos) con hasta dos (2) decimales",
-	"Solo adminte letras y números. No se admiten espacios en blanco. Mínimo de 8 caracteres.",
+	"Solo adminte letras y números. No se admiten espacios en blanco. Mínimo de 4 caracteres.",
 	"Este campo solo adminte un m&iacute;nimo de 8 caracteres entre letras, n&uacute;meros y los siguientes caracteres especiales: @#%$&*()-.!?;<>");
 	$mensaje = "";
 	$patron = ($arrPatron[$i_patron]);

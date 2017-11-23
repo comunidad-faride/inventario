@@ -1,11 +1,4 @@
 <?php
-	//session_start();
-
-	/*define("LOG_ENABLED", 0); // Enable debuggin
-	define("FILE_LOG", "/tmp/xajaxDebug.log");  // File to debug.
-	define("ROWSXPAGE", 5); // Number of rows show it per page.
-	define("MAXROWSXPAGE", 10);  // Total number of rows show it when click on "Show All" button.
-*/
 
 //	INICIO DE LA CLASE XAJAX.	
 	require ('./xajax/xajax_core/xajax.inc.php');
@@ -31,6 +24,7 @@
 	$xajax->register(XAJAX_FUNCTION, array("cambiarNumFactura", "CLS_VENTAS","cambiarNumFactura"),"cls_ventas.php");
 	$xajax->register(XAJAX_FUNCTION, array("camposTabla", "CLS_VENTAS","camposTabla"),"cls_ventas.php");
 	$xajax->register(XAJAX_FUNCTION, array("pagoCredito", "CLS_TBLPAGOS","pagoCredito"),"cls_tblpagos.php");
+	$xajax->register(XAJAX_FUNCTION, array("reporteFacturas", "CLS_REPORTES","reporteFacturas"),"cls_reportes.php");
 	
 /*	
 	$xajax->register(XAJAX_FUNCTION,"autocompletar");
