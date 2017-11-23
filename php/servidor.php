@@ -30,6 +30,7 @@
 	include_once("./php/cls_entregas.php");
 	include_once("./php/cls_ventas.php");
 	include_once("./php/cls_entregas.php");
+	include_once("./php/cls_inventario_inicial.php");
 	include_once("./php/cls_reportes.php");
 	include_once("./php/cls_tblopciones.php");
 	include_once("./php/cls_tblpagos.php");

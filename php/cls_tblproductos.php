@@ -68,6 +68,7 @@
 			$records = $this->tblproductosRecords("idproducto = $idproducto");
 			foreach($records as $record){
 				extract($record);
+				$producto = utf8_encode($producto);
 			}
 			$textoBoton = "Actualizar";
 			$accion = "onClick=\"xajax_update('CLS_TBLPRODUCTOS',xajax.getFormValues('frm'))\"";

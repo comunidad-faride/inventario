@@ -43,6 +43,7 @@
 		
 function menu(){
 	$ac01 = "onclick=\"xajax_showGrid('CLS_ENTREGAS');\"";
+	$ac12 = "onclick=\"xajax_showGrid('CLS_INVENTARIO_INICIAL');\"";
 	$ac02 = "onclick=\"xajax_showGrid('CLS_TBLPRODUCTOS');\"";
 	$ac03 = "onclick=\"xajax_showGrid('CLS_VENTAS');\"";
 	$ac04 = "onclick=\"xajax_showGrid('CLS_TBLUSUARIOS');\"";
@@ -58,7 +59,7 @@ function menu(){
 		   	<li class='active has-sub'><a href='#' ><span>F&aacute;brica</span></a>
 		      	<ul>
 					<li class='last'><a href='#' $ac01><span>Env&iacute;os</span></a></li>
-					<!--<li class='last'><a href='#' ><span>Estad&iacute;stica</span></a></li>-->
+					<li class='last'><a href='#' $ac12><span>Inventario Inicial</span></a></li>
 					<!--<li class='last'><a href='#' ><span>Reportes</span></a></li>-->
 		      	</ul>
 		   	</li>

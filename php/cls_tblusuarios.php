@@ -37,12 +37,16 @@
 	function insertNewRecord($f){
 		extract($f);
 		//Convertir la fecha de formato ingles o español a formato MYSQL antes de pasarlo a la funcion.
+		$usuario = utf8_decode($usuario);
+		$clave = utf8_decode($clave);
 		$r = $this->tblusuariosInsert($usuario, $clave);
 		return $r;
 	}
 //-----------------------------------------------------------------------------------------------------------
 	function updateRecord($f){
 		extract($f);
+		$usuario = utf8_decode($usuario);
+		$clave = utf8_decode($clave);
 		$res = $this->tblusuariosUpdate($idUsuario, $usuario, $clave);
 		return $res;
 	}
@@ -70,6 +74,9 @@
 			$records = $this->tblusuariosRecords("idUsuario = $idUsuario");
 			foreach($records as $record){
 				extract($record);
+				$usuario = utf8_encode($usuario);
+				$clave = "";
+				
 			}
 			$textoBoton = "Actualizar";
 			$accion = "onClick=\"xajax_update('CLS_TBLUSUARIOS',xajax.getFormValues('frm'))\"";

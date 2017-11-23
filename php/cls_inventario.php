@@ -786,6 +786,7 @@ function consultagenerica($strsql){
    function tblproductosInsert( $producto) {
       $idproducto = $this->nuevo_id("tblproductos", "idproducto");
       $cols = get_commas(false, 'idproducto', 'producto');
+      $producto = utf8_decode($producto);
       $vals = get_commas(true, '!!'.$idproducto, $producto);
       $strSQL = get_insert('tblproductos',$cols, $vals);
       $result = mysql_query($strSQL);
@@ -797,12 +798,13 @@ function consultagenerica($strsql){
    }
 //-----------------------------------------------------------------------
    function tblproductosUpdate($idproducto, $producto) {
-         $strSQL = "UPDATE tblproductos SET  producto = '$producto' WHERE  idproducto = $idproducto";
-      $result = mysql_query($strSQL);
-      if(!$result){
-      return false;
-      } else {
-      return true;
+   		$producto = utf8_decode($producto);
+        $strSQL = "UPDATE tblproductos SET  producto = '$producto' WHERE  idproducto = $idproducto";
+      	$result = mysql_query($strSQL);
+      	if(!$result){
+      		return false;
+      	}else {
+      	return true;
    }
    }
 //-----------------------------------------------------------------------
@@ -1023,10 +1025,10 @@ function consultagenerica($strsql){
       if(!$result){
       return '';
       } else {
-      $this->filas = $this->numRegistros('tblproductos',$condicion);
+      $this->filas = $this->numRegistros('tblOpciones',$condicion);
       $this->campos = mysql_num_fields($result);
  if($this->filas!=0){
-      $matriz = $this->atributos('tblproductos');
+      $matriz = $this->atributos('tblOpciones');
       $iMatriz = count($matriz);  // Atributos de la entidad.
       $i=0;
       foreach($matriz as $v){ 

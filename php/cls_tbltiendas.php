@@ -35,12 +35,16 @@
 	function insertNewRecord($f){
 		extract($f);
 		//Convertir la fecha de formato ingles o español a formato MYSQL antes de pasarlo a la funcion.
+		$nombreTienda = utf8_decode($nombreTienda);
+		$direccion = utf8_decode($direccion);
 		$r = $this->tbltiendasInsert( $nombreTienda, $Responsable, $direccion, $telefono);
 		return $r;
 	}
 //-----------------------------------------------------------------------------------------------------------
 	function updateRecord($f){
 		extract($f);
+		$nombreTienda = utf8_decode($nombreTienda);
+		$direccion = utf8_decode($direccion);
 		$res = $this->tbltiendasUpdate($idtblTienda, $nombreTienda, $Responsable, $direccion, $telefono);
 		return $res;
 	}
@@ -68,6 +72,8 @@
 			$records = $this->tbltiendasRecords("idtblTienda = $idtblTienda");
 			foreach($records as $record){
 				extract($record);
+				$nombreTienda = utf8_encode($nombreTienda);
+				$direccion = utf8_encode($direccion);
 			}
 			$textoBoton = "Actualizar";
 			$accion = "onClick=\"xajax_update('CLS_TBLTIENDAS',xajax.getFormValues('frm'))\"";
@@ -111,8 +117,8 @@
 		$salida = validarPatron($f['Responsable'],ALFANUMYES);
 		if( $salida != "") return "El campo 'Responsable ' $salida";
 		if(empty($f['direccion'])) return utf8_decode("El campo 'Dirección' no puede ser nulo.");
-		$salida = validarPatron($f['direccion'],ALFANUMYES);
-		if( $salida != "") return utf8_decode("El campo 'Dirección ' $salida");
+		/*$salida = validarPatron($f['direccion'],ALFANUMYES);
+		if( $salida != "") return utf8_decode("El campo 'Dirección ' $salida");*/
 		if(empty($f['telefono'])) return utf8_decode("El campo 'Teléfono' no puede ser nulo.");
 		$salida = validarPatron($f['telefono'],DIGITOS,11);
 		if( $salida != "") return utf8_decode("En el campo 'Teléfono' $salida");
