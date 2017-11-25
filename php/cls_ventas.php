@@ -276,7 +276,8 @@ WHERE idOpciones=1";
 		$xr->assign("fila$item"."col1","innerHTML", $cmbProductos);// 
 		$xr->assign("fila$item"."col2","innerHTML", $cantidad);
 		$xr->assign("fila$item"."col3","innerHTML", $precio);
-		$xr->script("document.getElementById('$idCantidad').focus()");
+		$xr->script("document.getElementById('$idCantidad').focus(); activarLimpiaCeros();");
+		//$xr->script("activarLimpiaCeros();");
 		return $xr;
 	}
 //-----------------------------------------------------------------------------------------------------------

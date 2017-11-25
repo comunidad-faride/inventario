@@ -3,7 +3,7 @@
 //	INICIO DE LA CLASE XAJAX.	
 	require ('./xajax/xajax_core/xajax.inc.php');
 	$xajax = new xajax();
-	$xajax->setFlag("debug", true);
+//	$xajax->setFlag("debug", true);
 	$xajax->setCharEncoding("ISO-8859-1");
 //	$xajax->configure("language","es");
 

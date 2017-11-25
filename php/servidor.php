@@ -140,8 +140,12 @@ function add($CLASE){
 	if($pos === FALSE){
 		$objResponse->script("aviso(\"$cuerpo\")");	
 	}else{
-		$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." );");	
-		
+		if($CLASE == "CLS_VENTAS" || $CLASE == "CLS_ENTREGAS" || $CLASE == "CLS_INVENTARIO_INICIAL" ){
+			$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." );activarLimpiaCeros();");	
+		}else{
+			$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." );");	
+			
+		}
 	}
 	return $objResponse;
 }
@@ -163,7 +167,12 @@ function edit($CLASE, $id){
    	$accion = "xajax_update('$CLASE',xajax.getFormValues('frm'))";
 	$objResponse = new xajaxResponse();
 //  cargamos el formulario en la ventana modal.	
-	$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." )");
+	if($CLASE == "CLS_VENTAS" || $CLASE == "CLS_ENTREGAS" || $CLASE == "CLS_INVENTARIO_INICIAL" ){
+				$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." );activarLimpiaCeros();");	
+			}else{
+				$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." );");	
+			
+		}
 
 	return $objResponse;
 }

@@ -299,3 +299,22 @@ function openWindow(name, url) {
 	win.focus();
 	return win;
 }
+//  Funciones para quitar los campos de texto con ceros con sin coma.
+function limpiaCeros(){
+	var selectedTextBox = document.activeElement;
+	suValor = selectedTextBox.value;
+	if(suValor == "0" || suValor == "0,00"){
+		suId = selectedTextBox.id;
+		document.getElementById(suId).value="";
+	}	
+}
+
+function activarLimpiaCeros(){
+	var entradas = document.getElementsByTagName("input");
+	var n = entradas.length;
+	for(i = 0; i < n; i++){
+		document.getElementsByTagName("input")[i].addEventListener("focus", limpiaCeros, true);
+	}
+}
+//  Para activar las funciones limpiaCeros.
+//activarInputs();
