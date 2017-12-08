@@ -113,7 +113,9 @@ WHERE idOpciones=1";
 			}else{
 				$monto = "";
 			}
+			$utf8 = "x";
 		}else{
+			$utf8 = "";
 			$pk = "";
 			$textoBoton = "Grabar";
 			$accion = "onClick=\"xajax_save('CLS_VENTAS',xajax.getFormValues('frm'))\"";
@@ -134,7 +136,7 @@ WHERE idOpciones=1";
 		$accionCMB = "onchange='xajax_cambiarNumFactura(this.value, 1)'";
 		$txtidFactura = frm_hidden("idFactura", $idFactura);
 		$txtCalendario = frm_calendario2("fecha","fecha", "$fecha", "id='fecha' class='f-c_xx'" );
-		$cmbTienda = frm_comboGenerico("idtblTienda", "nombreTienda", "idtblTienda", "tblTiendas", "cls_inventario", "", " id='idtblTienda' class='f-c_xx' $accionCMB", $idtblTienda);
+		$cmbTienda = frm_comboGenerico("idtblTienda", "nombreTienda", "idtblTienda", "tblTiendas", "cls_inventario", "", " id='idtblTienda' class='f-c_xx' $accionCMB", $idtblTienda, $utf8);
 		$txtFactura = frm_numero("numFactura", $numFactura, 6, 6, " id = 'numFactura' class='f-c_xx'");
 		$htm = '<form name ="frm" id = "frm" style="margin-top:-25px">'.$txtidFactura.' <!--<div class="container bg-success" style = "border-radius:20px;">-->
 			<div class="row" >
@@ -204,13 +206,13 @@ WHERE idOpciones=1";
 				$tag2 = " onkeypress='return NumCheck(event, this, 6, 2);' style='text-align: right' ";
 				$txtCantidad = frm_text("cantidad[$i]", $txtCantidad,6,6,"$tag1 $accion $formatearsd class='form-control' id='cantidad$i' ", 6 , 0);
 				$txtPrecio = frm_text("precio[$i]", $txtPrecio,12,12,"$tag2 $accion  $formatear class='form-control' id='precio$i'", 6, 2);
-				
+				$cmbidProducto = frm_comboGenerico("idproducto[$i]","producto","idproducto","tblproductos","cls_inventario","","class='form-control' ", $idproducto, $utf8);
 				$txtIndice = frm_numero("item[$i]", $i, 2, 2, "class='form-control' id='item$i' readonly='true'", 2, 0);
-				$_SESSION["cmbProductos"] = frm_comboGenerico("idproducto[$i]","producto","idproducto","tblproductos","cls_inventario","","class='form-control' ");
+				$_SESSION["cmbProductos"] = frm_comboGenerico("idproducto[$i]","producto","idproducto","tblproductos","cls_inventario","","class='form-control'", "",  $utf8);
 				$htm .=	'<tr id="fila"'.$i.'>
 					<td class="text-center" >'.$txtIndice.'</td>
 					<td>'
-					.frm_comboGenerico("idproducto[$i]","producto","idproducto","tblproductos","cls_inventario","","class='form-control' ", $idproducto).
+					.$cmbidProducto.
 					'</td>
 					<td>'.$txtCantidad.'</td>
 					<td>'.$txtPrecio.'</td>
@@ -227,7 +229,7 @@ WHERE idOpciones=1";
 			</table>';
 			//   AQUI SE DEBE COLOCAR FORMAS DE PAGO...
 			$alCambiar = "onchange=\"activaAporte(this.value)\"";
-			$cmbFP = frm_comboGenerico("formaPago", "formaPago", "idFormaPago", "tblformaspago", "CLS_INVENTARIO", "", $alCambiar." class='form-control'", $idFormaPago);
+			$cmbFP = frm_comboGenerico("formaPago", "formaPago", "idFormaPago", "tblformaspago", "CLS_INVENTARIO", "", $alCambiar." class='form-control'", $idFormaPago, $utf8);
 			$txtAporte = frm_text("monto", $monto, "10", "10", "disabled $tag2 class='form-control' id='idMonto'");
 			$htm .= '<br/><div class="row">
 					<div class="col-md-3 text-right">Forma de Pago: </div>

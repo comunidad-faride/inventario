@@ -34,9 +34,11 @@
 		<!--<script src="./js/fncautoZ9.js"></script>-->	<!-- ARCHIVO CON INSTRUCCIONES JQUERY PARA AUTOCOMPLETAR	-->
 		<script lang="javascript">
 			xajax_asignarConXajax("contenedor", "innerHTML", "CLS_USUARIO", "frmLogin");//	FUNCIONA EXCELENTE  ...
-			//xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_TBLPAGOS', 'resumenPago',10);//	FUNCIONA EXCELENTE ..
-			//xajax_showGrid("CLS_TBLPAGOS");
-			//xajax_showGrid("CLS_VENTAS");
+			//xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_INVENTARIO_INICIAL', 'frmEntregas');//	FUNCIONA EXCELENTE ..
+			//xajax_showGrid("CLS_TBLBANCOS");
+			//xajax_showGrid("CLS_TBLTIPOMOVBAN");
+			//xajax_showGrid("CLS_TBLCONTROLINGRESOS");
+			//xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_TBLCONTROLINGRESOS', 'tablaInicial');
 		</script>
 		<div id='main' class="containery">
 			<header>

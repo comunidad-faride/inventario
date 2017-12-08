@@ -34,13 +34,14 @@
 //-----------------------------------------------------------------------------------------------------------
 	function insertNewRecord($f){
 		extract($f);
-		//Convertir la fecha de formato ingles o español a formato MYSQL antes de pasarlo a la funcion.
+		$opcion = utf8_decode($opcion);
 		$r = $this->tblopcionesInsert( $opcion);
 		return $r;
 	}
 //-----------------------------------------------------------------------------------------------------------
 	function updateRecord($f){
 		extract($f);
+		$opcion = utf8_decode($opcion);
 		$res = $this->tblopcionesUpdate($idOpciones, $opcion);
 		return $res;
 	}
@@ -69,6 +70,7 @@
 			foreach($records as $record){
 				extract($record);
 			}
+			$opcion = utf8_encode($opcion);
 			$textoBoton = "Actualizar";
 			$accion = "onClick=\"xajax_update('CLS_TBLOPCIONES',xajax.getFormValues('frm'))\"";
 		}else{

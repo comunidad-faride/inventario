@@ -1,0 +1,16 @@
+
+INSERT INTO `tblopciones` (`idOpciones`, `opcion`) VALUES
+(0, 'Entregas'),
+(2, 'Inventario Inicial'),
+(1, 'Ventas');
+
+INSERT INTO `tblformaspago` (`idFormaPago`, `formaPago`) VALUES
+(1, 'Efectivo'),
+(2, 'Debito'),
+(3, 'Tarjeta Credito'),
+(4, 'Credito'),
+(5, 'Trueque');
+
+INSERT INTO `tblusuarios` (`idUsuario`, `usuario`, `clave`) VALUES
+(1, 'delgadoerrade', '1a53bbc9e9a2c9953f1259c8b7e6e2ea'),
+(2, 'luis', '81dc9bdb52d04dc20036dbd8313ed055');

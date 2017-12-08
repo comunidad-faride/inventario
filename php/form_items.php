@@ -286,7 +286,7 @@ function frm_link($numeral, $texto, $extraTag=""){
 *@param 	string 	$default		Texto seleccionado por defecto del objeto SELECT
 *@return 	SELECT	
 */	
-function frm_comboGenerico($nombreCombo, $campoVisible, $campoClave, $entidad, $clase, $consulta="",$extraTag="",$default=""){
+function frm_comboGenerico($nombreCombo, $campoVisible, $campoClave, $entidad, $clase, $consulta="",$extraTag="",$default="", $utf8=""){
 	   //include_once("clscondominio.php");
 	    $objeto = new $clase();    //Instanciacion de la clase que contiene los metodos sobre la base de datos.
 	    if($consulta==""){
@@ -297,7 +297,11 @@ function frm_comboGenerico($nombreCombo, $campoVisible, $campoClave, $entidad, $
 	    $aterritorios = $objeto->consultagenerica($strSQL);   
 	    $i=0;
 	    foreach($aterritorios as $fila){
-	        $col1[$i] = $fila["$campoVisible"];
+	    	if($utf8 == ""){
+	        	$col1[$i] = ($fila["$campoVisible"]);//utf8_encode				
+			}else{
+	        	$col1[$i] = utf8_encode($fila["$campoVisible"]);//
+			}
 	        $col2[$i] = $fila["$campoClave"];
 		 if($i==0){
 			$_SESSION[$nombreCombo] = $fila["$campoClave"];	

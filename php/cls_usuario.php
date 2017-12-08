@@ -76,10 +76,10 @@ class CLS_USUARIO extends CLS_INVENTARIO{
 	function valida($f){
 		if(empty($f['clave'])) return "El campo 'Clave Actual' no puede ser nulo.";
 		if(empty($f['nuevaclave1'])) return "El campo'Nueva Clave' no puede ser nulo";
-		$salida = validarPatron($f['nuevaclave1'], ALFNUMCE);
+		$salida = validarPatron($f['nuevaclave1'], ALFANUM);
 		if($salida != "") return utf8_encode("El campo 'Nueva clave'  $salida");
 		if(empty($f['nuevaclave2'])) return "El campo 'Repita Nueva Clave' no puede ser nulo.";
-		$salida = validarPatron($f['nuevaclave2'], ALFNUMCE);
+		$salida = validarPatron($f['nuevaclave2'], ALFANUM);
 		if($salida != "") return utf8_encode("El campo 'Repita Nueva Clave'  $salida");
 		if($f['nuevaclave1'] != $f['nuevaclave2']) return "Las nuevas claves deben ser iguales.";
 		//$idusuario = $_SESSION["idUsuario"];
@@ -159,11 +159,10 @@ class CLS_USUARIO extends CLS_INVENTARIO{
 		<div class='row'>
 			<div class='col-md-12 text-center'>
 				<br/>	
-				<input class= 'btn btn-primary' type='button' value='Grabar' id='grabar' onclick=\"xajax_validaUsuario(xajax.getFormValues('frm'))\"/>
+				<input class= 'btn btn-primary' type='button' value='Grabar' id='grabar' $accion/>
 				<br/><br/>
 			</div>
 		</div>
-										
 		</div>	
 		</form>	
 		";

@@ -94,7 +94,7 @@ comentario,idDetalles, producto, cantidad, precioUnitario  FROM tbltiendas
 			ON tblfacturas.idFactura = tbldetalles.idFactura INNER JOIN tblproductos ON 
 			tblproductos.idproducto=tbldetalles.idproducto $fSql" ;
 		
-		$mTiendas = $bd->consultagenerica($sql);
+		$mTiendas = $bd->consultagenerica($sql, 1);
 		$numFactura = array();
 		$cantidad = array();
 		$precioUnitario = array();
@@ -167,19 +167,25 @@ comentario,idDetalles, producto, cantidad, precioUnitario  FROM tbltiendas
 	$tiendas 	= $_COOKIE["tiendas"];
 	$tipoReport = $_COOKIE["tipoReporte"];
 	$numFactura = $_COOKIE["numFactura"];
+	$tPdf = $_COOKIE["tPdf"];
 	/*$xPf="01/11/2017";
 	$xFf="25/11/2017";*/
 	$x = new CLS_REPVENTAS;
-	$HTML = $x->repVentas(1,$xPf,$xFf,$tiendas,0);
-	
-	echo $HTML; 
-	 /*  
+	$HTML = $x->repVentas($tipoReport,$xPf,$xFf,$tiendas,$numFactura);
+	if($tPdf==1){
+		echo $HTML; 
+	}else{ 
 	$dompdf = new DOMPDF();
    	//$dompdf->set_paper('letter','landscape');
    	//$dompdf->set_paper('legal','landscape');
-   	$dompdf->load_html($HTML);
+    $dompdf->load_html(utf8_decode($HTML));
    	$dompdf->render();
-   	$dompdf->stream("Recibo: ".Date('Y-m-d').".pdf");
-	/* */
+   	$canvas = $dompdf->get_canvas(); 
+	$font = Font_Metrics::get_font("helvetica", "bold"); 
+	$canvas->page_text(512, 10, "Página: {PAGE_NUM} de {PAGE_COUNT}",$font, 8, array(0,0,0)); 
+	$filename = "tienda -".date("Y-m-d").'.pdf';
+   	$dompdf->stream($filename);
+	
+	}
 		
 ?>

@@ -28,7 +28,7 @@ function critical(mensaje){	// Rojo. Ej. Borrado de registro.
 //*******************************************************************
 function informacion(mensaje){ // Naranja.  Equivalente al rojo.
     //  xModal=xModal+1;
-      addModal('aviso', mensaje, "aviso", ["Siga, carajo."]);  
+      addModal('AVISO', mensaje, "critico", ["Continuar"]);  
 }
 //*******************************************************************
 function modal(titulo, mensaje, funcion, args){
