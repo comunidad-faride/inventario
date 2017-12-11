@@ -36,6 +36,7 @@
 		extract($f);
 		//Convertir la fecha de formato ingles o español a formato MYSQL antes de pasarlo a la funcion.
 		$nombreTienda = utf8_decode($nombreTienda);
+		$Responsable = utf8_decode($Responsable);
 		$direccion = utf8_decode($direccion);
 		$r = $this->tbltiendasInsert( $nombreTienda, $Responsable, $direccion, $telefono);
 		return $r;
@@ -44,6 +45,7 @@
 	function updateRecord($f){
 		extract($f);
 		$nombreTienda = utf8_decode($nombreTienda);
+		$Responsable = utf8_decode($Responsable);
 		$direccion = utf8_decode($direccion);
 		$res = $this->tbltiendasUpdate($idtblTienda, $nombreTienda, $Responsable, $direccion, $telefono);
 		return $res;
@@ -74,6 +76,7 @@
 				extract($record);
 				$nombreTienda = utf8_encode($nombreTienda);
 				$direccion = utf8_encode($direccion);
+				$Responsable = utf8_encode($Responsable);
 			}
 			$textoBoton = "Actualizar";
 			$accion = "onClick=\"xajax_update('CLS_TBLTIENDAS',xajax.getFormValues('frm'))\"";

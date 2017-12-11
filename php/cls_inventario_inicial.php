@@ -11,8 +11,8 @@ class CLS_INVENTARIO_INICIAL extends CLS_INVENTARIO{
 	function __construct(){
 		parent::__construct();
 			$this->sqlBase = "SELECT idFactura, nombreTienda AS tienda, DATE_FORMAT(fecha,  '%d/%c/%Y') as fecha, numFactura FROM tblfacturas 
-INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE idOpciones = 2";
-			$this->titulo = "REGISTRO DE INVENTARIO INICIAL";
+INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda WHERE idOpciones = 2";
+			$this->titulo = "REGISTRO DE AJUSTES DE INVENTARIO";
 	}
 //-----------------------------------------------------------------------------------------------------------
 	function insertNewRecord($f){
@@ -81,8 +81,56 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 		return $html;
 	}
 //-----------------------------------------------------------------------------------------------------------
+function frmEntregas(){
+	$nc = "style='font-weight:bold;text-align:center;' class='alerta'";
+	$header ="<tr>
+		<th $nc rowspan='2'>PRODUCTOS</th>
+		<th $nc colspan='2'>Cantidad</th>
+		<th $nc rowspan='2'>Dif</th>
+		<th $nc rowspan='2'>Concepto</th>
+		</tr>
+		<tr><th $nc >Sistema</th><th $nc >Tienda</th></tr>";
+	$foot = "";
+	/*$foot = "<tr>
+		<th $nc rowspan='2'>PRODUCTOS</th>
+		<th $nc >Sistema</th>
+		<th $nc >Tienda</th>
+		<th $nc rowspan='2'>Dif</th>
+		<th $nc rowspan='2'>Concepto</th>
+		</tr>
+		<tr><th $nc colspan='2'>Cantidad</th></tr>";*/
+
+	$sql = 'SELECT idtblTienda, producto, tbldetalles.idproducto, SUM(cantidad) AS cantidad FROM tbldetalles 
+INNER JOIN tblfacturas ON tblfacturas.idFactura = tbldetalles.idFactura
+INNER JOIN tblproductos ON tbldetalles.idproducto = tblproductos.idproducto
+WHERE idtblTienda = 6
+GROUP BY idtblTienda, producto, tbldetalles.idproducto
+ORDER BY producto';
+		$cuerpo = "";
+	$recs = $this->consultagenerica($sql);
+	if(count($recs) == 0){
+		$cuerpo = "<tr><td align='center' colspan='5'>NO SE TIENEN DATOS PARA ESTA TIENDA EN LA FECHA DADA<td></tr>";
+	}
+	foreach($recs as $rec){
+		extract($rec);
+		
+		$cuerpo .="<tr>
+			<td>".($producto)."</td>
+			<td>$cantidad</td>
+			<td>tres</td>
+			<td>cuatro</td>
+			<td>cinco</td>
+		</tr>";
+	}
+	$htm = "<div class='container'><div class='row fondo_datos radio'><div class='col-md-12 '>";
+	$htm .= "<h3 class='text-center' style='margin-top:-3px;'>INVENTARIO A LA FECHA</h3>";
+	$tabla = "<table id='dataGrid' class='adminlist table table-striped table-bordered dt-responsive' cellspacing='0' width='100%'><thead>$header</thead><tbody>$cuerpo</tbody><tfoot>$foot</tfoot></table>";
+	$htm .= $tabla;
+	RETURN  $htm;
+}
+//-----------------------------------------------------------------------------------------------------------
 	
-	function frmEntregas(){
+	function frmEntregas2(){
 		$BD = NEW CLS_INVENTARIO;
 		$sql = "SELECT * FROM tblTiendas ORDER BY nombreTienda LIMIT 0, 1";
 		$recs = $BD->consultagenerica($sql);

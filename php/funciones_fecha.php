@@ -298,6 +298,15 @@ date_default_timezone_set('America/Caracas');
     }
 
 
+function dMenos_un_dia($fecha){
+	//$fecha = date('Y-m-j');
+	$nuevafecha = strtotime ( '+2 day' , strtotime ( $fecha ) ) ;
+	$nuevafecha = date ( 'Y-m-j' , $nuevafecha );
+ 
+	return $nuevafecha;
+}
+
+
 /**
 *Obtiene la fecha del viernes anterior correspondiente a una fecha dada -escrita en formato inglÃ©s (mm/dd/aaaa)-.
 *

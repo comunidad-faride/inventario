@@ -73,10 +73,12 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 //-----------------------------------------------------------------------------------------------------------
 	function formAdd(){
 		$html = $this->frmEntregas();
+		//$html = " b i n g o";
 		return $html;
 	}
 //-----------------------------------------------------------------------------------------------------------
 	function formEdit($id){
+		//$html = " b i n g o";
 		$html = $this->frmEntregas($id);
 		return $html;
 	}
@@ -105,7 +107,9 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 			$detalles = $BD->tbldetallesRecords("idfactura = $idFactura ORDER BY idDetalles");
 			$items = count($detalles);
 			$xx = "x";
+			$utf8 = "x";
 		}else{
+			$utf8 = "";
 			$pk = "";
 			$textoBoton = "Grabar";
 			$accion = "onClick=\"xajax_save('CLS_VENTAS',xajax.getFormValues('frm'))\"";
@@ -120,15 +124,14 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 			$xx = "y"; 
 			$idFactura = "";
 		}
-
 		$accionCMB = "onchange='xajax_cambiarNumFactura(this.value, 0)'";
+		$cmbidtblTienda = frm_comboGenerico("idtblTienda", "nombreTienda", "idtblTienda", "tblTiendas", "cls_inventario", "", " id='idtblTienda' class='form-control' $accionCMB", $idtblTienda, $utf8);
 		$txtidFactura = frm_hidden("idFactura", $idFactura);
-		$htm = '<form name ="frm" id = "frm">'.$txtidFactura.' <!--<div class="container bg-success" style = "border-radius:20px;">-->
+		$htm = '<form name ="frm" id = "frm">'.$txtidFactura.' <div class="container bg-success" style = "border-radius:20px;">
 			<div class="row">
 				<div class="col-md-12 text-center"> <h2>Env&iacute;os a  Tiendas</h2> </div>
-			</div>
-			<div class="row">
-			
+			</div>';
+		$htm = '<div class="row">
 			<div class="col-md-12">
 				<div class="col-md-1 text-right">
 					<label style="padding-top:10px"><p>Fecha:</p></label>
@@ -140,7 +143,7 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 					<label style="padding-top:10px; margin-right: -20px" class="text-rigth"><p>Tienda:</p></label>
 				</div>
 				<div class="col-md-3">'
-					.frm_comboGenerico("idtblTienda", "nombreTienda", "idtblTienda", "tblTiendas", "cls_inventario", "", " id='idtblTienda' class='form-control' $accionCMB", $idtblTienda).
+					.$cmbidtblTienda.
 				'</div>
 				<div class="col-md-2 text-right ">
 					<label><p>No. Factura:</p></label>
@@ -151,6 +154,7 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 			</div>
 			</div>
 			<div class="row">';
+			
 				$accion = "onkeyup='totalizar()';";
 				$formatearsd =  "onblur='this.value = formatear(this.value, 0)'";	
 				$formatear =  "onblur='this.value = formatear(this.value, 2); nuevaFila(\"datosFactura\");'";
@@ -162,7 +166,6 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 				<th class="text-center bg-primary">P/U</th>
 				<th class="text-center bg-primary" style="padding-left:5px;padding-right:5px;">Total</th>
 			</thead>
-			
 			<tbody>';
 			$totalItems = 0;
 			$totalAcumulado = 0;
@@ -197,17 +200,16 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 				$txtSubTotal = frm_text("subtotal[$j]", $txtSubtotal, 15,15, "class='form-control text-right' readonly='true'");
 				$txtTotalItems = frm_text("totalItems", $totalItems, 10,15, "class='form-control text-right' readonly='true'");
 				$txtTotalAcumulado = frm_text("totalAcumulado", $txtTotalAcumulado , 15,15, "class='form-control text-right' readonly='true'");
-				
 				$tag1 = " onkeypress='return NumCheck(event, this, 6, 0);' style='text-align: right' ";
 				$tag2 = " onkeypress='return NumCheck(event, this, 6, 2);' style='text-align: right' ";
 				$txtCantidad = frm_text("cantidad[$i]", $txtCantidad,6,6,"$tag1 $accion $formatearsd class='form-control' id='cantidad$i' ", 6 , 0);
 				$txtPrecio = frm_text("precio[$i]", $txtPrecio,12,12,"$tag2 $accion  $formatear class='form-control' id='precio$i'", 6, 2);
-				
+				$cmbidProducto = "";//frm_comboGenerico("idproducto[$i]","producto","idproducto","tblproductos","cls_inventario","","class='form-control' ", $idproducto, $utf8);
 				$txtIndice = frm_numero("item[$i]", $i, 2, 2, "class='form-control' id='item$i' readonly='true'", 2, 0);
 				$htm .=	'<tr id="fila"'.$i.'>
 					<td class="text-center" >'.$txtIndice.'</td>
 					<td>'
-					.frm_comboGenerico("idproducto[$i]","producto","idproducto","tblproductos","cls_inventario","","class='form-control' ", $idproducto).
+					.$cmbidProducto.
 					'</td>
 					<td>'.$txtCantidad.'</td>
 					<td>'.$txtPrecio.'</td>
@@ -222,7 +224,6 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 				<th id="idSumaBs"  class="text-right bg-primary" style="padding-left:5px;padding-right:5px;">'.$txtTotalAcumulado.'</th>
 			</tfoot>	
 			</table>';
-
 			$htm .= '</frm><br/></div>';
 			return $htm;
 	}

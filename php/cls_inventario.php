@@ -8,12 +8,17 @@ class CLS_INVENTARIO
      public $campos;
      public $msg = "";
 //-------------------------------------------------------------------------
-     function __construct()
+    function __construct()
       {
-        $servidor="localhost";
+       /* $servidor="sql112.hgratis.com";
+        $usuario="hgrat_21201997";
+        $clave="odagledesoj*1958";
+        $basedatos="hgrat_21201997_invent";*/
+        $msg = "";
+      $servidor="localhost";
         $usuario="root";
-        $clave="";
-        $basedatos="inventario";
+        $clave="";//"";
+        $basedatos="invent";
         $msg = "";
         $this->link = mysql_connect ($servidor,$usuario, $clave);
         
@@ -25,11 +30,11 @@ class CLS_INVENTARIO
         if (!$mBD) {
             $this->msg = 'No se puede abrir la base de datos : ' . mysql_error();
             return FALSE;
-         }
+        }
          $this->msg = $msg;
           $this->lBaseDatos = $basedatos;
-        }
-     //-------------------------------------------------------------------------
+    }
+//-------------------------------------------------------------------------
 
      function nuevo_id($entidad,$atributo, $condicion=""){
      	if($condicion == ""){
@@ -124,8 +129,11 @@ class CLS_INVENTARIO
      }
 
 //-------------------------------------------------------------------------
-function consultagenerica($strsql){
+function consultagenerica($strsql, $utf8=0){
     if($strsql!=""){
+    	if($utf8==1){
+			mysql_query("set names 'utf8'");
+		}
         $result = mysql_query($strsql);
         if(!$result){
              $this->msg ='Fall&oacute; la consulta: ' . mysql_error();
@@ -804,8 +812,8 @@ function consultagenerica($strsql){
       	if(!$result){
       		return false;
       	}else {
-      	return true;
-   }
+      		return true;
+   		}
    }
 //-----------------------------------------------------------------------
    function tblproductosDelete($condicion) {
@@ -1048,6 +1056,265 @@ function consultagenerica($strsql){
       }
    }
 //-----------------------------------------------------------------------
-
+   function tblbancosInsert( $banco, $tipo_cuenta, $num_cuenta) {
+      $idBanco = $this->nuevo_id("tblbancos", "idBanco");
+      $cols = get_commas(false, 'idBanco', 'banco', 'tipo_cuenta', 'num_cuenta');
+      $vals = get_commas(true, '!!'.$idBanco, $banco, $tipo_cuenta, $num_cuenta);
+      $strSQL = get_insert('tblbancos',$cols, $vals);
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return false;
+      } else {
+      return true;
+   }
+   }
+//-----------------------------------------------------------------------
+   function tblbancosUpdate($idBanco, $banco, $tipo_cuenta, $num_cuenta) {
+         $strSQL = "UPDATE tblbancos SET  banco = '$banco',  tipo_cuenta = '$tipo_cuenta',  num_cuenta = '$num_cuenta' WHERE  idBanco = $idBanco";
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return false;
+      } else {
+      return true;
+   }
+   }
+//-----------------------------------------------------------------------
+   function tblbancosDelete($condicion) {
+      $strSQL = "DELETE FROM tblbancos WHERE $condicion";
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return false;
+      } else {
+      return true;
+   }
+   }
+//-----------------------------------------------------------------------
+   function tblbancosRecords($condicion='1', $campoOrden = null, $orden='asc') {
+        $strSQL = "SELECT * FROM tblbancos WHERE $condicion";
+        if($campoOrden!=null){
+            $strSQL = $strSQL. " ORDER BY $campoOrden $orden";
+        }
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return '';
+      } else {
+      $this->filas = $this->numRegistros('tblbancos',$condicion);
+      $this->campos = mysql_num_fields($result);
+ if($this->filas!=0){
+      $matriz = $this->atributos('tblbancos');
+      $iMatriz = count($matriz);  // Atributos de la entidad.
+      $i=0;
+      foreach($matriz as $v){ 
+          $atributo[$i++] = $v['nombre']; 
+      }
+      $j=0; // Indice de la matriz.
+      while($row = mysql_fetch_array($result)) { 
+         for($i=0;$i<$iMatriz;$i++){
+            $matrizAsoc[$j][$atributo[$i]] = $row[$atributo[$i]];
+         }
+      $j++;
+      }
+      return $matrizAsoc;
+}else{
+	return 0;
+}
+      }
+   }
+//-----------------------------------------------------------------------
+   function tblcontrolingresosInsert( $idtblTienda, $fecha, $comentario) {
+      $idcontrol = $this->nuevo_id("tblcontrolingresos", "idcontrol");
+      $cols = get_commas(false, 'idcontrol', 'idtblTienda', 'fecha', 'comentario');
+      $vals = get_commas(true, '!!'.$idcontrol, '!!'.$idtblTienda, $fecha, $comentario);
+      $strSQL = get_insert('tblcontrolingresos',$cols, $vals);
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return false;
+      } else {
+      return true;
+   }
+   }
+//-----------------------------------------------------------------------
+   function tblcontrolingresosUpdate($idcontrol, $idtblTienda, $fecha, $comentario) {
+         $strSQL = "UPDATE tblcontrolingresos SET  fecha = '$fecha',  comentario = '$comentario', idtblTienda = $idtblTienda WHERE  idcontrol = $idcontrol";
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return false;
+      } else {
+      return true;
+   }
+   }
+//-----------------------------------------------------------------------
+   function tblcontrolingresosDelete($condicion) {
+      $strSQL = "DELETE FROM tblcontrolingresos WHERE $condicion";
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return false;
+      } else {
+      return true;
+   }
+   }
+//-----------------------------------------------------------------------
+   function tblcontrolingresosRecords($condicion='1', $campoOrden = null, $orden='asc') {
+        $strSQL = "SELECT * FROM tblcontrolingresos WHERE $condicion";
+        if($campoOrden!=null){
+            $strSQL = $strSQL. " ORDER BY $campoOrden $orden";
+        }
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return '';
+      } else {
+      $this->filas = $this->numRegistros('tblcontrolingresos',$condicion);
+      $this->campos = mysql_num_fields($result);
+ if($this->filas!=0){
+      $matriz = $this->atributos('tblcontrolingresos');
+      $iMatriz = count($matriz);  // Atributos de la entidad.
+      $i=0;
+      foreach($matriz as $v){ 
+          $atributo[$i++] = $v['nombre']; 
+      }
+      $j=0; // Indice de la matriz.
+      while($row = mysql_fetch_array($result)) { 
+         for($i=0;$i<$iMatriz;$i++){
+            $matrizAsoc[$j][$atributo[$i]] = $row[$atributo[$i]];
+         }
+      $j++;
+      }
+      return $matrizAsoc;
+}else{
+	return 0;
+}
+      }
+   }
+//-----------------------------------------------------------------------
+   function tblingresosInsert( $idBanco, $idtipomovimiento, $idcontrol, $monto) {
+      $idingresos = $this->nuevo_id("tblingresos", "idingresos");
+      $cols = get_commas(false, 'idingresos', 'idBanco', 'idtipomovimiento', 'idcontrol', 'montoIngreso');
+      $vals = get_commas(true, '!!'.$idingresos, '!!'.$idBanco, '!!'.$idtipomovimiento, '!!'.$idcontrol, '!!'.$monto);
+      $strSQL = get_insert('tblingresos',$cols, $vals);
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return false;
+      } else {
+      return true;
+   }
+   }
+//-----------------------------------------------------------------------
+   function tblingresosUpdate($idtipomovimiento, $idcontrol) {
+         $strSQL = "UPDATE tblingresos SET  idcontrol = $idcontrol WHERE  idtipomovimiento = $idtipomovimiento";
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return false;
+      } else {
+      return true;
+   }
+   }
+//-----------------------------------------------------------------------
+   function tblingresosDelete($condicion) {
+      $strSQL = "DELETE FROM tblingresos WHERE $condicion";
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return false;
+      } else {
+      return true;
+   }
+   }
+//-----------------------------------------------------------------------
+   function tblingresosRecords($condicion='1', $campoOrden = null, $orden='asc') {
+        $strSQL = "SELECT * FROM tblingresos WHERE $condicion";
+        if($campoOrden!=null){
+            $strSQL = $strSQL. " ORDER BY $campoOrden $orden";
+        }
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return '';
+      } else {
+      $this->filas = $this->numRegistros('tblingresos',$condicion);
+      $this->campos = mysql_num_fields($result);
+ if($this->filas!=0){
+      $matriz = $this->atributos('tblingresos');
+      $iMatriz = count($matriz);  // Atributos de la entidad.
+      $i=0;
+      foreach($matriz as $v){ 
+          $atributo[$i++] = $v['nombre']; 
+      }
+      $j=0; // Indice de la matriz.
+      while($row = mysql_fetch_array($result)) { 
+         for($i=0;$i<$iMatriz;$i++){
+            $matrizAsoc[$j][$atributo[$i]] = $row[$atributo[$i]];
+         }
+      $j++;
+      }
+      return $matrizAsoc;
+}else{
+	return 0;
+}
+      }
+   }
+//-----------------------------------------------------------------------
+   function tbltipomovbanInsert( $movimiento_bancario) {
+      $idtipomovimiento = $this->nuevo_id("tbltipomovban", "idtipomovimiento");
+      $cols = get_commas(false, 'idtipomovimiento', 'movimiento_bancario');
+      $vals = get_commas(true, '!!'.$idtipomovimiento, $movimiento_bancario);
+      $strSQL = get_insert('tbltipomovban',$cols, $vals);
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return false;
+      } else {
+      return true;
+   }
+   }
+//-----------------------------------------------------------------------
+   function tbltipomovbanUpdate($idtipomovimiento, $movimiento_bancario) {
+         $strSQL = "UPDATE tbltipomovban SET  movimiento_bancario = '$movimiento_bancario' WHERE  idtipomovimiento = $idtipomovimiento";
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return false;
+      } else {
+      return true;
+   }
+   }
+//-----------------------------------------------------------------------
+   function tbltipomovbanDelete($condicion) {
+      $strSQL = "DELETE FROM tbltipomovban WHERE $condicion";
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return false;
+      } else {
+      return true;
+   }
+   }
+//-----------------------------------------------------------------------
+   function tbltipomovbanRecords($condicion='1', $campoOrden = null, $orden='asc') {
+        $strSQL = "SELECT * FROM tbltipomovban WHERE $condicion";
+        if($campoOrden!=null){
+            $strSQL = $strSQL. " ORDER BY $campoOrden $orden";
+        }
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return '';
+      } else {
+      $this->filas = $this->numRegistros('tbltipomovban',$condicion);
+      $this->campos = mysql_num_fields($result);
+ if($this->filas!=0){
+      $matriz = $this->atributos('tbltipomovban');
+      $iMatriz = count($matriz);  // Atributos de la entidad.
+      $i=0;
+      foreach($matriz as $v){ 
+          $atributo[$i++] = $v['nombre']; 
+      }
+      $j=0; // Indice de la matriz.
+      while($row = mysql_fetch_array($result)) { 
+         for($i=0;$i<$iMatriz;$i++){
+            $matrizAsoc[$j][$atributo[$i]] = $row[$atributo[$i]];
+         }
+      $j++;
+      }
+      return $matrizAsoc;
+}else{
+	return 0;
+}
+      }
+   }
+//-----------------------------------------------------------------------
 }
 ?>

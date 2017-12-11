@@ -34,6 +34,10 @@
 	include_once("./php/cls_reportes.php");
 	include_once("./php/cls_tblopciones.php");
 	include_once("./php/cls_tblpagos.php");
+	include_once("./php/cls_tblbancos.php");
+	include_once("./php/cls_tbltipomovban.php");
+	include_once("./php/cls_tblcontrolingresos.php");
+	
 	//include_once("./php/cls_retventas.php");
 	
 
@@ -168,9 +172,12 @@ function edit($CLASE, $id){
 	$objResponse = new xajaxResponse();
 //  cargamos el formulario en la ventana modal.	
 	if($CLASE == "CLS_VENTAS" || $CLASE == "CLS_ENTREGAS" || $CLASE == "CLS_INVENTARIO_INICIAL" ){
-				$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." );activarLimpiaCeros();");	
-			}else{
-				$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." );");	
+		$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." );activarLimpiaCeros();");	
+	}elseif($CLASE == "CLS_TBLCONTROLINGRESOS"){
+		$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." ); asignarEventos(5, 3);");	
+
+	}else{
+		$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." );");	
 			
 		}
 

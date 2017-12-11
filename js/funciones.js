@@ -1,3 +1,4 @@
+//==================================================================================================
 // Anula la entrada de datos en varias columnas de la matriz
 	function anularFila(valor, id){
 		var fila = id.substring(0, 2);
@@ -17,7 +18,7 @@
 		}
 		return false;
 	}	
-	
+//==================================================================================================	
 	//	Solo admite números reales hasta dos decimales con coma de separador.	
 	function NumCheck(e, field, enteros, decimales) {
 	// enteros y decimales son argumentos predefinidos.
@@ -67,17 +68,18 @@
 	  // other key
 	  return false
 	}
+//==================================================================================================	
 	
-	
-	function esp2ing(valorEspanol){
-		//var cantidad = document.getElementById(item).value;
+function esp2ing(valorEspanol){
+	if(valorEspanol.lenght == 0){
+		valorEspanol = "";	
+	}else{
 		if(valorEspanol.search(".") > -1) valorEspanol = valorEspanol.replace(".", "");
-		if(valorEspanol.search(",") > -1){
-			valorEspanol = valorEspanol.replace(",", ".");
-		}
-		return  Number(valorEspanol);	
-	}
-	
+		if(valorEspanol.search(",") > -1) valorEspanol = valorEspanol.replace(",", ".");
+	}	
+	return  Number(valorEspanol);	
+}
+//==================================================================================================	
 	function ing2esp(valorIngles, decimales){
 		var nuevoValor;
 		if(decimales == 0){
@@ -99,12 +101,23 @@
 		}
 		return nuevoValor;
 	}
-
+//----------------------------------------------------------------------------------------------------------
+/**
+*Convierte un string numérico de formato 
+*
+*@param 	string  $name		Nombre del objeto SELECT
+*@param 	array 	$arrTxt		Elemento oculto que sera tomado al seleccionar un elemento del SELECT
+*@param 	array 	$arrVals	Texto a mostrar del  elemento del SELECT
+*@param 	string 	$default	Texto seleccionado por defecto del objeto SELECT
+*@param 	string 	$extraTag 	String que contendrᠰropiedades adicionales del objeto Select.
+* @return SELECT
+*/
+//----------------------------------------------------------------------------------------------------------
 	function formatear(valor, dec){
 		valor = esp2ing(valor);
 		return ing2esp(valor, dec);
 	}
-
+//==================================================================================================
 function cambiarImagen() {
 	if(document.getElementById("pdf").src == "http://localhost/parrot/imagenes/pdf.jpg"){
 		document.getElementById("pdf").src = "imagenes/no_pdf.jpg";
@@ -114,13 +127,23 @@ function cambiarImagen() {
     	document.getElementById("idImprimir").value = "imprimir";
 	}
 }
-
+//==================================================================================================
+function ocultaCampo(valor){
+	if(valor==1){
+		document.getElementById('formar').style.display="none";
+		document.getElementById('numfact').style.display="block";
+	}else{
+		document.getElementById('formar').style.display="block";
+		document.getElementById('numfact').style.display="none";
+	}
+}
+//==================================================================================================
 //  Retorna el codigo de la tecla ingresada en algun campo de texto.  Ejemplo: if(enterCheck(event)==13)haga_algo();
 function enterCheck(e) {
   key = e.keyCode ? e.keyCode : e.which
   return key
 }
-
+//==================================================================================================
 // Funcion complementaria de los formularios reportes bancarios.
 function activaFechas(indice){
 	var capas = new Array("xDia","xMes","xFechas");
@@ -136,12 +159,12 @@ function activaFechas(indice){
 	}
 
 }
-
+//==================================================================================================
 function onOff(objeto, condicion){
 	document.getElementById(objeto).style.display=condicion;
 	//if(existeElementoHTML())
 }
-
+//==================================================================================================
 
 function onOffCampos(valor){
 	if(2 == valor ){
@@ -154,7 +177,7 @@ function onOffCampos(valor){
 		onOff("id_piso", "block");
 	}
 }
-
+//==================================================================================================
 function totalizar(){
 	var sumatoria = 0;
 	var acumulador = 0;
@@ -181,7 +204,65 @@ function totalizar(){
 	}
 	return true;
 }
+//==================================================================================================
+//			FUNCIONES PARA PROCESAR FORMULARIO DE INGRESOS 
+//==================================================================================================
 
+function asignarEventos(nFilas, nCol){
+	var id="";
+	for(i = 0; i < nCol; i++){
+		for(j = 0; j < nFilas; j++){
+			id = "f"+j+"c"+i;
+			//var elemento = document.getElementById(id) ;
+			document.getElementById(id).addEventListener("keyup", function(){totalizarMatriz(nFilas, nCol)});
+		/*	elemento.addEventListener("keypress", NumCheck(event, this, 12, 2));*/
+		//	elemento
+			document.getElementById(id).addEventListener("blur", function(){
+				if(this.value != ""){
+					this.value = formatear(this.value, 2);
+				}
+			});
+							
+		}
+	}
+}
+//==================================================================================================
+var totalizarMatriz = function(filas, columnas){
+	var id="";
+	var sumaFilas= new Array(filas);
+	sumaFilas = blanquearArreglo(sumaFilas);
+	var sumaCols= new Array(columnas);
+	sumaCols = blanquearArreglo(sumaCols);
+	var total = 0;
+	var y;
+	var txtFila;
+	var txtCol;
+	for(i=0; i<filas; i++){
+		for(j = 0 ; j < columnas; j++){
+			id = "f"+i+"c"+j;
+			var x = document.getElementById(id).value;
+			if(x != ""){
+				y = esp2ing(x);
+				sumaFilas[i] += y;
+				sumaCols[j] += y;
+				id = "total"+i;
+				document.getElementById(id).value = ing2esp(sumaFilas[i], 2);
+				id = "totales["+j+"]";
+				document.getElementById(id).value = ing2esp(sumaCols[j], 2);
+			}
+		}
+	}
+}
+
+//==================================================================================================
+var blanquearArreglo = function(arreglo){
+	var n = arreglo.length;
+	for(i=0; i < n; i++){
+		arreglo[i] = 0;
+	}
+	return arreglo;
+}
+//==================================================================================================
 var sumar = function(){
 	var acumulador = 0;
 	var campo = "m";
@@ -197,7 +278,7 @@ var sumar = function(){
 	var x_acumulador = f_acumulador.replace(".", ",");
 	document.getElementById("total").value = x_acumulador;
 }
-
+//==================================================================================================
 var blanquear = function(){
 	for(i = 1; i < 12; i++){
 		var multiplicando = "precio" + i;
@@ -210,12 +291,8 @@ var blanquear = function(){
 	document.getElementById("idSumaBs").innerHTML = "";
 	document.getElementById("idSumaProductos").innerHTML = "";
 }
-
-
-
-
+//==================================================================================================
 //  FUNCION QUE AGREGA UNA NUEVA FILA AL FINAL DE LA TABLA IDENTIFICADA POR SU ID.
-
 var validaCrearFila = function(x){
 	var idCantidad = "cantidad"+x;
 	var idPrecio = "precio"+x;
@@ -227,9 +304,7 @@ var validaCrearFila = function(x){
 		return true;
 	}
 }
-
-
-
+//==================================================================================================
 function nuevaFila(idTabla){
 	var tabla = document.getElementById(idTabla);
 	var x = tabla.rows.length;
@@ -245,8 +320,7 @@ function nuevaFila(idTabla){
 		document.getElementById(idCantidad).focus();
 		return false;
 	}
-	var fila = tabla.insertRow(x-1);
-	
+	var fila = tabla.insertRow(x-1);	
 	var numFila = x - 1;
 	fila.id ="fila" + numFila;
 	//n = aIds.length;
@@ -260,12 +334,11 @@ function nuevaFila(idTabla){
 			y[i].id = "totalxProducto" + numFila;
 			y[i].style.textAlign  = "right";
 			y[i].style.paddingRight  = "5px";// style="padding-left:5px;:5px;"
-			
 		}			
 	}
 	xajax_camposTabla(numFila);
 }
-
+//==================================================================================================
 function activaAporte(valor){
 	if(valor == 4){
 		document.getElementById("idMonto").disabled=false;
@@ -274,31 +347,26 @@ function activaAporte(valor){
 		document.getElementById("idMonto").disabled=true;
 	}
 }
-
-
+//==================================================================================================
 function openWindow(name, url) {
 	var height = screen.availHeight-30;
 	var width = screen.availWidth-10;
-	
 	var left = 0;
 	var top = 0;
-	
 	settings = 'fullscreen=no,resizable=yes,location=no,toolbar=no,menubar=no';
 	settings = settings + ',status=no,directories=no,scrollbars=yes';
 	settings = settings + ',width=' + width +',height=' + height;
 	settings = settings + ',top=' + top +',left=' + left;
 	settings = settings + ',charset=iso-8859-1';
 	var win = window.open(url, "", settings);
-	
 	win.outerHeight = screen.availHeight;
 	win.outerWidth = screen.availWidth;
-	
 	win.resizeTo(screen.availWidth, screen.availHeight);
-	
 	if (!win.focus)
 	win.focus();
 	return win;
 }
+//==================================================================================================
 //  Funciones para quitar los campos de texto con ceros con sin coma.
 function limpiaCeros(){
 	var selectedTextBox = document.activeElement;
@@ -308,7 +376,7 @@ function limpiaCeros(){
 		document.getElementById(suId).value="";
 	}	
 }
-
+//==================================================================================================
 function activarLimpiaCeros(){
 	var entradas = document.getElementsByTagName("input");
 	var n = entradas.length;
@@ -316,5 +384,3 @@ function activarLimpiaCeros(){
 		document.getElementsByTagName("input")[i].addEventListener("focus", limpiaCeros, true);
 	}
 }
-//  Para activar las funciones limpiaCeros.
-//activarInputs();

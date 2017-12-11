@@ -34,13 +34,14 @@
 //-----------------------------------------------------------------------------------------------------------
 	function insertNewRecord($f){
 		extract($f);
-		//Convertir la fecha de formato ingles o español a formato MYSQL antes de pasarlo a la funcion.
+	//	$producto = utf8_decode($producto);
 		$r = $this->tblproductosInsert( $producto);
 		return $r;
 	}
 //-----------------------------------------------------------------------------------------------------------
 	function updateRecord($f){
 		extract($f);
+	//	$producto = utf8_decode($producto);
 		$res = $this->tblproductosUpdate($idproducto, $producto);
 		return $res;
 	}

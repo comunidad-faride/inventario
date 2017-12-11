@@ -43,7 +43,6 @@
 		
 function menu(){
 	$ac01 = "onclick=\"xajax_showGrid('CLS_ENTREGAS');\"";
-	$ac12 = "onclick=\"xajax_showGrid('CLS_INVENTARIO_INICIAL');\"";
 	$ac02 = "onclick=\"xajax_showGrid('CLS_TBLPRODUCTOS');\"";
 	$ac03 = "onclick=\"xajax_showGrid('CLS_VENTAS');\"";
 	$ac04 = "onclick=\"xajax_showGrid('CLS_TBLUSUARIOS');\"";
@@ -52,19 +51,26 @@ function menu(){
 	$ac07 = "onclick=\"xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_REPORTES', 'frmReportesInventario');\"";
 	$ac08 = "onclick=\"xajax_showGrid('CLS_TBLPRODUCTOS');\"";
 	$ac09 = "onclick=\"xajax_showGrid('CLS_TBLTIENDAS');\"";
-	$ac11 = "onclick=\"xajax_showGrid('CLS_TBLFORMASPAGO');\"";
 	$ac10 = "onclick=\"xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_USUARIO', 'frmCambioClave', 'fulano');\"";
+	$ac11 = "onclick=\"xajax_showGrid('CLS_TBLFORMASPAGO');\"";
+	$ac12 = "onclick=\"xajax_showGrid('CLS_INVENTARIO_INICIAL');\"";
+	$ac13 = "onclick=\"xajax_showGrid('CLS_TBLBANCOS');\"";
+	$ac14 = "onclick=\"xajax_showGrid('CLS_TBLTIPOMOVBAN');\"";
+	$ac15 = "onclick=\"xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_TBLCONTROLINGRESOS', 'tablaInicial');\"";
+	$ac16 = "onclick=\"xajax_showGrid('CLS_TBLCONTROLINGRESOS');\"";
+	
 	$htm ="<div id='cssmenu'>
 		<ul>
 		   	<li class='active has-sub'><a href='#' ><span>F&aacute;brica</span></a>
 		      	<ul>
 					<li class='last'><a href='#' $ac01><span>Env&iacute;os</span></a></li>
-					<li class='last'><a href='#' $ac12><span>Inventario Inicial</span></a></li>
+					<li class='last'><a href='#' $ac16><span>Control de ingresos</span></a></li>
 					<!--<li class='last'><a href='#' ><span>Reportes</span></a></li>-->
 		      	</ul>
 		   	</li>
 		 	<li class='active has-sub'><a href='#'><span>Tiendas</span></a>
 			   	<ul>
+					<li class='last'><a href='#' $ac12><span>Ajustes de Inventarios</span></a></li>
 			         <li class='last'><a href='#' $ac03><span>Ventas</span></a></li>
 		   			 <li><a href='#' $ac06 ><span>Validar pagos</span></a></li>
 		   			 <li><a href='#' $ac07 ><span>Reportes</span></a></li>
@@ -72,10 +78,12 @@ function menu(){
 		   	</li>
 		   	<li class='active has-sub'><a href='#'><span>Cat&aacute;logos</span></a>
 			   	<ul>
+			        <li class='last'><a href='#' $ac13><span>Bancos</span></a></li>
 			        <li class='last'><a href='#' $ac11><span>Formas de pago</span></a></li>
-			         <li class='last'><a href='#' $ac05><span>Opciones </span></a></li>
+			        <li class='last'><a href='#' $ac05><span>Opciones</span></a></li>
 			        <li class='last'><a href='#' $ac08><span>Productos</span></a></li>
 			        <li class='last'><a href='#' $ac09><span>Tiendas</span></a></li>
+			        <li class='last'><a href='#' $ac14><span>Tipos de Mov. Bancarios</span></a></li>
 			        <li class='last'><a href='#' $ac04><span>Usuarios</span></a></li>
 			        <li class='last'><a href='#' $ac10><span>Cambio de clave</span></a></li>
 			   	</ul>
