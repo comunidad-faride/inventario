@@ -46,7 +46,7 @@ WHERE idOpciones=1";
 		extract($f);
 		$fecha = d_ES_MYSQL($fecha);
 		$comentario = "";
-		$res = $this->tblfacturasUpdate($idFactura, $idtblTienda, $fecha, $numFactura, 1, $comentario);
+		$res = $this->tblfacturasUpdate($idFactura, $idtblTienda, $fecha, $numFactura, 1, $formaPago, $comentario);
 		// Se borra los registros de la tabla tbldetalles relacionados con la factura 
 		$sql = "DELETE FROM tbldetalles WHERE idFactura = $idFactura";
 		$res = $this->consultagenerica($sql);

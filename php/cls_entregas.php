@@ -127,12 +127,13 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 		$accionCMB = "onchange='xajax_cambiarNumFactura(this.value, 0)'";
 		$cmbidtblTienda = frm_comboGenerico("idtblTienda", "nombreTienda", "idtblTienda", "tblTiendas", "cls_inventario", "", " id='idtblTienda' class='form-control' $accionCMB", $idtblTienda, $utf8);
 		$txtidFactura = frm_hidden("idFactura", $idFactura);
-		$htm = '<form name ="frm" id = "frm">'.$txtidFactura.' <div class="container bg-success" style = "border-radius:20px;">
+		$htm = '<form name ="frm" id = "frm">'.$txtidFactura.' 
+			<!--<div class="container bg-success" style = "border-radius:20px;">-->
 			<div class="row">
 				<div class="col-md-12 text-center"> <h2>Env&iacute;os a  Tiendas</h2> </div>
 			</div>';
-		$htm = '<div class="row">
-			<div class="col-md-12">
+		$htm .= '<div class="row">
+			<!--<div class="col-md-12">-->
 				<div class="col-md-1 text-right">
 					<label style="padding-top:10px"><p>Fecha:</p></label>
 				</div>
@@ -152,7 +153,7 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 					.frm_numero("numFactura", $numFactura, 6, 6, " id = 'numFactura' class='form-control'").
 				'</div>
 			</div>
-			</div>
+			<!--</div>-->
 			<div class="row">';
 			
 				$accion = "onkeyup='totalizar()';";
@@ -204,9 +205,9 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 				$tag2 = " onkeypress='return NumCheck(event, this, 6, 2);' style='text-align: right' ";
 				$txtCantidad = frm_text("cantidad[$i]", $txtCantidad,6,6,"$tag1 $accion $formatearsd class='form-control' id='cantidad$i' ", 6 , 0);
 				$txtPrecio = frm_text("precio[$i]", $txtPrecio,12,12,"$tag2 $accion  $formatear class='form-control' id='precio$i'", 6, 2);
-				$cmbidProducto = "";//frm_comboGenerico("idproducto[$i]","producto","idproducto","tblproductos","cls_inventario","","class='form-control' ", $idproducto, $utf8);
+				$cmbidProducto = frm_comboGenerico("idproducto[$i]","producto","idproducto","tblproductos","cls_inventario","","class='form-control' ", $idproducto, $utf8);
 				$txtIndice = frm_numero("item[$i]", $i, 2, 2, "class='form-control' id='item$i' readonly='true'", 2, 0);
-				$htm .=	'<tr id="fila"'.$i.'>
+				$htm .=	'<tr id="fila'.$i.'">
 					<td class="text-center" >'.$txtIndice.'</td>
 					<td>'
 					.$cmbidProducto.
@@ -224,7 +225,7 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 				<th id="idSumaBs"  class="text-right bg-primary" style="padding-left:5px;padding-right:5px;">'.$txtTotalAcumulado.'</th>
 			</tfoot>	
 			</table>';
-			$htm .= '</frm><br/></div>';
+			$htm .= '<br/></div></form>';
 			return $htm;
 	}
 
