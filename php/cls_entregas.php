@@ -133,7 +133,6 @@ INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda  WHERE
 				<div class="col-md-12 text-center"> <h2>Env&iacute;os a  Tiendas</h2> </div>
 			</div>';
 		$htm .= '<div class="row">
-			<!--<div class="col-md-12">-->
 				<div class="col-md-1 text-right">
 					<label style="padding-top:10px"><p>Fecha:</p></label>
 				</div>
