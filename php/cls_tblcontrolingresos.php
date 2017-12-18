@@ -28,9 +28,8 @@
 //-----------------------------------------------------------------------------------------------------------
 	function __construct(){
 		parent::__construct();
-			$this->sqlBase = "SELECT idcontrol, nombreTienda, DATE_FORMAT(fecha,  '%d/%c/%Y') as fecha 
-				FROM tblcontrolingresos
-				INNER JOIN 	tbltiendas ON tbltiendas.idtblTienda = tbltiendas.idtblTienda";
+			$this->sqlBase = "SELECT idcontrol, tblcontrolingresos.idtblTienda, nombreTienda, DATE_FORMAT(fecha,  '%d/%c/%Y') as fecha  FROM tblcontrolingresos
+INNER JOIN tbltiendas ON tbltiendas.idtbltienda = tblcontrolingresos.idtbltienda";
 			$this->titulo = "CONTROL DE INGRESOS";
 	}
 //-----------------------------------------------------------------------------------------------------------
@@ -173,6 +172,8 @@
 		$bancosRec = $this->tblbancosRecords("1", "banco");
 		if(func_num_args() > 0){
 			$idcontrol = func_get_arg(0);
+			$rcTienda = $this->tblcontrolingresosRecords("idcontrol = $idcontrol");
+			$idtblTienda = $rcTienda[0]["idtblTienda"];
 			$records = $this->registrosConsultados($idcontrol);
 			$bancos = $this->bancosRegistros($idcontrol);
 			$bancosDif = $this->bancosOff($bancosRec, $bancos);
@@ -276,10 +277,10 @@
 		$fila .= "</tr>";
 		$fila0 .= $fila;
 		$htm = "<div ><table class='table-hover table-bordered'>$fila0</table></div>";
-			$idtblTienda = 1;
 		$fecha = d_US_ES(hoy());
+		$h_idcontrol = frm_hidden("idcontrol", $idcontrol);
 		$cmbidtblTienda = frm_comboGenerico("idtblTienda", "nombreTienda", "idtblTienda", "tblTiendas", "cls_inventario", "", " id='idtblTienda' class='form-control'", $idtblTienda, $utf8);
-		$html = '<form name ="frm" id = "frm" class="container">
+		$html = '<form name ="frm" id = "frm" class="container">'.$h_idcontrol.' 
 			<div class="row">
 				<div class="col-md-12 text-center"> <h2>Ingresos por Tiendas</h2> </div>
 			</div>

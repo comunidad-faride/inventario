@@ -146,7 +146,11 @@ function add($CLASE){
 	}else{
 		if($CLASE == "CLS_VENTAS" || $CLASE == "CLS_ENTREGAS" || $CLASE == "CLS_INVENTARIO_INICIAL" ){
 			$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." );activarLimpiaCeros();");	
-		}else{
+		}elseif($CLASE == "CLS_TBLCONTROLINGRESOS"){
+		$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." ); asignarEventos(5, 3);");	
+
+	}
+		else{
 			$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." );");	
 			
 		}
