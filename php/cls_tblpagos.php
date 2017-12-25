@@ -31,10 +31,11 @@
 //-----------------------------------------------------------------------------------------------------------
 	function __construct(){
 		parent::__construct();
-			$this->sqlBase = "SELECT idPago, nombreTienda,tblpagos.idFactura, numFactura, DATE_FORMAT(tblpagos.fecha,  '%d/%c/%Y') AS fecha, referencia, 
-				monto, confirmado FROM tblpagos
+			$this->sqlBase = "SELECT idPago, nombreTienda,tblpagos.idFactura, numFactura, DATE_FORMAT(tblpagos.fecha,  '%d/%c/%Y') AS fecha, tblpagos.referencia, 
+				tblpagos.monto, confirmado FROM tblpagos
 				INNER join tblfacturas ON tblpagos.idFactura = tblfacturas.idFactura
 				INNER JOIN tbltiendas ON tblfacturas.idtblTienda = tbltiendas.idtblTienda
+                INNER JOIN tblpagos2 ON tblfacturas.idFactura = tblpagos2.idFactura
 				WHERE idFormaPago = 4 AND idOpciones = 1 ";
 			$this->titulo = "Pagos de Facturas a Cr&eacute;dito";
 	}

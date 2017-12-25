@@ -74,7 +74,7 @@ function esp2ing(valorEspanol){
 	if(valorEspanol.lenght == 0){
 		valorEspanol = "";	
 	}else{
-		if(valorEspanol.search(".") > -1) valorEspanol = valorEspanol.replace(".", "");
+		if(valorEspanol.search(".") > -1) valorEspanol = replaceAll(valorEspanol, ".", "" );
 		if(valorEspanol.search(",") > -1) valorEspanol = valorEspanol.replace(",", ".");
 	}	
 	return  Number(valorEspanol);	
@@ -376,11 +376,55 @@ function limpiaCeros(){
 		document.getElementById(suId).value="";
 	}	
 }
+
 //==================================================================================================
 function activarLimpiaCeros(){
 	var entradas = document.getElementsByTagName("input");
 	var n = entradas.length;
 	for(i = 0; i < n; i++){
 		document.getElementsByTagName("input")[i].addEventListener("focus", limpiaCeros, true);
+	}
+}
+//==================================================================================================
+function  muestraFila(valor){
+	var siguiente = valor +1;
+	var id = "f"+siguiente;
+	var celda = "id"+valor;
+	document.getElementById(id).style.display = "block";
+	document.getElementById(celda).innerHTML = "";
+	return true;
+}
+//==================================================================================================
+function activaPluss(valor){
+	var idReferencia = "idReferencia"+valor;
+	var idMonto = "idMonto"+valor;
+	var id = "acc"+valor;
+	var monto = document.getElementById(idMonto).value;
+	var referencia = document.getElementById(idReferencia).value;
+	if(monto != "" && referencia != 0){
+		//document.getElementBy().style.display = "block";
+
+	}
+}
+//==================================================================================================
+function replaceAll( text, busca, reemplaza ){
+  while (text.toString().indexOf(busca) != -1)
+      text = text.toString().replace(busca,reemplaza);
+  return text;
+}
+//==================================================================================================
+function sumaPagos(){
+	var suma = 0;
+	var y;
+	for(i = 0; i < 3; i++){
+		var id = "idMonto"+i;
+		if(existeElementoHTML(id)){
+			var valor = document.getElementById(id).value;
+			y = esp2ing(valor);
+			suma += Number(y);
+		}		
+	}
+	if(existeElementoHTML(id)){
+		document.getElementById("txtSumaPagos").innerHTML = ing2esp(suma);
 	}
 }

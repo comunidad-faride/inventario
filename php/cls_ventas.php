@@ -1,5 +1,6 @@
 <?php
-//include_once("./funciones_fecha.php");
+/*include_once("./cls_inventario.php");
+include_once("./funciones_fecha.php");*/
 class CLS_VENTAS extends CLS_INVENTARIO{
 	var $sqlBase;
 	var $titulo;
@@ -10,10 +11,9 @@ class CLS_VENTAS extends CLS_INVENTARIO{
 //-----------------------------------------------------------------------------------------------------------
 	function __construct(){
 		parent::__construct();
-			$this->sqlBase = "SELECT idFactura, nombreTienda AS tienda, DATE_FORMAT(fecha,  '%d/%c/%Y') as fecha, numFactura, formaPago 
+			$this->sqlBase = "SELECT idFactura, nombreTienda AS tienda, DATE_FORMAT(fecha, '%d/%c/%Y') as fecha, numFactura 
 FROM tblfacturas 
 INNER JOIN tbltiendas ON tbltiendas.idtblTienda = tblfacturas.idtblTienda 
-INNER JOIN tblformaspago ON tblformaspago.idFormaPago = tblfacturas.idFormaPago
 WHERE idOpciones=1";
 			$this->titulo = "REGISTRO DE VENTAS EN TIENDAS";
 	}
@@ -26,18 +26,36 @@ WHERE idOpciones=1";
 		$opcion = 1;// 1: Es ventas.
 		$comentario = ""; //utf8_encode($comentario);
 		$nuevaFactura = $this->nuevo_id("tblfacturas", "idFactura");
-		$r = $this->tblfacturasInsert($idtblTienda, $fecha, $numFactura, $opcion, $formaPago, $comentario);
+		$r = $this->tblfacturasInsert($idtblTienda, $fecha, $numFactura, $opcion, $comentario);
 		//  SEGUNDO: REGISTRAMOS EN LA TABLA tbldetalles SI $r = true.
 		//  Determinamos el valor del idfactura en tblFacturas
-		$n = count($item);
-		for($i = 1; $i <= $n; $i++ ){
-			// Convertimos las catidades a formato ingles.
-			$cantidad_ing = numeroIngles($cantidad[$i]);
-			$precio_ing = numeroIngles($precio[$i]);
-			if($cantidad_ing != 0 AND $precio_ing != 0){
-				$cantidad_ing = -1 * $cantidad_ing;	// Se hace negativo para indicar disminucion de inventario en tienda
-				$r = $this->tbldetallesInsert($nuevaFactura, $idproducto[$i], $cantidad_ing, $precio_ing);
-			}	
+		if( $r ){
+			$n = count($item);
+			for($i = 1; $i <= $n; $i++ ){
+				// Convertimos las catidades a formato ingles.
+				$cantidad_ing = numeroIngles($cantidad[$i]);
+				$precio_ing = numeroIngles($precio[$i]);
+				if($cantidad_ing != 0 AND $precio_ing != 0){
+					$cantidad_ing = -1 * $cantidad_ing;	// Se hace negativo para indicar disminucion de inventario en tienda
+					$r = $this->tbldetallesInsert($nuevaFactura, $idproducto[$i], $cantidad_ing, $precio_ing);
+				}
+				if(!$r){
+					return $r;
+				}	
+			}
+			// Seguidamente se registran las formas de pago de la factura en la tabla tblpagos
+			$m = count($formaPago);
+			for($i = 0; $i < $m; $i++){
+				$eMonto = numeroIngles($monto[$i]); 
+				$eReferencia = $referencia[$i];
+				$eformaPago = $formaPago[$i];
+				if($eReferencia != "" AND $eMonto <> 0){
+					$r = $this->tblpagos2Insert($nuevaFactura, $eformaPago, $eReferencia, $eMonto);	  
+				}
+				if(!$r){
+					return $r;
+				}
+			}
 		}
 		return $r;
 	}
@@ -46,9 +64,12 @@ WHERE idOpciones=1";
 		extract($f);
 		$fecha = d_ES_MYSQL($fecha);
 		$comentario = "";
-		$res = $this->tblfacturasUpdate($idFactura, $idtblTienda, $fecha, $numFactura, 1, $formaPago, $comentario);
+		$xxformaPago = "1";
+		$res = $this->tblfacturasUpdate($idFactura, $idtblTienda, $fecha, $numFactura, 1, $xxformaPago, $comentario);
 		// Se borra los registros de la tabla tbldetalles relacionados con la factura 
 		$sql = "DELETE FROM tbldetalles WHERE idFactura = $idFactura";
+		$res = $this->consultagenerica($sql);
+		$sql = "DELETE FROM tblpagos2 WHERE idFactura = $idFactura";
 		$res = $this->consultagenerica($sql);
 		
 		// Ahora se reescribe la factura con los datos suministrados.
@@ -61,6 +82,16 @@ WHERE idOpciones=1";
 				$cantidad_ing = -1 * $cantidad_ing;	// Se hace negativo para indicar disminucion de inventario en tienda
 				$r = $this->tbldetallesInsert($idFactura, $idproducto[$i], $cantidad_ing, $precio_ing);
 			}	
+		}
+		// Seguidamente se registran las formas de pago de la factura en la tabla tblpagos
+		$m = count($formaPago);
+		for($i = 0; $i < $m; $i++){
+			$eMonto = numeroIngles($monto[$i]); 
+			$eReferencia = $referencia[$i];
+			$eformaPago = $formaPago[$i];
+			if($eReferencia != "" AND $eMonto <> 0){
+				$r = $this->tblpagos2Insert($nuevaFactura, $eformaPago, $eReferencia, $eMonto);	  
+			}
 		}
 		return $r;
 	}
@@ -82,11 +113,10 @@ WHERE idOpciones=1";
 		return $html;
 	}
 //-----------------------------------------------------------------------------------------------------------
-	
 	function frmVentas(){
 		$BD = NEW CLS_INVENTARIO;
 		$sql = "SELECT * FROM tbltiendas ORDER BY nombreTienda";
-		$recs = $BD->consultagenerica($sql);
+		$recs = $BD->consultagenerica($sql, 0);
 		if(count($recs) == 0){
 			return "Debe registrar los datos de Las Tiendas antes de realizar este proceso.";
 		}
@@ -106,6 +136,7 @@ WHERE idOpciones=1";
 			$detalles = $BD->tbldetallesRecords("idfactura = $idFactura ORDER BY idDetalles");
 			$items = count($detalles);
 			$xx = "x";
+			/*
 			if($idFormaPago == 4){  //Si es credito.
 				$sql = "SELECT max(monto) as monto FROM tblpagos WHERE idFactura = $idFactura";
 				$rec = $this->consultagenerica($sql);
@@ -113,7 +144,8 @@ WHERE idOpciones=1";
 			}else{
 				$monto = "";
 			}
-			$utf8 = "x";
+			*/
+			$utf8 = "x";//
 		}else{
 			$utf8 = "";
 			$pk = "";
@@ -132,7 +164,6 @@ WHERE idOpciones=1";
 			$idFormaPago = 1;
 			$monto = "";
 		}
-
 		$accionCMB = "onchange='xajax_cambiarNumFactura(this.value, 1)'";
 		$txtidFactura = frm_hidden("idFactura", $idFactura);
 		$txtCalendario = frm_calendario2("fecha","fecha", "$fecha", "id='fecha' class='f-c_xx'" );
@@ -161,15 +192,15 @@ WHERE idOpciones=1";
 				$accion = "onkeyup='totalizar()';";
 				$formatearsd =  "onblur='this.value = formatear(this.value, 0)'";	
 				$formatear =  "onblur='this.value = formatear(this.value, 2); nuevaFila(\"datosFactura\");'";
-				$htm .= '<div class= "col-md-12" style="margin-top:-0px;"><table style="background:white" align="center" class="table-hover table-bordered" id="datosFactura">
-			<thead>
-				<th class="text-center bg-primary" style="padding-left:5px;padding-right:5px;">Item</th>
-				<th class="text-center bg-primary">Producto</th>
-				<th class="text-center bg-primary">Cantidad</th>
-				<th class="text-center bg-primary">P/U</th>
-				<th class="text-center bg-primary" style="padding-left:5px;padding-right:5px;">Total</th>
-			</thead>
-			
+				$htm .= '<div class= "col-md-12" style="margin-top:-0px;">
+				<table style="background:white" align="center" class="table-hover table-bordered" id="datosFactura">
+				<thead>
+					<th class="text-center bg-primary" style="padding-left:5px;padding-right:5px;">Item</th>
+					<th class="text-center bg-primary">Producto</th>
+					<th class="text-center bg-primary">Cantidad</th>
+					<th class="text-center bg-primary">P/U</th>
+					<th class="text-center bg-primary" style="padding-left:5px;padding-right:5px;">Total</th>
+				</thead>
 			<tbody>';
 			$totalItems = 0;
 			$totalAcumulado = 0;
@@ -226,21 +257,24 @@ WHERE idOpciones=1";
 				<th class="text-right bg-primary"></th>
 				<th id="idSumaBs"  class="text-right bg-primary" style="padding-left:5px;padding-right:5px;">'.$txtTotalAcumulado.'</th>
 			</tfoot>	
-			</table>';
-			//   AQUI SE DEBE COLOCAR FORMAS DE PAGO...
-			$alCambiar = "onchange=\"activaAporte(this.value)\"";
-			$cmbFP = frm_comboGenerico("formaPago", "formaPago", "idFormaPago", "tblformaspago", "CLS_INVENTARIO", "", $alCambiar." class='form-control'", $idFormaPago, $utf8);
-			$txtAporte = frm_text("monto", $monto, "10", "10", "disabled $tag2 class='form-control' id='idMonto'");
-			$htm .= '<br/><div class="row">
-					<div class="col-md-3 text-right">Forma de Pago: </div>
-				<div class="col-md-3">'.$cmbFP.'</div>
-				<div class="col-md-3 text-right">Aporte Inicial:</div>
-				<div class="col-md-3">'.$txtAporte.'</div>
-				</div>';
+			</table></div></div><br/>';
+			$htm .= $this->tablaPagos($utf8, $idFactura);
+			$htm .= '</form>';
+	//		$htm .= '<div class="row">';
+			
+	//   AQUI SE DEBE COLOCAR FORMAS DE PAGO...
+	/*$alCambiar = "onchange=\"activaAporte(this.value)\"";
+	$cmbFP = frm_comboGenerico("formaPago", "formaPago", "idFormaPago", "tblformaspago", "CLS_INVENTARIO", "", $alCambiar." class='form-control'", $idFormaPago, $utf8);
+	$txtAporte = frm_text("monto", $monto, "10", "10", "disabled $tag2 class='form-control' id='idMonto'");
+			<div class="col-md-3 text-right">Forma de Pago: </div>
+		<div class="col-md-3">'.$cmbFP.'</div>
+		<div class="col-md-3 text-right">Aporte Inicial:</div>
+		<div class="col-md-3">'.$txtAporte.'</div>
+		</div>';*/
 			return $htm;
 	}
 //---------------------------------------------------------------------------------------------------------	
-	function cambiarNumFactura($idtblTienda, $idOpcion){	// Ventas
+	function cambiarNumFactura($idtblTienda, $idOpcion){// Ventas
 		$BD = new CLS_INVENTARIO;
 		$condicion = "idtblTienda = $idtblTienda AND idOpciones = $idOpcion";
 		$numFactura = $BD->nuevo_id("tblFacturas", "numFactura", $condicion);	
@@ -297,7 +331,7 @@ WHERE idOpciones=1";
 		$fields[] = 'fecha';	
 		$fields[] = 'tienda';	
 		$fields[] = 'numFactura';	
-		$fields[] = 'formaPago';	
+		//$fields[] = 'formaPago';	
 		return $fields;
 	}
 //-----------------------------------------------------------------------------------------------------------
@@ -306,7 +340,7 @@ WHERE idOpciones=1";
 		$headers[] = "Fecha";
 		$headers[] = "Tienda";
 		$headers[] = "Factura";
-		$headers[] = "Pagos";
+		//$headers[] = "Pagos";
 		return $headers;
 	}
 //-----------------------------------------------------------------------------------------------------------
@@ -316,7 +350,7 @@ WHERE idOpciones=1";
 		$attribsHeader[] = '17';
 		$attribsHeader[] = '17';
 		$attribsHeader[] = '17';
-		$attribsHeader[] = '17';
+		//$attribsHeader[] = '17';
 		return $attribsHeader;
 	}
 //-----------------------------------------------------------------------------------------------------------
@@ -326,14 +360,72 @@ WHERE idOpciones=1";
 		$attribsCols[] = 'nowrap style="text-align:center"';
 		$attribsCols[] = 'nowrap style="text-align:left"';
 		$attribsCols[] = 'nowrap style="text-align:right"';
-		$attribsCols[] = 'nowrap style="text-align:center"';
+		//$attribsCols[] = 'nowrap style="text-align:center"';
 		return $attribsCols;
 	}
 
 //-----------------------------------------------------------------------------------------------------------
+	function tablaPagos($utf8, $idFactura){
+		//   AQUI SE DEBE COLOCAR FORMAS DE PAGO...
+		for($i=0; $i<3; $i++){
+			$monto[$i] = "";
+			$referencia[$i] = "";
+			$idFormaPago[$i] = 2;
+		}	
+		if($utf8 != ""){
+			$losPagos = $this->tblpagos2Records("idFactura=$idFactura");
+			$n = count($losPagos);
+			if($n>0){
+				for($i=0 ; $i<$n; $i++){
+					$idFormaPago[$i] = $losPagos[$i]["idFormaPago"];
+					$referencia[$i] = $losPagos[$i]["referencia"];
+					$monto[$i] = numeroEspanol($losPagos[$i]["monto"]);
+				}
+			}	
+		}
+		$alCambiar = "onchange=\"activaAporte(this.value)\"";
+		$cmbFP = array();
+		$txtAporte = array();
+		$txtReferencia = array();
+		$link = array();
+		$head = "<thead><tr style='display:block' ><th width='130px' style='text-align:center'>Forma pago</th><th width='130px' style='text-align:center'>Referencia</th><th width='130px'  style='text-align:center'>Monto</th><th width='30px'></th></tr></thead>";
+		$foot = "<tfoot><tr style='display:block'><th style='text-align:right' colspan='2' width='260px'>Totales</th><th class='text-right' id='txtSumaPagos' width='130px'></th><td width='30px'></td></tr></tfoot>";
+		$body = "<tbody>";
+		for($i=0; $i<3; $i++){
+			$accion1 = "onclick = 'muestraFila($i)'";
+			$accion2 = "onblur='this.value = formatear(this.value, 2);'";
+			if($i<2){
+				$link[$i] = frm_link("$i", "+", $accion1." id='acc$i' style='display:none'");
+				$id = "id='id$i' ";
+				$accion = "onkeyup = 'activaPluss($i); sumaPagos()'";
+			}else{
+				$link[$i] = frm_link("$i", "", "");
+				$id = "";
+				$accion = "onkeyup = 'sumaPagos()'";
+			}
+			if($utf8 == "" and $i > 0 ){
+				$oculta = "style='display:none'";
+			}else{
+				$oculta = "style='display:block'";
+				$accion1 = "";
+			}
+
+			$cmbFP[$i] = frm_comboGenerico("formaPago[$i]", "formaPago", "idFormaPago", "tblformaspago", "CLS_INVENTARIO", "", $alCambiar." class='form-control'", $idFormaPago[$i], $utf8);
+			$txtAporte[$i] = frm_numero("monto[$i]", $monto[$i], "10", "10", "$accion2 $accion class='form-control' id='idMonto$i'", 10,2);
+			$txtReferencia[$i] = frm_text("referencia[$i]", $referencia[$i], 12, 12, "$accion class= 'form-control' id='idReferencia$i' ");
+			$body .= "<tr id='f$i' $oculta><td  width='130px'>$cmbFP[$i]</td><td width='130px'>$txtReferencia[$i]</td><td width='130px'>$txtAporte[$i]</td><td width='30px' $id>".$link[$i]."</td></tr>";;		
+		}
+		$body .= "</tbody>";
+		$tabla = "<div class='row'><div class='col-md-12'><table align='left'><caption>Forma(s) de pago de la factura</caption>$head $body $foot </table></div></div>";
+		return $tabla;
+	}
+//-----------------------------------------------------------------------------------------------------------
 	
 } 
 
-
+/*
+$x = new CLS_VENTAS();
+ echo $x->tablaPagos();	
+*/
 
 ?>

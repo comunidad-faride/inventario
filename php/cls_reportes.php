@@ -19,7 +19,7 @@ class CLS_REPORTES {
 			$tiendas[] = $tienda["nombreTienda"];
 			$tiendasPK[] = $tienda["idtblTienda"];
 		}
-		$cmbTiendas = frm_comboGenerico("idtblTienda","nombreTienda", "idtblTienda", "tbltiendas", "CLS_INVENTARIO");
+		$cmbTiendas = frm_comboGenerico("idtblTienda","nombreTienda", "idtblTienda", "tbltiendas", "CLS_INVENTARIO", "");
 		$nc1 = "style='font-weight:bold;text-align:center;' class='alerta1'";
 		$nc2 = "style='font-weight:bold;text-align:right;' class='alerta1'";
 		//$cmbTiendas2 = frm_list_multi("idtblTienda", 4, $tiendas, $tiendasPK, "", "class='form-control'");

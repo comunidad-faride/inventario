@@ -10,15 +10,16 @@ class CLS_INVENTARIO
 //-------------------------------------------------------------------------
     function __construct()
       {
-       /* $servidor="sql112.hgratis.com";
+    /* 
+        $servidor="sql112.hgratis.com";
         $usuario="hgrat_21201997";
         $clave="odagledesoj*1958";
-        $basedatos="hgrat_21201997_invent";*/
-        $msg = "";
-      $servidor="localhost";
+        $basedatos="hgrat_21201997_invent";
+    */
+        $servidor="localhost";
         $usuario="root";
         $clave="";//"";
-        $basedatos="invent";
+        $basedatos="inv231217";//invent
         $msg = "";
         $this->link = mysql_connect ($servidor,$usuario, $clave);
         
@@ -57,6 +58,7 @@ class CLS_INVENTARIO
             }
          }
      }
+  
 //-------------------------------------------------------------------------
 /**
 * Retorna la posicion de un registro
@@ -398,10 +400,10 @@ function consultagenerica($strsql, $utf8=0){
       }
    }
 //-----------------------------------------------------------------------
-   function tblfacturasInsert( $idtblTienda, $fecha, $numFactura, $opcion, $formaPago, $comentario) {
+   function tblfacturasInsert( $idtblTienda, $fecha, $numFactura, $opcion,  $comentario) {
       $idFactura = $this->nuevo_id("tblfacturas", "idFactura");
-      $cols = get_commas(false, 'idFactura', 'idtblTienda', 'fecha', 'numFactura', 'idOpciones', 'idFormaPago', 'comentario');
-      $vals = get_commas(true, '!!'.$idFactura, '!!'.$idtblTienda, $fecha, '!!'.$numFactura, '!!'.$opcion, $formaPago, $comentario);
+      $cols = get_commas(false, 'idFactura', 'idtblTienda', 'fecha', 'numFactura', 'idOpciones',  'comentario');
+      $vals = get_commas(true, '!!'.$idFactura, '!!'.$idtblTienda, $fecha, '!!'.$numFactura, '!!'.$opcion,  $comentario);
       $strSQL = get_insert('tblfacturas',$cols, $vals);
       $result = mysql_query($strSQL);
       if(!$result){
@@ -411,11 +413,11 @@ function consultagenerica($strsql, $utf8=0){
    }
    }
 //-----------------------------------------------------------------------
-   function tblfacturasUpdate($idFactura, $idtblTienda, $fecha, $numFactura, $opcion, $formaPago, $comentario) {
+   function tblfacturasUpdate($idFactura, $idtblTienda, $fecha, $numFactura, $opcion,  $comentario) {
          $strSQL = "UPDATE tblfacturas SET  
          	idtblTienda = $idtblTienda,  fecha = '$fecha',  
          	numFactura = $numFactura,  idOpciones = $opcion,  
-         	formaPago = $formaPago, comentario = '$comentario' WHERE  idFactura = $idFactura";
+         	comentario = '$comentario' WHERE  idFactura = $idFactura";
       $result = mysql_query($strSQL);
       if(!$result){
       return false;
@@ -806,7 +808,7 @@ function consultagenerica($strsql, $utf8=0){
    }
 //-----------------------------------------------------------------------
    function tblproductosUpdate($idproducto, $producto) {
-   		$producto = utf8_decode($producto);
+   		//$producto = utf8_decode($producto);//¿¿??
         $strSQL = "UPDATE tblproductos SET  producto = '$producto' WHERE  idproducto = $idproducto";
       	$result = mysql_query($strSQL);
       	if(!$result){
@@ -1186,10 +1188,10 @@ function consultagenerica($strsql, $utf8=0){
       }
    }
 //-----------------------------------------------------------------------
-   function tblingresosInsert( $idBanco, $idtipomovimiento, $idcontrol, $monto) {
+   function tblingresosInsert( $idBanco, $idtipomovimiento, $idcontrol, $montoIngreso) {
       $idingresos = $this->nuevo_id("tblingresos", "idingresos");
       $cols = get_commas(false, 'idingresos', 'idBanco', 'idtipomovimiento', 'idcontrol', 'montoIngreso');
-      $vals = get_commas(true, '!!'.$idingresos, '!!'.$idBanco, '!!'.$idtipomovimiento, '!!'.$idcontrol, '!!'.$monto);
+      $vals = get_commas(true, '!!'.$idingresos, '!!'.$idBanco, '!!'.$idtipomovimiento, '!!'.$idcontrol, '!!'.$montoIngreso);
       $strSQL = get_insert('tblingresos',$cols, $vals);
       $result = mysql_query($strSQL);
       if(!$result){
@@ -1199,8 +1201,8 @@ function consultagenerica($strsql, $utf8=0){
    }
    }
 //-----------------------------------------------------------------------
-   function tblingresosUpdate($idtipomovimiento, $idcontrol) {
-         $strSQL = "UPDATE tblingresos SET  idcontrol = $idcontrol WHERE  idtipomovimiento = $idtipomovimiento";
+    function tblingresosUpdate($idingresos, $idBanco, $idtipomovimiento, $idcontrol, $montoIngreso) {
+         $strSQL = "UPDATE tblingresos SET  idBanco = $idBanco,  idtipomovimiento = $idtipomovimiento,  idcontrol = $idcontrol,  montoIngreso = $montoIngreso WHERE  idingresos = $idingresos";
       $result = mysql_query($strSQL);
       if(!$result){
       return false;
@@ -1297,6 +1299,71 @@ function consultagenerica($strsql, $utf8=0){
       $this->campos = mysql_num_fields($result);
  if($this->filas!=0){
       $matriz = $this->atributos('tbltipomovban');
+      $iMatriz = count($matriz);  // Atributos de la entidad.
+      $i=0;
+      foreach($matriz as $v){ 
+          $atributo[$i++] = $v['nombre']; 
+      }
+      $j=0; // Indice de la matriz.
+      while($row = mysql_fetch_array($result)) { 
+         for($i=0;$i<$iMatriz;$i++){
+            $matrizAsoc[$j][$atributo[$i]] = $row[$atributo[$i]];
+         }
+      $j++;
+      }
+      return $matrizAsoc;
+}else{
+	return 0;
+}
+      }
+   }
+//-----------------------------------------------------------------------
+   function tblpagos2Insert( $idFactura, $idFormaPago, $referencia, $monto) {
+      $idtblpagos = $this->nuevo_id("tblpagos2", "idtblpagos");
+      $cols = get_commas(false, 'idtblpagos', 'idFactura', 'idFormaPago', 'referencia', 'monto');
+      $vals = get_commas(true, '!!'.$idtblpagos, '!!'.$idFactura, '!!'.$idFormaPago, $referencia, '!!'.$monto);
+      $strSQL = get_insert('tblpagos2',$cols, $vals);
+      $result = mysql_query($strSQL);
+      if(!$result){
+      	return false;
+      } else {
+      	return true;
+   	  }
+   }
+//-----------------------------------------------------------------------
+   function tblpagos2Update($idtblpagos, $idFactura, $idFormaPago, $referencia, $monto) {
+		$strSQL = "UPDATE tblpagos2 SET  idFactura = $idFactura,  idFormaPago = $idFormaPago,  referencia = '$referencia',  monto = $monto WHERE  idtblpagos = $idtblpagos";
+		$result = mysql_query($strSQL);
+		if(!$result){
+			return false;
+		} else {
+			return true;
+		}
+   }
+//-----------------------------------------------------------------------
+   function tblpagos2Delete($condicion) {
+	$strSQL = "DELETE FROM tblpagos2 WHERE $condicion";
+	$result = mysql_query($strSQL);
+	if(!$result){
+		return false;
+	} else {
+		return true;
+	}
+   }
+//-----------------------------------------------------------------------
+   function tblpagos2Records($condicion='1', $campoOrden = null, $orden='asc') {
+        $strSQL = "SELECT * FROM tblpagos2 WHERE $condicion";
+        if($campoOrden!=null){
+            $strSQL = $strSQL. " ORDER BY $campoOrden $orden";
+        }
+      $result = mysql_query($strSQL);
+      if(!$result){
+      return 0;
+      } else {
+      $this->filas = $this->numRegistros('tblpagos2',$condicion);
+      $this->campos = mysql_num_fields($result);
+ if($this->filas!=0){
+      $matriz = $this->atributos('tblpagos2');
       $iMatriz = count($matriz);  // Atributos de la entidad.
       $i=0;
       foreach($matriz as $v){ 

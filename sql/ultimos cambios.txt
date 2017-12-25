@@ -1,0 +1,6 @@
+Archivos modificados en esta edicion:
+funciones.js
+cls_ventas.php
+cls_inventario.php
+Hacer cambios en las relaciones foraneas de la tabla tblfacturas con tblformaspago
+y reorientar tblformaspago hacia tblpagos2.

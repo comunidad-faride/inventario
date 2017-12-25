@@ -269,7 +269,7 @@ function frm_enlace_imagen($url="#10", $textoAlternativo="", $img = "", $nombre,
 */	
 function frm_link($numeral, $texto, $extraTag=""){
 	//	onclick='xajax_xmenu(0)'
-	return "<a href='$numeral' $extraTag >$texto</a>";
+	return "<a href='#$numeral' $extraTag >$texto</a>";
 }
 
 
@@ -298,7 +298,7 @@ function frm_comboGenerico($nombreCombo, $campoVisible, $campoClave, $entidad, $
 	    $i=0;
 	    foreach($aterritorios as $fila){
 	    	if($utf8 == ""){
-	        	$col1[$i] = ($fila["$campoVisible"]);//utf8_encode				
+	        	$col1[$i] = ($fila["$campoVisible"]);//	utf8_encode			
 			}else{
 	        	$col1[$i] = utf8_encode($fila["$campoVisible"]);//
 			}

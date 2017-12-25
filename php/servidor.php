@@ -104,7 +104,7 @@ function showGrid($CLASE, $divName = "contenedor",  $edit=true, $delete=true, $w
 					$onclick = "onclick=\"xajax_asignarConXajax('contenedor', 'innerHTML', 'CLS_TBLPAGOS', 'resumenPago',$idFactura)\"";
 					$lRegistro = frm_imagen("./images/credito.png","Credito",30,30,$onclick."style='margin: -15px 0px;'");
 				}else{
-					$lRegistro = $registro[$nombreCampo];
+					$lRegistro = ($registro[$nombreCampo]);//utf8_encode
 				}
 				
 			}
@@ -176,7 +176,7 @@ function edit($CLASE, $id){
 	$objResponse = new xajaxResponse();
 //  cargamos el formulario en la ventana modal.	
 	if($CLASE == "CLS_VENTAS" || $CLASE == "CLS_ENTREGAS" || $CLASE == "CLS_INVENTARIO_INICIAL" ){
-		$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." );activarLimpiaCeros();");	
+		$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." );activarLimpiaCeros();sumaPagos();");	
 	}elseif($CLASE == "CLS_TBLCONTROLINGRESOS"){
 		$objResponse->script("addModal(\"$titulo\", ".json_encode($cuerpo).", \"alerta\",['$boton1', '$boton2'], ".json_encode($accion)." ); asignarEventos(5, 3);");	
 
